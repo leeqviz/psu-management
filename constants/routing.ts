@@ -1,0 +1,17 @@
+export const RoutePathPart = {
+  Specialities: "specialities",
+  Students: "students",
+  PostgraduateStudents: "postgraduate-students",
+  HalfYearAttestation: "half-year-attestation",
+  FinalAttestation: "final-attestation",
+  AnnualAttestation: "annual-attestation",
+  IndividualPlan: "individual-plan",
+  Orders: "orders",
+  Handbooks: "handbooks",
+  Groups: "groups",
+  ForeignStudents: "foreign-students",
+  Companies: "companies",
+  Graduation: "graduation",
+  Admin: "admin",
+  Auditoriums: "auditoriums",
+} as const;
