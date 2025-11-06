@@ -2,8 +2,8 @@ import CryptoJS from "crypto-js";
 
 export const encrypt = <TData = unknown>(
   data: TData,
-  secretKey = process.env.REACT_APP_APP_SECRET_KEY,
-  secretIV = process.env.REACT_APP_APP_SECRET_IV
+  secretKey = process.env.NEXT_PUBLIC_APP_SECRET_KEY,
+  secretIV = process.env.NEXT_PUBLIC_APP_SECRET_IV
 ): string | undefined => {
   try {
     if (!secretIV || !secretKey) return;
@@ -20,8 +20,8 @@ export const encrypt = <TData = unknown>(
 
 export const decrypt = <TResult = unknown>(
   data: string,
-  secretKey = process.env.REACT_APP_APP_SECRET_KEY,
-  secretIV = process.env.REACT_APP_APP_SECRET_IV
+  secretKey = process.env.NEXT_PUBLIC_APP_SECRET_KEY,
+  secretIV = process.env.NEXT_PUBLIC_APP_SECRET_IV
 ): TResult | undefined => {
   try {
     if (!secretIV || !secretKey) return;

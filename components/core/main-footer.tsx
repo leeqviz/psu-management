@@ -4,9 +4,11 @@ import inst from "#assets/svg/instagram-link.svg";
 import tg from "#assets/svg/telegram-link.svg";
 import vk from "#assets/svg/vkontakte-link.svg";
 import yt from "#assets/svg/youtube-link.svg";
-import Image from "next/image";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Anchor } from "./anchor";
+import { Picture } from "./picture";
 
 function MainFooter() {
   const pathname = usePathname();
@@ -21,61 +23,99 @@ function MainFooter() {
           if (pathname !== "/") {
           }
         }}
-        className={`flex flex-col text-center md:text-left break-words-anywhere ${
-          process.env.REACT_APP_ENV === "test"
-            ? "text-red-500"
-            : "text-gray-700"
-        }`}
+        onNavigate={(e) => {
+          if (pathname === "/") {
+            // prevent navigation if we're already on the home page
+            e.preventDefault();
+          }
+        }}
+        className={cn(
+          "flex flex-col text-center md:text-left break-words-anywhere",
+          {
+            "cursor-default": pathname === "/",
+            "text-red-500": process.env.NEXT_PUBLIC_APP_ENV === "test",
+            "text-gray-700": process.env.NEXT_PUBLIC_APP_ENV !== "test",
+          }
+        )}
       >
         <span className="text-sm sm:text-base lg:text-lg tracking-wide">
           {"Euphrosyne Polotskaya State University of Polotsk © 2025"}
         </span>
         <span className="text-xs sm:text-sm lg:text-base font-light">
-          {process.env.REACT_APP_VERSION
+          {process.env.NEXT_PUBLIC_APP_VERSION
             ? "version - " +
-              process.env.REACT_APP_VERSION +
-              (process.env.REACT_APP_ENV === "test" ? " (test)" : "")
-            : process.env.REACT_APP_ENV === "test"
+              process.env.NEXT_PUBLIC_APP_VERSION +
+              (process.env.NEXT_PUBLIC_APP_ENV === "test" ? " (test)" : "")
+            : process.env.NEXT_PUBLIC_APP_ENV === "test"
             ? "Test system"
             : ""}
         </span>
       </Link>
       <div className={"flex justify-center gap-2 sm:gap-2.5 lg:gap-3"}>
-        <Image
-          alt={""}
-          src={tg}
-          width={30}
-          height={30}
-          className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
-        />
-        <Image
-          alt={""}
-          src={inst}
-          width={30}
-          height={30}
-          className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
-        />
-        <Image
-          alt={""}
-          src={vk}
-          width={30}
-          height={30}
-          className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
-        />
-        <Image
-          alt={""}
-          src={yt}
-          width={30}
-          height={30}
-          className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
-        />
-        <Image
-          alt={""}
-          src={fb}
-          width={30}
-          height={30}
-          className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
-        />
+        <Anchor
+          display="inline-block"
+          tooltip="telegram"
+          target="_blank"
+          href={"https://t.me/psu_by"}
+          className="group p-1"
+        >
+          <Picture
+            src={tg}
+            className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
+          />
+        </Anchor>
+
+        <Anchor
+          display="inline-block"
+          tooltip="instagram"
+          target="_blank"
+          href={"https://www.instagram.com/psu.by/"}
+          className="group p-1"
+        >
+          <Picture
+            src={inst}
+            className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
+          />
+        </Anchor>
+
+        <Anchor
+          display="inline-block"
+          tooltip="vk"
+          target="_blank"
+          href={"https://vk.com/polotsk_university"}
+          className="group p-1"
+        >
+          <Picture
+            src={vk}
+            className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
+          />
+        </Anchor>
+
+        <Anchor
+          display="inline-block"
+          tooltip="youtube"
+          target="_blank"
+          href={"https://www.youtube.com/user/psutvby"}
+          className="group p-1"
+        >
+          <Picture
+            src={yt}
+            className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
+          />
+        </Anchor>
+
+        <Anchor
+          display="inline-block"
+          tooltip="facebook"
+          target="_blank"
+          href={"https://www.facebook.com/wwwpsuby"}
+          className="group p-1"
+        >
+          <Picture
+            src={fb}
+            className="group-hover:scale-[1.1] group-active:scale-[0.9] duration-200"
+          />
+        </Anchor>
       </div>
     </footer>
   );

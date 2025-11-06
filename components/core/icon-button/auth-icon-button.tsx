@@ -1,7 +1,8 @@
 import { CSSProperties, MouseEvent, ReactNode } from "react";
 import { IconButton } from "./icon-button";
 
-interface HelpIconButtonProps {
+interface AuthIconButtonProps {
+  isAuthorized?: boolean;
   tooltip?: ReactNode;
   text?: ReactNode;
   isDisabled?: boolean;
@@ -12,16 +13,17 @@ interface HelpIconButtonProps {
   style?: CSSProperties;
 }
 
-function HelpIconButton({
-  tooltip,
+function AuthIconButton({
+  isAuthorized = false,
   isDisabled = false,
   isScalable = true,
   isReversed = false,
+  tooltip,
   text,
   onClick,
   className = "",
   style,
-}: HelpIconButtonProps) {
+}: AuthIconButtonProps) {
   return (
     <IconButton
       isDisabled={isDisabled}
@@ -43,11 +45,17 @@ function HelpIconButton({
           strokeLinejoin="round"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M20 9.5V6.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C17.72 2 16.88 2 15.2 2H8.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C4 4.28 4 5.12 4 6.8v10.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C6.28 22 7.12 22 8.8 22H14m0-11H8m2 4H8m8-8H8m8.5 8.002a2.249 2.249 0 0 1 4.37.75c0 1.499-2.25 2.248-2.25 2.248m.03 3h.01" />
+          <path
+            d={
+              isAuthorized
+                ? "M9.002 7c.012-2.175.109-3.353.877-4.121C10.758 2 12.172 2 15 2h1c2.829 0 4.243 0 5.122.879C22 3.757 22 5.172 22 8v8c0 2.828 0 4.243-.878 5.121C20.242 22 18.829 22 16 22h-1c-2.828 0-4.242 0-5.121-.879-.768-.768-.865-1.946-.877-4.121M15 12H2m0 0 3.5-3M2 12l3.5 3"
+                : "M2.001 11.999h14m0 0-3.5-3m3.5 3-3.5 3M9.002 7c.012-2.175.109-3.353.877-4.121C10.758 2 12.172 2 15 2h1c2.829 0 4.243 0 5.122.879C22 3.757 22 5.172 22 8v8c0 2.828 0 4.243-.878 5.121C20.242 22 18.829 22 16 22h-1c-2.828 0-4.242 0-5.121-.879-.768-.768-.865-1.946-.877-4.121"
+            }
+          />
         </svg>
       )}
     />
   );
 }
 
-export { HelpIconButton };
+export { AuthIconButton };

@@ -44,16 +44,16 @@ export const FacultyAbbreviationRU = {
   [Faculty.UND]: "", // default value
 } as const;
 
-export const FacultyIcon = {
-  GF,
-  ISF,
-  MTF,
-  RTF,
-  FIT,
-  FEF,
-  UF,
-  ASP,
-  UND, // default value
+export const FacultyIconSrc = {
+  GF: GF.src,
+  ISF: ISF.src,
+  MTF: MTF.src,
+  RTF: RTF.src,
+  FIT: FIT.src,
+  FEF: FEF.src,
+  UF: UF.src,
+  ASP: ASP.src,
+  UND: UND.src, // default value
 } as const;
 
 export const FacultyBackgroundOpacityClass = {

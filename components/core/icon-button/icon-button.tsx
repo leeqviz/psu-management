@@ -47,7 +47,7 @@ function IconButton({
         disabled={isDisabled ?? undefined}
         className={`p-0.5 group growing-inline-underline-group flex items-center rounded-lg gap-0.5 sm:gap-1 lg:gap-1.5 duration-200 text-${facultyAbb} ${
           isReversed ? "flex-row-reverse" : "flex-row"
-        } ${!isDisabled ? "bg-current-opacity" : ""}`}
+        } ${!isDisabled ? "cursor-pointer bg-current-opacity" : ""}`}
         onClick={(e) => {
           if (!isDisabled) {
             tap2Audio.reset();

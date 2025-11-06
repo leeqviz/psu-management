@@ -4,35 +4,30 @@ import {
   NOTIFICATIONS_ARE_ON_KEY,
   SOUNDS_ARE_ON_KEY,
 } from "@/constants/localStorageKeys";
+import { ScreenWidth } from "@/constants/screen";
 import { useFacultyAbbreviation } from "@/hooks/routing";
-import { useAudio, useLocalStorage, useMount } from "@/hooks/window";
-import { User } from "@/types/accessControl";
+import { useUserStore } from "@/hooks/stateManagement/useUserStore";
+import {
+  useAudio,
+  useLocalStorage,
+  useMount,
+  useWindowSize,
+} from "@/hooks/window";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoSvg } from "../svgs/logo-svg";
-import { Button } from "../ui/button";
-import { HelpIconButton } from "./icon-button";
-import { SoundIconButton } from "./icon-button/sound-icon-button";
-
-// TODO: get user data
-const user: User = {
-  id: "1",
-  fio: "Полотский Е.В.",
-  fioShort: "Полотский Е.В.",
-  email: "1@1.1",
-  position: "Профессор",
-  department: "Факультет информационных технологий",
-  isEmployee: true,
-  roles: ["admin"],
-  assignedId: 1,
-  assignedAt: "2023-01-01",
-  login: "admin",
-  password: "admin",
-};
+import {
+  AuthIconButton,
+  HelpIconButton,
+  NotificationIconButton,
+  SoundIconButton,
+} from "./icon-button";
 
 function MainHeader() {
   const pathname = usePathname();
+  const windowSize = useWindowSize();
   const facultyAbb = useFacultyAbbreviation();
+  const { user, logIn, logOut } = useUserStore((state) => state);
 
   //local storage observing
   const [notificationValue, setNotificationValue] = useLocalStorage<boolean>(
@@ -43,8 +38,6 @@ function MainHeader() {
     SOUNDS_ARE_ON_KEY,
     false
   );
-
-  console.log(soundValue);
 
   const isMounted = useMount();
   const tap2Audio = useAudio(
@@ -77,14 +70,14 @@ function MainHeader() {
         >
           <LogoSvg
             className={`hidden xxs:block w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 ${
-              process.env.REACT_APP_ENV === "test"
+              process.env.NEXT_PUBLIC_APP_ENV === "test"
                 ? "fill-red-500"
                 : "fill-gray-700"
             } group-hover:fill-${facultyAbb} group-hover:scale-[1.1] group-active:scale-[0.9] duration-200 shrink-0`}
           />
           <div
             className={`flex flex-col ${
-              process.env.REACT_APP_ENV === "test"
+              process.env.NEXT_PUBLIC_APP_ENV === "test"
                 ? "text-red-500"
                 : "text-gray-700"
             } group-hover:text-${facultyAbb} duration-200 break-words-anywhere`}
@@ -94,7 +87,7 @@ function MainHeader() {
             </span>
             <span className="text-xs sm:text-sm lg:text-base leading-4 sm:leading-5 lg:leading-6">
               {"имени Евфросинии Полоцкой" +
-                (process.env.REACT_APP_ENV === "test"
+                (process.env.NEXT_PUBLIC_APP_ENV === "test"
                   ? " (Тестовая система)"
                   : "")}
             </span>
@@ -135,20 +128,67 @@ function MainHeader() {
                 onClick={() => setSoundValue(!soundValue)}
               />
               <HelpIconButton
+                text={
+                  windowSize.width >= ScreenWidth.ExtraSmall
+                    ? "Руководство"
+                    : undefined
+                }
+                tooltip={
+                  windowSize.width < ScreenWidth.ExtraSmall
+                    ? "Руководство"
+                    : undefined
+                }
                 onClick={() => alert("Загрузка документа в PDF")}
               />
             </div>
             <div
               className={`flex items-center justify-start gap-0.5 sm:gap-1 lg:gap-1.5`}
             >
-              <Button
+              <NotificationIconButton
+                notificationsAreOn={isMounted && !!notificationValue}
                 onClick={() => {
                   setNotificationValue(!notificationValue);
                 }}
-              >
-                Уведомления
-              </Button>
-              <Button>Войти</Button>
+              />
+              <AuthIconButton
+                text={
+                  windowSize.width >= ScreenWidth.ExtraSmall
+                    ? !!user
+                      ? "Выйти"
+                      : "Войти"
+                    : undefined
+                }
+                tooltip={
+                  windowSize.width < ScreenWidth.ExtraSmall
+                    ? !!user
+                      ? "Выйти"
+                      : "Войти"
+                    : undefined
+                }
+                isAuthorized={!!user}
+                onClick={() => {
+                  if (user) {
+                    // TODO: logout
+                    logOut();
+                  } else {
+                    // TODO: login
+                    logIn({
+                      id: "1",
+                      fio: "Полотский Е.В.",
+                      fioShort: "Полотский Е.В.",
+                      email: "1@1.1",
+                      position: "Профессор",
+                      department: "Факультет информационных технологий",
+                      isEmployee: true,
+                      roles: ["admin"],
+                      assignedId: 1,
+                      assignedAt: "2023-01-01",
+                      login: "admin",
+                      password: "admin",
+                    });
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
