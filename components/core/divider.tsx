@@ -6,8 +6,6 @@ import {
   ComponentTextOverflow,
   ComponentTextTransform,
 } from "#constants/component";
-import { DELAY_TIME } from "#constants/time";
-import { useDelayedToggle } from "#hooks/delay";
 import { useFacultyAbbreviation } from "#hooks/routing";
 import {
   ComponentColorValuesAlias,
@@ -24,7 +22,6 @@ interface DividerProps extends PropsWithChildren {
   textTransform?: ComponentTextTransformValuesAlias;
   fontWeight?: ComponentFontWeightValuesAlias;
   textOverflow?: ComponentTextOverflowValuesAlias;
-  delay?: number;
   className?: string;
   heightMultiplier?: number | null;
   style?: CSSProperties;
@@ -33,7 +30,6 @@ interface DividerProps extends PropsWithChildren {
 function Divider({
   orientation = ComponentOrientation.Horizontal,
   color = ComponentColor.Default,
-  delay = DELAY_TIME,
   className = "",
   textTransform = ComponentTextTransform.Uppercase,
   fontWeight = ComponentFontWeight.Medium,
@@ -43,8 +39,6 @@ function Divider({
   style,
 }: DividerProps) {
   const facultyAbb = useFacultyAbbreviation();
-  const isShownDelayed = useDelayedToggle(true, { enterDelay: delay });
-
   const colorClassNames =
     color === ComponentColor.Sky
       ? "bg-sky-500 border-sky-500"
@@ -71,7 +65,7 @@ function Divider({
         orientation === ComponentOrientation.Horizontal
           ? "flex-row"
           : "flex-col"
-      } ${!isShownDelayed ? "opacity-0" : "opacity-100"} ${className}`}
+      } content-appearance ${className}`}
     >
       <div
         className={`grow shadow rounded-full border ${
@@ -109,9 +103,7 @@ function Divider({
       style={style}
       className={`transition-opacity shadow duration-500 rounded-full border ${
         orientation === ComponentOrientation.Horizontal ? "h-px" : "w-px"
-      } ${
-        !isShownDelayed ? "opacity-0" : "opacity-100"
-      } ${colorClassNames} ${className}`}
+      } content-appearance ${colorClassNames} ${className}`}
     ></div>
   );
 }

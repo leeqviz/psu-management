@@ -3,6 +3,7 @@ import { createStore } from "zustand";
 
 type AuthState = {
   user: User | null;
+  isHydrated: boolean;
 };
 
 type AuthActions = {
@@ -19,6 +20,7 @@ export type AuthStore = AuthState & AuthActions;
 
 const defaultState: AuthState = {
   user: null,
+  isHydrated: false,
 };
 
 export const createAuthStore = (initState: AuthState = defaultState) => {
@@ -26,18 +28,19 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
     ...initState,
 
     hydrate: (user) => {
-      set({ user });
+      set({ user, isHydrated: true });
     },
 
     logIn: async (user: User) => {
       try {
+        set({ isHydrated: false });
         // Call our API route to set the secure cookie
         const response = await fetch("/api/auth/login", {
           method: "POST",
           body: JSON.stringify(user),
         });
         const data = await response.json();
-        set({ user: data.user });
+        set({ user: data.user, isHydrated: true });
       } catch (error) {
         console.error("Login failed:", error);
       }
@@ -45,9 +48,10 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
 
     logOut: async () => {
       try {
+        set({ isHydrated: false });
         // Call our API route to clear the cookie
         await fetch("/api/auth/logout", { method: "POST" });
-        set({ user: null });
+        set({ user: null, isHydrated: true });
       } catch (error) {
         console.error("Logout failed:", error);
       }
@@ -55,16 +59,17 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
 
     me: async () => {
       try {
+        set({ isHydrated: false });
         // Call our API route to update the cookie
         const response = await fetch("/api/auth/me", { method: "POST" });
         const data = await response.json();
         if (data && data.user) {
-          set({ user: data.user });
+          set({ user: data.user, isHydrated: true });
         } else {
-          set({ user: null });
+          set({ user: null, isHydrated: true });
         }
       } catch (error) {
-        set({ user: null });
+        set({ user: null, isHydrated: true });
         console.error("Me failed:", error);
       }
     },

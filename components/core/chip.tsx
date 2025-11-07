@@ -1,7 +1,5 @@
 "se client";
 import { ComponentColor, ComponentSize } from "#constants/component";
-import { DELAY_TIME } from "#constants/time";
-import { useDelayedToggle } from "#hooks/delay";
 import { useFacultyAbbreviation } from "#hooks/routing";
 import {
   ComponentColorValuesAlias,
@@ -17,7 +15,6 @@ interface ChipProps {
   color?: ComponentColorValuesAlias | null;
   size?: ComponentSizeValuesAlias | null;
   src?: string;
-  delay?: number;
   className?: string;
   isOutlined?: boolean;
   isFilled?: boolean;
@@ -28,7 +25,6 @@ interface ChipProps {
 export function Chip({
   isDisabled = false,
   color = ComponentColor.Default,
-  delay = DELAY_TIME,
   text,
   className = "",
   isOutlined = true,
@@ -39,7 +35,6 @@ export function Chip({
   style,
 }: ChipProps) {
   const facultyAbb = useFacultyAbbreviation();
-  const isShownDelayed = useDelayedToggle(true, { enterDelay: delay });
 
   return (
     <span
@@ -65,9 +60,9 @@ export function Chip({
                 : ""
             }`
           : "text-gray-300"
-      } ${src ? "inline-flex gap-1 sm:gap-1.5 lg:gap-2 items-center " : ""} ${
-        !isShownDelayed ? "opacity-0" : `opacity-100`
-      } transition-opacity duration-700 rounded-xl px-2 break-words-anywhere ${className}`}
+      } ${
+        src ? "inline-flex gap-1 sm:gap-1.5 lg:gap-2 items-center " : ""
+      } content-appearance transition-opacity duration-700 rounded-xl px-2 break-words-anywhere ${className}`}
       style={{
         boxShadow: isOutlined
           ? "inset 0 0 0 1px color-mix(in srgb, currentColor 10%, transparent)"

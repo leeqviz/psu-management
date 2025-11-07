@@ -6,12 +6,7 @@ import {
 } from "@/constants/localStorageKeys";
 import { useFacultyAbbreviation } from "@/hooks/routing";
 import { useAuthStore } from "@/hooks/stateManagement/useAuthStore";
-import {
-  useAudio,
-  useLocalStorage,
-  useMount,
-  useWindowSize,
-} from "@/hooks/window";
+import { useAudio, useLocalStorage, useMount } from "@/hooks/window";
 import { userDataMock } from "@/mocks/user";
 import { User } from "@/types/accessControl";
 import Link from "next/link";
@@ -27,7 +22,6 @@ import {
 
 function MainHeader({ userInfo }: { userInfo: ReactNode }) {
   const pathname = usePathname();
-  const windowSize = useWindowSize();
   const facultyAbb = useFacultyAbbreviation();
   const router = useRouter();
 
