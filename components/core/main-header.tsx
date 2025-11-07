@@ -4,7 +4,6 @@ import {
   NOTIFICATIONS_ARE_ON_KEY,
   SOUNDS_ARE_ON_KEY,
 } from "@/constants/localStorageKeys";
-import { ScreenWidth } from "@/constants/screen";
 import { useFacultyAbbreviation } from "@/hooks/routing";
 import { useAuthStore } from "@/hooks/stateManagement/useAuthStore";
 import {
@@ -129,16 +128,7 @@ function MainHeader({ userInfo }: { userInfo: ReactNode }) {
                 onClick={() => setSoundValue(!soundValue)}
               />
               <HelpIconButton
-                text={
-                  windowSize.width >= ScreenWidth.ExtraSmall
-                    ? "Руководство"
-                    : undefined
-                }
-                tooltip={
-                  windowSize.width < ScreenWidth.ExtraSmall
-                    ? "Руководство"
-                    : undefined
-                }
+                tooltip={"Руководство"}
                 onClick={() => alert("Загрузка документа в PDF")}
               />
             </div>
@@ -152,20 +142,7 @@ function MainHeader({ userInfo }: { userInfo: ReactNode }) {
                 }}
               />
               <AuthIconButton
-                text={
-                  windowSize.width >= ScreenWidth.ExtraSmall
-                    ? !!user
-                      ? "Выйти"
-                      : "Войти"
-                    : undefined
-                }
-                tooltip={
-                  windowSize.width < ScreenWidth.ExtraSmall
-                    ? !!user
-                      ? "Выйти"
-                      : "Войти"
-                    : undefined
-                }
+                tooltip={!!user ? "Выйти" : "Войти"}
                 isAuthorized={!!user}
                 onClick={() => {
                   if (user) {
