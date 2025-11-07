@@ -6,15 +6,18 @@ import {
 } from "@/constants/localStorageKeys";
 import { ScreenWidth } from "@/constants/screen";
 import { useFacultyAbbreviation } from "@/hooks/routing";
-import { useUserStore } from "@/hooks/stateManagement/useUserStore";
+import { useAuthStore } from "@/hooks/stateManagement/useAuthStore";
 import {
   useAudio,
   useLocalStorage,
   useMount,
   useWindowSize,
 } from "@/hooks/window";
+import { userDataMock } from "@/mocks/user";
+import { User } from "@/types/accessControl";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { ReactNode } from "react";
 import { LogoSvg } from "../svgs/logo-svg";
 import {
   AuthIconButton,
@@ -23,11 +26,13 @@ import {
   SoundIconButton,
 } from "./icon-button";
 
-function MainHeader() {
+function MainHeader({ userInfo }: { userInfo: ReactNode }) {
   const pathname = usePathname();
   const windowSize = useWindowSize();
   const facultyAbb = useFacultyAbbreviation();
-  const { user, logIn, logOut } = useUserStore((state) => state);
+  const router = useRouter();
+
+  const { user, logIn, logOut } = useAuthStore((state) => state);
 
   //local storage observing
   const [notificationValue, setNotificationValue] = useLocalStorage<boolean>(
@@ -43,6 +48,20 @@ function MainHeader() {
   const tap2Audio = useAudio(
     isMounted && soundValue ? "/sounds/tap2.mp3" : undefined
   );
+
+  const handleLogout = async () => {
+    await logOut();
+    // Refresh the server components to show the "logged out" state
+    router.refresh();
+  };
+
+  const handleLogin = async (user: User) => {
+    await logIn(user);
+    // Refresh the server components to show the "logged out" state
+    router.refresh();
+  };
+
+  console.log(user);
 
   return (
     <>
@@ -98,25 +117,7 @@ function MainHeader() {
             "flex flex-col xs:flex-row items-end xs:items-center xs:justify-end gap-1.5 md:gap-2"
           }
         >
-          {user && (
-            <div
-              className={
-                "flex flex-col text-gray-700 text-right break-words-anywhere"
-              }
-            >
-              <span className="text-sm sm:text-base lg:text-lg tracking-wide leading-4 sm:leading-5 lg:leading-6">
-                {user?.fio
-                  ? user?.fio + (user?.email ? ` - ${user?.email}` : "")
-                  : user?.email}
-              </span>
-              <span className="text-xs sm:text-sm lg:text-base font-light leading-4 sm:leading-5 lg:leading-6">
-                {user?.department
-                  ? user?.department +
-                    (user?.position ? ` - ${user?.position}` : "")
-                  : user?.position}
-              </span>
-            </div>
-          )}
+          {userInfo}
           <div
             className={`flex xs:flex-col-reverse gap-0.5 sm:gap-1 lg:gap-1.5`}
           >
@@ -168,24 +169,9 @@ function MainHeader() {
                 isAuthorized={!!user}
                 onClick={() => {
                   if (user) {
-                    // TODO: logout
-                    logOut();
+                    handleLogout();
                   } else {
-                    // TODO: login
-                    logIn({
-                      id: "1",
-                      fio: "Полотский Е.В.",
-                      fioShort: "Полотский Е.В.",
-                      email: "1@1.1",
-                      position: "Профессор",
-                      department: "Факультет информационных технологий",
-                      isEmployee: true,
-                      roles: ["admin"],
-                      assignedId: 1,
-                      assignedAt: "2023-01-01",
-                      login: "admin",
-                      password: "admin",
-                    });
+                    handleLogin(userDataMock);
                   }
                 }}
               />

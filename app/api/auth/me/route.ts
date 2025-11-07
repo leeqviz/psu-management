@@ -7,6 +7,9 @@ export async function POST(request: Request) {
   // const { email, password } = await request.json();
   // const user = await loginUser(email, password);
   // Set the secure cookie
+  const user = (await cookies()).get("session");
+  if (!user?.value) return NextResponse.json({ user: null });
+
   (await cookies()).set({
     name: "session",
     value: userTokenMock, // Store the token, not the full user object

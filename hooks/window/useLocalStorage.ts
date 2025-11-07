@@ -10,7 +10,6 @@ export const useLocalStorage = <TValue = unknown>(
   defaultValue: TValue,
   isJson: boolean = true
 ): [TValue | string, (value: TValue) => void, () => void] => {
-  if (isServer()) console.error("useLocalStorage is not supported on server");
   //get value from local storage
   const getStoredValue: () => Nullable<TValue | string> = useCallback(() => {
     if (isServer()) return null;
@@ -78,10 +77,10 @@ export const useLocalStorage = <TValue = unknown>(
   );
 
   useEffect(() => {
-    if (!isServer()) window.addEventListener("storage", handleStorageChange);
+    if (isServer()) return;
+    window.addEventListener("storage", handleStorageChange);
     return () => {
-      if (!isServer())
-        window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, [handleStorageChange]);
 

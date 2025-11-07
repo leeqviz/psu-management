@@ -1,51 +1,71 @@
-import { localStorageService } from "@/services";
 import { User } from "@/types/accessControl";
 import { createStore } from "zustand";
 
-export type UserState = {
+type AuthState = {
   user: User | null;
-  isAuth: boolean | null;
 };
 
-export type UserActions = {
-  setUser: (user: User | null) => void;
-  setIsAuth: (isAuth: boolean | null) => void;
-
-  // add user data to local storage
-  logIn: (user: User) => void;
-  logOut: () => void;
-  me: () => void;
+type AuthActions = {
+  // We'll use this to set the initial state from the server
+  hydrate: (user: User | null) => void;
+  // Our login/logout actions will call API routes
+  logIn: (user: User) => Promise<void>;
+  logOut: () => Promise<void>;
+  // Sync user data
+  me: () => Promise<void>;
 };
 
-export type UserStore = UserState & UserActions;
+export type AuthStore = AuthState & AuthActions;
 
-const defaultState: UserState = {
+const defaultState: AuthState = {
   user: null,
-  isAuth: null,
 };
 
-export const createUserStore = (initState: UserState = defaultState) => {
-  return createStore<UserStore>()((set) => ({
+export const createAuthStore = (initState: AuthState = defaultState) => {
+  return createStore<AuthStore>()((set) => ({
     ...initState,
-    setUser: (user: User | null) => set({ user }),
-    setIsAuth: (isAuth: boolean | null) => set({ isAuth }),
 
-    logIn: (user: User) => {
-      localStorageService.setUser(user);
-      set({ user, isAuth: true });
+    hydrate: (user) => {
+      set({ user });
     },
 
-    logOut: () => {
-      localStorageService.clearUserCredentials();
-      set({ user: null, isAuth: false });
+    logIn: async (user: User) => {
+      try {
+        // Call our API route to set the secure cookie
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify(user),
+        });
+        const data = await response.json();
+        set({ user: data.user });
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
     },
 
-    me: () => {
-      const user = localStorageService.getUser();
-      if (user) {
-        set({ user, isAuth: true });
-      } else {
-        set({ user: null, isAuth: false });
+    logOut: async () => {
+      try {
+        // Call our API route to clear the cookie
+        await fetch("/api/auth/logout", { method: "POST" });
+        set({ user: null });
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    },
+
+    me: async () => {
+      try {
+        // Call our API route to update the cookie
+        const response = await fetch("/api/auth/me", { method: "POST" });
+        const data = await response.json();
+        if (data && data.user) {
+          set({ user: data.user });
+        } else {
+          set({ user: null });
+        }
+      } catch (error) {
+        set({ user: null });
+        console.error("Me failed:", error);
       }
     },
   }));

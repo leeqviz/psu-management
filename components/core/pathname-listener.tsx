@@ -1,6 +1,6 @@
 "use client"; // This must be a Client Component
 
-import { useUserStore } from "@/hooks/stateManagement/useUserStore";
+import { useAuthStore } from "@/hooks/stateManagement/useAuthStore";
 import { usePathname } from "next/navigation"; // Import from 'next/navigation'
 import { useEffect } from "react";
 
@@ -9,7 +9,7 @@ export function PathnameListener() {
 
   // We get the action from the store's API
   // This is a "non-reactive" way to get the action
-  const { me } = useUserStore((state) => state);
+  const { me } = useAuthStore((state) => state);
 
   useEffect(() => {
     // Call the action on every pathname change

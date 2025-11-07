@@ -4,9 +4,8 @@ import logo from "#assets/svg/filled-logo.svg";
 import mail from "#assets/svg/mail-link.svg";
 import moodle from "#assets/svg/moodle-link.svg";
 import { SOUNDS_ARE_ON_KEY } from "#constants/localStorageKeys";
-import { ScreenWidth } from "#constants/screen";
 import { useFacultyAbbreviation } from "#hooks/routing";
-import { useAudio, useLocalStorage, useWindowSize } from "#hooks/window";
+import { useAudio, useLocalStorage } from "#hooks/window";
 import { Anchor } from "./anchor";
 import { Divider } from "./divider";
 import { Picture } from "./picture";
@@ -14,8 +13,6 @@ import { Reference } from "./reference";
 
 export const LinksSection = () => {
   const facultyAbb = useFacultyAbbreviation();
-  const windowSize = useWindowSize();
-
   const [flag] = useLocalStorage<boolean>(SOUNDS_ARE_ON_KEY, false);
   const tap2Audio = useAudio(flag ? "/sounds/tap2.mp3" : undefined);
 
@@ -50,49 +47,29 @@ export const LinksSection = () => {
                 <Reference
                   href="https://lib.psu.by/"
                   target="_blank"
-                  text={
-                    windowSize.width >= ScreenWidth.SuperExtraSmall
-                      ? "Научная библиотека"
-                      : "Библиотека"
-                  }
+                  text={"Научная библиотека"}
                 />
                 <Reference
                   href="https://elib.psu.by/?ysclid=ldmvgwmhof471840611"
                   target="_blank"
-                  text={
-                    windowSize.width >= ScreenWidth.SuperExtraSmall
-                      ? "Репозиторий научной библиотеки"
-                      : "Репозиторий библиотеки"
-                  }
+                  text={"Репозиторий научной библиотеки"}
                 />
                 <Reference
                   href="http://elib.psu.by:8009/marcweb2/"
                   target="_blank"
-                  text={
-                    windowSize.width >= ScreenWidth.SuperExtraSmall
-                      ? "Каталог научной библиотеки"
-                      : "Каталог библиотеки"
-                  }
+                  text={"Каталог научной библиотеки"}
                 />
               </div>
               <div className="flex flex-col gap-1">
                 <Reference
                   href="https://cit.psu.by/"
                   target="_blank"
-                  text={
-                    windowSize.width >= ScreenWidth.SuperExtraSmall
-                      ? "Центр информационных технологий"
-                      : "ЦИТ"
-                  }
+                  text={"Центр информационных технологий"}
                 />
                 <Reference
                   href="http://10.10.101.30/" //http://talent.psu.by/
                   target="_blank"
-                  text={
-                    windowSize.width >= ScreenWidth.SuperExtraSmall
-                      ? "Банк данных одаренной молодежи"
-                      : "Банк одаренной молодежи"
-                  }
+                  text={"Банк данных одаренной молодежи"}
                 />
               </div>
             </div>
