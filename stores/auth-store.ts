@@ -7,12 +7,10 @@ type AuthState = {
 };
 
 type AuthActions = {
-  // We'll use this to set the initial state from the server
-  hydrate: (user: User | null) => void;
   // Our login/logout actions will call API routes
   logIn: (user: User) => Promise<void>;
   logOut: () => Promise<void>;
-  // Sync user data
+  // Sync and hydrate user data
   me: () => Promise<void>;
 };
 
@@ -26,10 +24,6 @@ const defaultState: AuthState = {
 export const createAuthStore = (initState: AuthState = defaultState) => {
   return createStore<AuthStore>()((set) => ({
     ...initState,
-
-    hydrate: (user) => {
-      set({ user, isHydrated: true });
-    },
 
     logIn: async (user: User) => {
       try {

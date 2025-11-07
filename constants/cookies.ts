@@ -4,4 +4,8 @@
  */
 export const COOKIE_NAME = {
   AuthToken: "session",
+  Language: "lang",
+  Theme: "theme",
+  Sounds: "sounds",
+  Notifications: "notifications",
 } as const;
