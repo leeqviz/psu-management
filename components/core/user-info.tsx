@@ -1,23 +1,9 @@
-import { userDataMock } from "@/mocks/user";
-import { User } from "@/types/accessControl";
-import { cookies } from "next/headers";
-
-// This is our server-side function to get the user from the cookie
-// (This is from our previous example)
-async function getAuthedUser(): Promise<User | null> {
-  const sessionCookie = (await cookies()).get("session");
-  if (!sessionCookie?.value) return null;
-
-  // In a real app, you'd verify the token and fetch the user
-  // const user = await verifyTokenAndGetUser(sessionCookie.value);
-  // For this demo, we'll return a mock user if the cookie exists
-  return userDataMock;
-}
+import { getAuthSession } from "@/utils/auth-session";
 
 // This IS a Server Component
 export async function UserInfo() {
   // 1. We read the cookie on the server before any render.
-  const user = await getAuthedUser();
+  const user = await getAuthSession();
 
   return user ? (
     <div

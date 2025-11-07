@@ -10,7 +10,7 @@ interface TooltipProps extends PropsWithChildren {
   animationTime?: number;
   width?: Property.Width;
   style?: CSSProperties;
-  position?: "fixed" | "absolute" | "relative";
+  position?: "fixed" | "absolute";
 }
 
 function Tooltip({

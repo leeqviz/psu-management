@@ -6,7 +6,7 @@ export const userDataMock = {
   position: "Профессор",
   department: "Факультет информационных технологий",
   isEmployee: true,
-  roles: ["admin"],
+  roles: ["Admin"],
   assignedId: 1,
   assignedAt: "2023-01-01",
   login: "admin",

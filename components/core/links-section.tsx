@@ -67,7 +67,7 @@ export const LinksSection = () => {
                   text={"Центр информационных технологий"}
                 />
                 <Reference
-                  href="http://10.10.101.30/" //http://talent.psu.by/
+                  href="http://talent.psu.by/"
                   target="_blank"
                   text={"Банк данных одаренной молодежи"}
                 />

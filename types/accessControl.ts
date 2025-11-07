@@ -2,7 +2,6 @@ import {
   ApplicationModuleName,
   ApplicationPageName,
 } from "#constants/accessControl";
-import { FunctionComponent, SVGProps } from "react";
 import { ComponentContentTypeValuesAlias } from "./component";
 import { ValuesAliasFrom } from "./utilityTypes";
 
@@ -35,7 +34,7 @@ export interface ApplicationModule {
   isExternal?: boolean;
   roles?: string[];
   tags?: string[];
-  Svg?: FunctionComponent<SVGProps<SVGSVGElement>>;
+  svgIcon?: string;
   modal?: ApplicationModuleModal;
   pages?: ApplicationPage[];
 }
