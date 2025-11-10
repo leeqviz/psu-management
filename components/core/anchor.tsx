@@ -1,11 +1,11 @@
 "use client";
-import { FixedTooltip } from "#components/core/fixed-tooltip";
+import { FixedTooltip } from "#components/core/tooltip";
 import { ComponentSize } from "#constants/component";
-import { SOUNDS_ARE_ON_KEY } from "#constants/localStorageKeys";
 import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import { ComponentSizeValuesAlias } from "#types/component";
 import { isNotNullable } from "#utils/validator";
+import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
 import {
   CSSProperties,
   HTMLAttributeAnchorTarget,
@@ -68,6 +68,19 @@ function Anchor({
       ? "text-xl sm:text-2xl lg:text-3xl"
       : "";
 
+  function onClickHandler(e: MouseEvent<HTMLElement>) {
+    if (!isDisabled) {
+      tap2Audio.reset();
+      tap2Audio.play();
+      onClick?.(e);
+    }
+  }
+
+  function onMouseMoveHandler(e: MouseEvent<HTMLElement>) {
+    if (isNotNullable(tooltip))
+      setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 });
+  }
+
   return (
     <>
       {href ? (
@@ -77,17 +90,8 @@ function Anchor({
           href={href}
           target={!isDisabled ? target : undefined}
           rel={rel}
-          onClick={(e) => {
-            if (!isDisabled) {
-              tap2Audio.reset();
-              tap2Audio.play();
-              onClick?.(e);
-            }
-          }}
-          onMouseMove={(e) =>
-            isNotNullable(tooltip) &&
-            setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 })
-          }
+          onClick={onClickHandler}
+          onMouseMove={onMouseMoveHandler}
           onMouseEnter={() => isNotNullable(tooltip) && setShowText(true)}
           onMouseUp={() => isNotNullable(tooltip) && setShowText(false)}
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
@@ -112,17 +116,8 @@ function Anchor({
         <span
           title={title}
           style={style}
-          onClick={(e) => {
-            if (!isDisabled) {
-              tap2Audio.reset();
-              tap2Audio.play();
-              onClick?.(e);
-            }
-          }}
-          onMouseMove={(e) =>
-            isNotNullable(tooltip) &&
-            setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 })
-          }
+          onClick={onClickHandler}
+          onMouseMove={onMouseMoveHandler}
           onMouseEnter={() => isNotNullable(tooltip) && setShowText(true)}
           onMouseUp={() => isNotNullable(tooltip) && setShowText(false)}
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
@@ -143,17 +138,8 @@ function Anchor({
         <div
           title={title}
           style={style}
-          onClick={(e) => {
-            if (!isDisabled) {
-              tap2Audio.reset();
-              tap2Audio.play();
-              onClick?.(e);
-            }
-          }}
-          onMouseMove={(e) =>
-            isNotNullable(tooltip) &&
-            setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 })
-          }
+          onClick={onClickHandler}
+          onMouseMove={onMouseMoveHandler}
           onMouseEnter={() => isNotNullable(tooltip) && setShowText(true)}
           onMouseUp={() => isNotNullable(tooltip) && setShowText(false)}
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}

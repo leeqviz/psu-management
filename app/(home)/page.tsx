@@ -1,6 +1,6 @@
-import { LinksSection } from "@/components/core/links-section";
-import { ModulesSection } from "@/components/core/modules-section";
-import { NewsSection } from "@/components/core/news-section";
+import { LinksSection } from "#components/core/links-section";
+import { ModulesSection } from "#components/core/modules-section/modules-section";
+import { NewsSection } from "#components/core/news-section/news-section";
 
 export default function Home() {
   return (

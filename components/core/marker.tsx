@@ -57,6 +57,6 @@ export function Marker({
             }`
           : ""
       } ${className}`}
-    ></div>
+    />
   );
 }

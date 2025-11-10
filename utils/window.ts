@@ -2,6 +2,7 @@ import { WINDOW_TEMP_CONTENT } from "#constants/window";
 import { getRandomNumberInRange } from "#utils/randomizer";
 
 export const isServer = () => typeof window === "undefined";
+
 export const downloadBlob = (blob: Blob, filename?: string | null) => {
   const a = document.createElement("a");
   a.href = window.URL.createObjectURL(blob);

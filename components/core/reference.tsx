@@ -1,11 +1,11 @@
 "use client";
 import link from "#assets/svg/link.svg";
 import { ComponentSize } from "#constants/component";
-import { SOUNDS_ARE_ON_KEY } from "#constants/localStorageKeys";
 import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import { ComponentSizeValuesAlias } from "#types/component";
 import { isNotNullable } from "#utils/validator";
+import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
 import {
   CSSProperties,
   HTMLAttributeAnchorTarget,

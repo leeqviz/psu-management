@@ -1,4 +1,5 @@
 import studentsIcon from "#assets/svg/students.svg";
+import { RoutePathPart } from "#constants/routing";
 import {
   ACCOUNTING_MEMBER_ROLE,
   ADMIN_ROLE,
@@ -17,9 +18,8 @@ import {
   STUDENT_ROLE,
   UMO_SECRETARY_ROLE,
   VISITOR_ROLE,
-} from "#constants/accessControl";
-import { RoutePathPart } from "#constants/routing";
-import { ApplicationModule, ApplicationPage } from "#types/accessControl";
+} from "@/constants/access-control";
+import { ApplicationModule, ApplicationPage } from "@/types/access-control";
 
 export const STUDENTS_PAGE: ApplicationPage = {
   name: ApplicationPageName.Students,

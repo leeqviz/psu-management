@@ -1,13 +1,13 @@
 "use client";
 import { ComponentPlacement, ComponentSize } from "#constants/component";
-import { SOUNDS_ARE_ON_KEY } from "#constants/localStorageKeys";
 import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import {
   ComponentPlacementValuesAlias,
   ComponentSizeValuesAlias,
 } from "#types/component";
-import { getBackgroundFacultyColorOpacity } from "#utils/colorMapper";
+import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
+import { getBackgroundFacultyColorOpacity } from "@/utils/color-mapper";
 import { Property } from "csstype";
 import Link from "next/link";
 import {

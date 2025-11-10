@@ -1,6 +1,5 @@
-import { MainFooter } from "@/components/core/main-footer";
-import { MainHeader } from "@/components/core/main-header";
-import { UserInfo } from "@/components/core/user-info";
+import { MainFooter } from "#components/core/main-footer";
+import { MainHeader } from "#components/core/main-header";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,8 +22,7 @@ export default function HomeLayout({
     >
       <div className="flex flex-col min-h-screen lg:container mx-auto px-4 h-full">
         <div className={"grow flex flex-col"}>
-          {/* FIXME: this component makes all routes to be dynamic */}
-          <MainHeader userInfo={<UserInfo />} />
+          <MainHeader />
           <div className={"grow flex flex-col"}>
             {/* TODO: navigation */}
             <main className="grow flex flex-col">{children}</main>

@@ -1,1 +1,1 @@
-export * from "./useDelayedToggle";
+export * from "./use-delayed-toggle";

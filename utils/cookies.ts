@@ -1,10 +1,10 @@
 "use server";
-import { COOKIE_NAME } from "@/constants/cookies";
+import { COOKIE_NAME } from "#constants/cookies";
 // This is our server-side function to get the user from the cookie
 
-import { userDataMock } from "@/mocks/user";
-import { User } from "@/types/accessControl";
-import { CookieName } from "@/types/cookies";
+import { userDataMock } from "#mocks/user";
+import { CookieName } from "#types/cookies";
+import { User } from "@/types/access-control";
 import { cookies } from "next/headers";
 
 export async function getAuthUser(): Promise<User | null> {

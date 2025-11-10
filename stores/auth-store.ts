@@ -1,4 +1,4 @@
-import { User } from "@/types/accessControl";
+import { User } from "@/types/access-control";
 import { createStore } from "zustand";
 
 type AuthState = {

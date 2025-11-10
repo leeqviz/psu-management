@@ -71,7 +71,7 @@ function Divider({
         className={`grow shadow rounded-full border ${
           orientation === ComponentOrientation.Horizontal ? "h-px" : "w-px"
         } ${colorClassNames}`}
-      ></div>
+      />
       <div
         className={`text-center break-words-anywhere ${
           textOverflow !== ComponentTextOverflow.LineClamp &&
@@ -96,7 +96,7 @@ function Divider({
         className={`grow shadow rounded-full border ${
           orientation === ComponentOrientation.Horizontal ? "h-px" : "w-px"
         } ${colorClassNames}`}
-      ></div>
+      />
     </div>
   ) : (
     <div
@@ -104,7 +104,7 @@ function Divider({
       className={`transition-opacity shadow duration-500 rounded-full border ${
         orientation === ComponentOrientation.Horizontal ? "h-px" : "w-px"
       } content-appearance ${colorClassNames} ${className}`}
-    ></div>
+    />
   );
 }
 
