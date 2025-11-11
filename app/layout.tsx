@@ -1,18 +1,6 @@
-<<<<<<< HEAD
-import { AuthStoreProvider } from "@/components/core/auth-store-provider";
-import { MainFooter } from "@/components/core/main-footer";
-import { MainHeader } from "@/components/core/main-header";
-import { PathnameListener } from "@/components/core/pathname-listener";
-import { UserInfo } from "@/components/core/user-info";
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import NextTopLoader from "nextjs-toploader";
-import { Suspense } from "react";
-=======
 import { Providers } from "#components/core/providers/providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
->>>>>>> dev
 import "./globals.css";
 
 const geistSans = Geist({
@@ -40,47 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-<<<<<<< HEAD
-        <NextTopLoader
-          color="#2299DD"
-          initialPosition={0.08}
-          crawlSpeed={200}
-          height={3}
-          crawl={true}
-          showSpinner={true}
-          easing="ease"
-          speed={200}
-          shadow="0 0 10px #2299DD, 0 0 5px #2299DD"
-        />
-        <AuthStoreProvider>
-          <div
-            className={`bg-gray-100 m-0 ${
-              process.env.NEXT_PUBLIC_APP_ENV === "test"
-                ? "ring-2 ring-inset ring-red-500 rounded-lg"
-                : ""
-            }`}
-          >
-            <div className="flex flex-col min-h-screen lg:container mx-auto px-4 h-full">
-              <div className={"grow flex flex-col"}>
-                {/* FIXME: this component makes all routes to be dynamic */}
-                <MainHeader userInfo={<UserInfo />} />
-                <div className={"grow flex flex-col"}>
-                  {/* TODO: navigation */}
-                  <main className="grow flex flex-col">{children}</main>
-                </div>
-              </div>
-              <MainFooter />
-            </div>
-            {/* TODO: navigation */}
-          </div>
-
-          <Suspense>
-            <PathnameListener />
-          </Suspense>
-        </AuthStoreProvider>
-=======
         <Providers>{children}</Providers>
->>>>>>> dev
       </body>
     </html>
   );

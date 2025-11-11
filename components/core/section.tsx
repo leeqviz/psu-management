@@ -64,13 +64,7 @@ function Section({
                   "absolute bg-center bg-contain bg-no-repeat top-1 left-1 md:top-2 md:left-2 w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
                 }
                 style={{
-<<<<<<< HEAD
-                  backgroundImage: `url('${
-                    FacultyIconSrc[facultyAbb as keyof typeof FacultyIconSrc]
-                  }')`,
-=======
                   backgroundImage: `url('${FacultyIconSrc[facultyAbb]}')`,
->>>>>>> dev
                 }}
               ></div>
             </div>

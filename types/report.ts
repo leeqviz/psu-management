@@ -4,13 +4,8 @@ import {
   ReportFileFormat,
 } from "#constants/report";
 import { ScreenBreakpoints } from "#types/screen";
-<<<<<<< HEAD
-import { SelectOption } from "#types/selectOption";
-import { ValuesAliasFrom } from "./utilityTypes";
-=======
 import { SelectOption } from "@/types/select-option";
 import { ValuesAliasFrom } from "./utility-types";
->>>>>>> dev
 
 export type ReportFileFormatValuesAlias = ValuesAliasFrom<
   typeof ReportFileFormat

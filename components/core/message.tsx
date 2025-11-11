@@ -1,10 +1,5 @@
 "use client";
 import { ComponentContentType, ComponentSize } from "#constants/component";
-<<<<<<< HEAD
-import { DELAY_TIME } from "#constants/time";
-import { useDelayedToggle } from "#hooks/delay";
-=======
->>>>>>> dev
 import { useFacultyAbbreviation } from "#hooks/routing";
 import {
   ComponentContentTypeValuesAlias,
@@ -18,10 +13,6 @@ interface MessageProps {
   subTitle?: ReactNode;
   type?: ComponentContentTypeValuesAlias | null;
   size?: ComponentSizeValuesAlias | null;
-<<<<<<< HEAD
-  delay?: number;
-=======
->>>>>>> dev
   className?: string;
   style?: CSSProperties;
 }
@@ -29,31 +20,16 @@ interface MessageProps {
 function Message({
   type = ComponentContentType.DEFAULT,
   size = ComponentSize.Medium,
-<<<<<<< HEAD
-  delay = DELAY_TIME,
-=======
->>>>>>> dev
   title,
   subTitle,
   className = "",
   style,
 }: MessageProps) {
   const facultyAbb = useFacultyAbbreviation();
-<<<<<<< HEAD
-  const isShownDelayed = useDelayedToggle(true, { enterDelay: delay });
-
-  return (
-    <div
-      style={style}
-      className={`flex gap-1 sm:gap-1.5 lg:gap-2 transition-opacity duration-700 ${
-        !isShownDelayed ? "opacity-0" : `opacity-100`
-      } ${
-=======
   return (
     <div
       style={style}
       className={`content-appearance flex gap-1 sm:gap-1.5 lg:gap-2 transition-opacity duration-700 ${
->>>>>>> dev
         type === ComponentContentType.SUCCESS
           ? "text-emerald-500"
           : type === ComponentContentType.WARNING

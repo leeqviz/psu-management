@@ -10,11 +10,7 @@ import {
   ComponentTextOverflow,
   ComponentTextTransform,
 } from "#constants/component";
-<<<<<<< HEAD
-import { ValuesAliasFrom } from "./utilityTypes";
-=======
 import { ValuesAliasFrom } from "./utility-types";
->>>>>>> dev
 
 export type ComponentContentTypeValuesAlias = ValuesAliasFrom<
   typeof ComponentContentType

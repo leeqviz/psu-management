@@ -41,11 +41,7 @@ function Picture({
           : size === ComponentSize.SuperExtraLong
           ? "w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11"
           : ""
-<<<<<<< HEAD
-      } ${isShrinkable ? "shrink-1" : "shrink-0"} ${className}`}
-=======
       } ${isShrinkable ? "shrink" : "shrink-0"} ${className}`}
->>>>>>> dev
     />
   );
 }
