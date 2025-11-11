@@ -3,7 +3,11 @@ import {
   FacultyAbbreviationEN,
   FacultyAbbreviationRU,
 } from "#constants/faculty";
+<<<<<<< HEAD
 import { ValuesAliasFrom } from "./utilityTypes";
+=======
+import { ValuesAliasFrom } from "./utility-types";
+>>>>>>> dev
 
 export type FacultyAbbreviationENValuesAlias = ValuesAliasFrom<
   typeof FacultyAbbreviationEN

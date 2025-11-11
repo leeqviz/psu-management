@@ -1,11 +1,20 @@
 "use client";
+<<<<<<< HEAD
 import { FixedTooltip } from "#components/core/fixed-tooltip";
 import { ComponentSize } from "#constants/component";
 import { SOUNDS_ARE_ON_KEY } from "#constants/localStorageKeys";
+=======
+import { FixedTooltip } from "#components/core/tooltip";
+import { ComponentSize } from "#constants/component";
+>>>>>>> dev
 import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import { ComponentSizeValuesAlias } from "#types/component";
 import { isNotNullable } from "#utils/validator";
+<<<<<<< HEAD
+=======
+import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
+>>>>>>> dev
 import {
   CSSProperties,
   HTMLAttributeAnchorTarget,
@@ -68,6 +77,22 @@ function Anchor({
       ? "text-xl sm:text-2xl lg:text-3xl"
       : "";
 
+<<<<<<< HEAD
+=======
+  function onClickHandler(e: MouseEvent<HTMLElement>) {
+    if (!isDisabled) {
+      tap2Audio.reset();
+      tap2Audio.play();
+      onClick?.(e);
+    }
+  }
+
+  function onMouseMoveHandler(e: MouseEvent<HTMLElement>) {
+    if (isNotNullable(tooltip))
+      setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 });
+  }
+
+>>>>>>> dev
   return (
     <>
       {href ? (
@@ -77,6 +102,7 @@ function Anchor({
           href={href}
           target={!isDisabled ? target : undefined}
           rel={rel}
+<<<<<<< HEAD
           onClick={(e) => {
             if (!isDisabled) {
               tap2Audio.reset();
@@ -88,6 +114,10 @@ function Anchor({
             isNotNullable(tooltip) &&
             setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 })
           }
+=======
+          onClick={onClickHandler}
+          onMouseMove={onMouseMoveHandler}
+>>>>>>> dev
           onMouseEnter={() => isNotNullable(tooltip) && setShowText(true)}
           onMouseUp={() => isNotNullable(tooltip) && setShowText(false)}
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
@@ -112,6 +142,7 @@ function Anchor({
         <span
           title={title}
           style={style}
+<<<<<<< HEAD
           onClick={(e) => {
             if (!isDisabled) {
               tap2Audio.reset();
@@ -123,6 +154,10 @@ function Anchor({
             isNotNullable(tooltip) &&
             setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 })
           }
+=======
+          onClick={onClickHandler}
+          onMouseMove={onMouseMoveHandler}
+>>>>>>> dev
           onMouseEnter={() => isNotNullable(tooltip) && setShowText(true)}
           onMouseUp={() => isNotNullable(tooltip) && setShowText(false)}
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
@@ -143,6 +178,7 @@ function Anchor({
         <div
           title={title}
           style={style}
+<<<<<<< HEAD
           onClick={(e) => {
             if (!isDisabled) {
               tap2Audio.reset();
@@ -154,6 +190,10 @@ function Anchor({
             isNotNullable(tooltip) &&
             setTooltipPosition({ x: e?.clientX ?? 0, y: e?.clientY ?? 0 })
           }
+=======
+          onClick={onClickHandler}
+          onMouseMove={onMouseMoveHandler}
+>>>>>>> dev
           onMouseEnter={() => isNotNullable(tooltip) && setShowText(true)}
           onMouseUp={() => isNotNullable(tooltip) && setShowText(false)}
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}

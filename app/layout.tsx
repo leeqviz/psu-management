@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { AuthStoreProvider } from "@/components/core/auth-store-provider";
 import { MainFooter } from "@/components/core/main-footer";
 import { MainHeader } from "@/components/core/main-header";
@@ -7,6 +8,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Suspense } from "react";
+=======
+import { Providers } from "#components/core/providers/providers";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+>>>>>>> dev
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,6 +40,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+<<<<<<< HEAD
         <NextTopLoader
           color="#2299DD"
           initialPosition={0.08}
@@ -71,6 +78,9 @@ export default function RootLayout({
             <PathnameListener />
           </Suspense>
         </AuthStoreProvider>
+=======
+        <Providers>{children}</Providers>
+>>>>>>> dev
       </body>
     </html>
   );

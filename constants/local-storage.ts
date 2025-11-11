@@ -1,0 +1,12 @@
+export const NOTIFICATIONS_ARE_ON_KEY = "_notifications_are_on";
+export const SOUNDS_ARE_ON_KEY = "_sounds_are_on";
+export const FLOATING_MODALS_ARE_ON_KEY = "_floating_modals_are_on";
+export const MAIN_SECTIONS_ARE_PINNED_KEY = "_main_sections_are_pinned";
+export const MAIN_SECTIONS_ARE_EXPANDED_KEY = "_main_sections_are_expanded";
+export const EXTRA_FILTERS_ARE_EXPANDED_KEY = "_extra_filters_are_expanded";
+export const EXTRA_INFOS_ARE_EXPANDED_KEY = "_extra_infos_are_expanded";
+export const USER_KEY = "_user";
+export const AUTH_ACCESS_TOKEN_KEY = "_auth_access_token";
+export const AUTH_REFRESH_TOKEN_KEY = "_auth_refresh_token";
+export const UPBE_TOKEN_KEY = "_upbe_token";
+export const UPBE_TOKEN_V2_KEY = "_upbe_token_v2";
