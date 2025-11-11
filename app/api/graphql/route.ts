@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 
 const typeDefs = gql`
   type Query {
-    hello: String
+    getUsers: [User]
   }
 
   type Mutation {}
@@ -14,6 +14,7 @@ const typeDefs = gql`
     id: ID!
     name: String
     age: Int
+    isMarried: Boolean
   }
 `;
 
