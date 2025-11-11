@@ -1,33 +1,6 @@
-import { ApolloServer } from "@apollo/server";
+import { server } from "@/lib/apollo/server/instance";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { gql } from "graphql-tag";
 import { NextRequest } from "next/server";
-
-const typeDefs = gql`
-  type Query {
-    getUsers: [User]
-  }
-
-  type Mutation {}
-  
-  type User {
-    id: ID!
-    name: String
-    age: Int
-    isMarried: Boolean
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: () => "Hello world!",
-  },
-};
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
 
 // Typescript: req has the type NextRequest
 const handler = startServerAndCreateNextHandler<NextRequest>(server, {

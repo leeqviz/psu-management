@@ -14,3 +14,18 @@ export const userDataMock = {
 };
 
 export const userTokenMock = "your-secure-jwt-or-session-token";
+
+export const users = [
+  {
+    id: "1",
+    name: "John Doe",
+    age: 30,
+    isMarried: true,
+  },
+  {
+    id: "2",
+    name: "Jane Doe",
+    age: 25,
+    isMarried: false,
+  },
+];
