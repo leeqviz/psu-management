@@ -1,0 +1,5 @@
+import Skeleton from "@/components/core/contentful/skeleton";
+
+export default function Page() {
+  return <Skeleton />;
+}

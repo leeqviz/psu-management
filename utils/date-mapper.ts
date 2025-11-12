@@ -1,6 +1,15 @@
 import { SelectOption } from "@/types/select-option";
 import { numCase } from "./string-mapper";
 
+export function formatDate(
+  dateString: string | Date | number | null | undefined,
+  options: Intl.DateTimeFormatOptions
+) {
+  if (!dateString) return "";
+  const { format } = new Intl.DateTimeFormat("en-US", options);
+  return format(new Date(dateString));
+}
+
 export const getISODate = (date: Date, isShort: boolean = true) =>
   isShort ? date.toISOString().split("T")[0] : date.toISOString();
 
