@@ -1,19 +1,20 @@
 import gql from "graphql-tag";
 
 export const typeDefs = gql`
+  type Todo {
+    id: ID!
+    text: String!
+    completed: Boolean!
+  }
+
   type Query {
-    getUsers: [User]
-    getUserById(id: ID!): User
+    todos: [Todo]
   }
 
   type Mutation {
-    createUser(name: String!, age: Int!, isMarried: Boolean!): User
-  }
-
-  type User {
-    id: ID!
-    name: String
-    age: Int
-    isMarried: Boolean
+    addTodo(text: String!): Todo
+    toggleTodo(id: ID!): Todo
+    deleteTodo(id: ID!): Todo
+    updateTodoText(id: ID!, text: String!): Todo
   }
 `;
