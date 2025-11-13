@@ -57,7 +57,7 @@ export async function deleteCookie(name: CookieName) {
 
 /**
  * A reusable function to get a cookie's value.
- * This can be called from any Server Component or Route Handler.
+ * This can be called from Server Component or Route Handler.
  * @param name The name of the cookie (from our enum).
  */
 export async function getCookie(name: CookieName) {

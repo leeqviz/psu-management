@@ -2,7 +2,7 @@ import { userDataMock, userTokenMock } from "#mocks/user";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST() {
   // In a real app, you'd verify username/password here
   // const { email, password } = await request.json();
   // const user = await loginUser(email, password);
