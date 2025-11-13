@@ -1,8 +1,8 @@
-import Avatar from "../contentful/avatar";
-import ContentfulImage from "../contentful/contentful-image";
-import DateTimer from "../contentful/date-timer";
+import { Avatar } from "../contentful/avatar";
+import { ContentfulImage } from "../contentful/contentful-image";
+import { DateTimer } from "../contentful/date-timer";
 
-const PostHeader = ({ post }: any) => {
+export const PostHeader = ({ post }: any) => {
   const { title, coverImage, author, date } = post.fields;
 
   return (
@@ -26,5 +26,3 @@ const PostHeader = ({ post }: any) => {
     </>
   );
 };
-
-export default PostHeader;

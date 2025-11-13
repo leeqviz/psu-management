@@ -1,6 +1,6 @@
-import ContentfulImage from "./contentful-image";
+import { ContentfulImage } from "./contentful-image";
 
-const Avatar = ({ name, picture }: { name: string; picture: any }) => {
+export const Avatar = ({ name, picture }: { name: string; picture: any }) => {
   return (
     <div className="flex items-center">
       <div className="relative w-10 h-10 mr-4">
@@ -15,5 +15,3 @@ const Avatar = ({ name, picture }: { name: string; picture: any }) => {
     </div>
   );
 };
-
-export default Avatar;

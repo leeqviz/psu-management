@@ -1,5 +1,5 @@
-import PostBody from "@/components/core/posts/post-body";
-import PostHeader from "@/components/core/posts/post-header";
+import { PostBody } from "@/components/core/posts/post-body";
+import { PostHeader } from "@/components/core/posts/post-header";
 import { client } from "@/lib/contentful/client";
 
 export async function generateStaticParams() {
@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page({
+export default async function PostPage({
   params,
 }: {
   params: Promise<{

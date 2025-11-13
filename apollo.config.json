@@ -2,7 +2,7 @@
 {
   "client": {
     // Look in 'app', 'components', and 'lib' folders
-    "includes": ["app/**/*.tsx", "components/**/*.tsx", "lib/**/*.ts"],
+    "includes": ["./app/**/*.tsx", "./components/**/*.tsx", "./lib/**/*.ts"],
     "service": {
       "name": "psu-management",
       // The URL of your running GraphQL server

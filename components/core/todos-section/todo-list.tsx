@@ -2,10 +2,10 @@
 "use client";
 
 import {
-  ADD_TODO,
-  DELETE_TODO,
-  GET_TODOS,
-  TOGGLE_TODO,
+  addTodo,
+  deleteTodo,
+  getTodos,
+  toggleTodo,
 } from "@/lib/apollo/client/operations";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { useState } from "react";
@@ -22,38 +22,38 @@ export function TodoList() {
   const [inputText, setInputText] = useState("");
 
   // 1. Fetch Todos (unchanged)
-  const { loading, error, data } = useQuery<{ todos: Todo[] }>(GET_TODOS);
+  const { loading, error, data } = useQuery<{ todos: Todo[] }>(getTodos);
 
   // 2. Define Mutations (unchanged)
   // We keep toggle and delete here because they refetch the *entire* list
-  const [addTodo] = useMutation(ADD_TODO, {
-    refetchQueries: [{ query: GET_TODOS }],
+  const [addTodoMutation] = useMutation(addTodo, {
+    refetchQueries: [{ query: getTodos }],
   });
 
-  const [toggleTodo] = useMutation(TOGGLE_TODO, {
+  const [toggleTodoMutation] = useMutation(toggleTodo, {
     // We *could* use cache update here too, but refetch is simpler for now
-    refetchQueries: [{ query: GET_TODOS }],
+    refetchQueries: [{ query: getTodos }],
   });
 
-  const [deleteTodo] = useMutation(DELETE_TODO, {
-    refetchQueries: [{ query: GET_TODOS }],
+  const [deleteTodoMutation] = useMutation(deleteTodo, {
+    refetchQueries: [{ query: getTodos }],
   });
 
   // 3. Handle Form Submission (unchanged)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim()) return;
-    addTodo({ variables: { text: inputText } });
+    addTodoMutation({ variables: { text: inputText } });
     setInputText("");
   };
 
   // 4. Create handler functions to pass down
   const handleToggle = (id: string) => {
-    toggleTodo({ variables: { id } });
+    toggleTodoMutation({ variables: { id } });
   };
 
   const handleDelete = (id: string) => {
-    deleteTodo({ variables: { id } });
+    deleteTodoMutation({ variables: { id } });
   };
 
   if (loading) return <p>Loading...</p>;

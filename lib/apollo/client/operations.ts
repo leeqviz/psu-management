@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const GET_TODOS = gql`
+export const getTodos = gql`
   query GetTodos {
     todos {
       id
@@ -10,7 +10,7 @@ export const GET_TODOS = gql`
   }
 `;
 
-export const ADD_TODO = gql`
+export const addTodo = gql`
   mutation AddTodo($text: String!) {
     addTodo(text: $text) {
       id
@@ -20,7 +20,7 @@ export const ADD_TODO = gql`
   }
 `;
 
-export const TOGGLE_TODO = gql`
+export const toggleTodo = gql`
   mutation ToggleTodo($id: ID!) {
     toggleTodo(id: $id) {
       id
@@ -30,7 +30,7 @@ export const TOGGLE_TODO = gql`
   }
 `;
 
-export const DELETE_TODO = gql`
+export const deleteTodo = gql`
   mutation DeleteTodo($id: ID!) {
     deleteTodo(id: $id) {
       id
@@ -38,7 +38,7 @@ export const DELETE_TODO = gql`
   }
 `;
 
-export const UPDATE_TODO_TEXT = gql`
+export const updateTodo = gql`
   mutation UpdateTodoText($id: ID!, $text: String!) {
     updateTodoText(id: $id, text: $text) {
       id

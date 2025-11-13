@@ -13,8 +13,6 @@ const contentfulLoader = ({
   return `${src}?w=${width}&q=${quality || 75}`;
 };
 
-const ContentfulImage = (props: any) => {
+export const ContentfulImage = (props: any) => {
   return <Image alt="" loader={contentfulLoader} {...props} />;
 };
-
-export default ContentfulImage;

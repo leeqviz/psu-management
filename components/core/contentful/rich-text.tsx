@@ -1,7 +1,7 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import Link from "next/link";
-import ContentfulImage from "./contentful-image";
+import { ContentfulImage } from "./contentful-image";
 
 const options = {
   renderMark: {
@@ -79,8 +79,6 @@ const options = {
   },
 };
 
-const RichText = ({ content }: any) => {
+export const RichText = ({ content }: any) => {
   return <>{documentToReactComponents(content, options)}</>;
 };
-
-export default RichText;

@@ -1,6 +1,6 @@
-import RichText from "@/components/core/contentful/rich-text";
+import { RichText } from "@/components/core/contentful/rich-text";
 
-const PostBody = ({ post }: any) => {
+export const PostBody = ({ post }: any) => {
   const { content } = post.fields;
 
   return (
@@ -9,5 +9,3 @@ const PostBody = ({ post }: any) => {
     </div>
   );
 };
-
-export default PostBody;

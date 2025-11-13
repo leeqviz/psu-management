@@ -1,7 +1,7 @@
 // src/app/components/TodoItem.tsx
 "use client";
 
-import { UPDATE_TODO_TEXT } from "@/lib/apollo/client/operations";
+import { updateTodo } from "@/lib/apollo/client/operations";
 import { useMutation } from "@apollo/client/react";
 import { useState } from "react";
 
@@ -26,7 +26,7 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
 
   // 2. Define the update mutation
   // Notice: no refetchQueries! Apollo cache handles it.
-  const [updateTodoText] = useMutation(UPDATE_TODO_TEXT);
+  const [updateTodoText] = useMutation(updateTodo);
 
   // 3. Handle saving the edit
   const handleSave = () => {

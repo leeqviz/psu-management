@@ -1,4 +1,4 @@
-const Skeleton = () => {
+export const Skeleton = () => {
   return (
     <div className="animate-pulse">
       <div className="bg-gray-200 py-48 rounded-md"></div>
@@ -12,5 +12,3 @@ const Skeleton = () => {
     </div>
   );
 };
-
-export default Skeleton;
