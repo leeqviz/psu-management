@@ -1,10 +1,13 @@
-import Link from "next/link";
+import { fallbackLng } from "@/lib/i18n/settings"; // 👈 Adjust path if needed
+import { redirect } from "next/navigation";
 
-export default function NotFoundPage() {
-  return (
-    <div className="flex flex-col gap-2">
-      <span>TODO 404 page content</span>
-      <Link href="/">Home</Link>
-    </div>
-  );
+/**
+ * This root not-found component is a simple fallback.
+ * It just redirects the user to the "not found" page
+ * for their default language.
+ */
+export default async function RootNotFound() {
+  // Redirect to the language-specific 404 page
+  // This ensures the user always sees a styled, translated 404 page.
+  redirect(`/${fallbackLng}/404`);
 }
