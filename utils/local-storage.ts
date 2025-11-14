@@ -1,4 +1,3 @@
-import { decrypt, encrypt } from "#utils/cryptography";
 import {
   AUTH_ACCESS_TOKEN_KEY,
   AUTH_REFRESH_TOKEN_KEY,
@@ -6,8 +5,10 @@ import {
   UPBE_TOKEN_V2_KEY,
   USER_KEY,
 } from "@/constants/local-storage";
+import { decrypt, encrypt } from "@/lib/crypto";
 import { User } from "@/types/access-control";
-import { isServer } from "@/utils/window";
+import { isServer } from "@/utils/validator";
+import "client-only";
 
 /** Dispatch storage event to track value changes in event listener */
 export function dispatchLocalStorageEvent(

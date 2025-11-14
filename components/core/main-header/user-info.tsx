@@ -1,4 +1,4 @@
-import { getAuthUser } from "#utils/cookies";
+import { getAuthUser } from "@/actions/cookies";
 
 // This IS a Server Component
 export async function UserInfo() {

@@ -1,4 +1,5 @@
 import { todos } from "@/mocks/apollo";
+import "server-only";
 
 export const resolvers = {
   Query: {

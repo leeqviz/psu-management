@@ -1,3 +1,4 @@
+import "client-only";
 import gql from "graphql-tag";
 
 export const getTodos = gql`

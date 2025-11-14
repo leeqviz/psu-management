@@ -1,5 +1,5 @@
 import { ContentfulImage } from "./contentful-image";
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Avatar = ({ name, picture }: { name: string; picture: any }) => {
   return (
     <div className="flex items-center">

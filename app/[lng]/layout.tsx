@@ -1,11 +1,17 @@
 import { Providers } from "@/components/core/providers";
-import { getTranslation } from "@/lib/i18n/server";
-import { languages } from "@/lib/i18n/settings";
+import { getTranslation } from "@/lib/i18n/instance/server";
+import { getDirection, i18nConfig } from "@/lib/i18n/utils";
 import { Metadata } from "next";
+import { Geist } from "next/font/google";
+import "../globals.css";
+
+const geist = Geist({
+  subsets: ["latin"],
+});
 
 // This tells Next.js to only generate pages for your supported languages
 export async function generateStaticParams() {
-  return languages.map((lng) => ({ lng }));
+  return i18nConfig.locales.map((lng) => ({ lng }));
 }
 
 // This function runs on the server
@@ -29,12 +35,21 @@ export async function generateMetadata({
   };
 }
 
-export default async function LngLayout({
-  children,
-  params,
-}: Readonly<{
+interface Props {
   children: React.ReactNode;
   params: Promise<{ lng: string }>;
-}>) {
-  return <Providers lng={(await params).lng}>{children}</Providers>;
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: Readonly<Props>) {
+  const { lng } = await params;
+  return (
+    <html lang={lng} dir={getDirection(lng)} className={geist.className}>
+      <body>
+        <Providers lng={lng}>{children}</Providers>
+      </body>
+    </html>
+  );
 }

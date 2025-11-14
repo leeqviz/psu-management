@@ -1,6 +1,6 @@
 import { PostBody } from "@/components/core/posts/post-body";
 import { PostHeader } from "@/components/core/posts/post-header";
-import { client } from "@/lib/contentful/client";
+import { client } from "@/lib/contentful";
 
 export async function generateStaticParams() {
   const response = await client.getEntries({ content_type: "post" });

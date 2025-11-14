@@ -2,6 +2,7 @@ import { Avatar } from "../contentful/avatar";
 import { ContentfulImage } from "../contentful/contentful-image";
 import { DateTimer } from "../contentful/date-timer";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PostHeader = ({ post }: any) => {
   const { title, coverImage, author, date } = post.fields;
 

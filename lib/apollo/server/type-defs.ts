@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import "server-only";
 
 export const typeDefs = gql`
   type Todo {

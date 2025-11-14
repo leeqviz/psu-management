@@ -1,5 +1,5 @@
 import { PostCard } from "@/components/core/posts/post-card";
-import { client } from "@/lib/contentful/client";
+import { client } from "@/lib/contentful";
 
 export default async function PostsPage() {
   const posts = await client.getEntries({

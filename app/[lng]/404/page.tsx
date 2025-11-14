@@ -1,8 +1,9 @@
-import { getTranslation } from "@/lib/i18n/server";
+import { getTranslation } from "@/lib/i18n/instance/server";
 import Link from "next/link";
 
+// FIXME: костыль, потому что дефолтный not found не находит параметры запроса
 // This component automatically receives 'params'
-export default async function LngNotFound({
+export default async function _404_Page({
   params,
 }: {
   params: Promise<{ lng: string }>;

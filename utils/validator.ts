@@ -19,3 +19,5 @@ export const canBeRendered = <TValue = unknown>(value: TValue) =>
   typeof value === "string" ||
   typeof value === "number" ||
   typeof value === "boolean";
+
+export const isServer = () => typeof window === "undefined";

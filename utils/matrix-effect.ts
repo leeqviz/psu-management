@@ -1,3 +1,4 @@
+import "client-only";
 export function getMatrixEffect() {
   const canvas = document.getElementById(
     "matrix-effect"

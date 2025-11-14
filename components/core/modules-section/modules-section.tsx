@@ -1,7 +1,7 @@
 import { Divider } from "#components/core/divider";
 import { Message } from "#components/core/message";
 import { Section } from "#components/core/section";
-import { getAuthUser } from "#utils/cookies";
+import { getAuthUser } from "@/actions/cookies";
 import { ModulesList } from "./modules-list";
 
 export async function ModulesSection() {

@@ -1,21 +1,9 @@
 "use server";
 import { COOKIE_NAME } from "#constants/cookies";
-// This is our server-side function to get the user from the cookie
-
 import { userDataMock } from "#mocks/user";
 import { CookieName } from "#types/cookies";
 import { User } from "@/types/access-control";
 import { cookies } from "next/headers";
-
-export async function getAuthUser(): Promise<User | null> {
-  const sessionCookie = (await cookies()).get(COOKIE_NAME.AuthToken);
-  if (!sessionCookie?.value) return null;
-
-  // In a real app, you'd verify the token and fetch the user
-  // const user = await verifyTokenAndGetUser(sessionCookie.value);
-  // For this demo, we'll return a mock user if the cookie exists
-  return userDataMock;
-}
 
 // --- REUSABLE "WRITE" FUNCTIONS (SERVER ACTIONS) ---
 
@@ -62,4 +50,14 @@ export async function deleteCookie(name: CookieName) {
  */
 export async function getCookie(name: CookieName) {
   return (await cookies()).get(name);
+}
+
+export async function getAuthUser(): Promise<User | null> {
+  const sessionCookie = (await cookies()).get(COOKIE_NAME.AuthToken);
+  if (!sessionCookie?.value) return null;
+
+  // In a real app, you'd verify the token and fetch the user
+  // const user = await verifyTokenAndGetUser(sessionCookie.value);
+  // For this demo, we'll return a mock user if the cookie exists
+  return userDataMock;
 }

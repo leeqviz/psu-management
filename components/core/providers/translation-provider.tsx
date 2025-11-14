@@ -1,7 +1,7 @@
 "use client";
 
-import { i18nInstance } from "@/lib/i18n/client";
-import { cookieName, getOptions, languages } from "@/lib/i18n/settings";
+import { i18nInstance } from "@/lib/i18n/instance/client";
+import { i18nConfig, initI18nInstance } from "@/lib/i18n/utils";
 import { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 
@@ -21,21 +21,10 @@ export function TranslationProvider({
     // This effect runs *only on the client*
     if (!i18nInstance.isInitialized) {
       // Run init() inside the effect
-      i18nInstance
-        .init({
-          ...getOptions(),
-          lng, // Use the language from the URL
-          detection: {
-            order: ["cookie", "htmlTag", "path"],
-            caches: ["cookie"],
-            lookupCookie: cookieName,
-          },
-          preload: languages,
-        })
-        .then(() => {
-          // Set state to true when init is complete
-          setIsInitialized(true);
-        });
+      initI18nInstance(i18nInstance, lng, i18nConfig.defaultLocale).then(() => {
+        // Set state to true when init is complete
+        setIsInitialized(true);
+      });
     } else {
       // If already initialized, just change the language
       if (i18nInstance.resolvedLanguage !== lng) {
@@ -47,7 +36,6 @@ export function TranslationProvider({
   // --- 3. Prevent rendering until i18next is ready ---
   // This prevents a "flash" of untranslated content
   if (!isInitialized) {
-    console.log("i18next is not initialized yet");
     return null; // Or you can return a <LoadingSpinner />
   }
 

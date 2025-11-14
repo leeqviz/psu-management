@@ -1,11 +1,10 @@
-import { cookieName, fallbackLng, languages } from "@/lib/i18n/settings";
-import acceptLanguage from "accept-language";
-import { NextRequest, NextResponse } from "next/server";
-
-acceptLanguage.languages(languages);
+import { i18nConfig } from "@/lib/i18n/utils";
+import { i18nRouter } from "next-i18n-router";
+import { NextRequest } from "next/server";
 
 export const config = {
   matcher: [
+    //"/((?!api|static|.*\\..*|_next).*)",
     // This regex excludes:
     // 1. /api/ (API routes)
     // 2. /_next/static/ (static files)
@@ -15,43 +14,10 @@ export const config = {
   ],
 };
 
-// ... the rest of your middleware function should be fine ...
-export function middleware(req: NextRequest) {
-  let lng;
-  if (req.cookies.has(cookieName)) {
-    lng = acceptLanguage.get(req.cookies.get(cookieName)?.value);
-  }
-  if (!lng) {
-    lng = acceptLanguage.get(req.headers.get("Accept-Language"));
-  }
-  if (!lng) {
-    lng = fallbackLng;
-  }
-
-  const pathname = req.nextUrl.pathname;
-
-  // Check if the path is missing a language prefix
-  const pathnameIsMissingLocale = !languages.some(
-    (loc) => pathname.startsWith(`/${loc}`) || pathname === `/${loc}`
-  );
-
-  if (pathnameIsMissingLocale) {
-    // e.g. / -> /en
-    return NextResponse.redirect(
-      new URL(
-        `/${lng}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
-        req.url
-      )
-    );
-  }
-
-  // Set the cookie for the current language
-  const response = NextResponse.next();
-  const lngInPath = languages.find((l) => pathname.startsWith(`/${l}`));
-
-  if (lngInPath) {
-    response.cookies.set(cookieName, lngInPath);
-  }
-
-  return response;
+export function middleware(request: NextRequest) {
+  // The i18nRouter will handle all the logic:
+  // - Language detection
+  // - Redirects
+  // - Ignoring paths
+  return i18nRouter(request, i18nConfig);
 }

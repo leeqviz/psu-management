@@ -1,3 +1,4 @@
+import "client-only";
 export const readAsDataURL = (blob: Blob): Promise<FileReader> =>
   new Promise((resolve, reject) => {
     const fr = new FileReader();

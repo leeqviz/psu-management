@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import Link from "next/link";
@@ -43,7 +44,9 @@ const options = {
     },
 
     [INLINES.HYPERLINK]: (node: any) => {
-      const text = node.content.find((item) => item.nodeType === "text")?.value;
+      const text = node.content.find(
+        (item: { nodeType: string }) => item.nodeType === "text"
+      )?.value;
       return (
         <a href={node.data.uri} target="_blank" rel="noopener noreferrer">
           {text}
