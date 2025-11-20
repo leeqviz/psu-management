@@ -6,6 +6,9 @@ import { initReactI18next } from "react-i18next/initReactI18next";
 export const i18nConfig: Config = {
   locales: ["en", "ru", "ar"],
   defaultLocale: "en",
+  localeCookie: "lang",
+  //prefixDefault: true, //show all locales in the URL path, even the default one
+  //noPrefix: true //disable all locale prefixes in the URL path
 };
 
 export const createI18nInstance = () =>

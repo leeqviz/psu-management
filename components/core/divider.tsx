@@ -1,4 +1,3 @@
-"use client";
 import {
   ComponentColor,
   ComponentFontWeight,
@@ -6,7 +5,6 @@ import {
   ComponentTextOverflow,
   ComponentTextTransform,
 } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
 import {
   ComponentColorValuesAlias,
   ComponentFontWeightValuesAlias,
@@ -14,6 +12,7 @@ import {
   ComponentTextOverflowValuesAlias,
   ComponentTextTransformValuesAlias,
 } from "#types/component";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { CSSProperties, PropsWithChildren } from "react";
 
 interface DividerProps extends PropsWithChildren {
@@ -38,7 +37,6 @@ function Divider({
   children,
   style,
 }: DividerProps) {
-  const facultyAbb = useFacultyAbbreviation();
   const colorClassNames =
     color === ComponentColor.Sky
       ? "bg-sky-500 border-sky-500"
@@ -55,7 +53,7 @@ function Divider({
       : color === ComponentColor.Default
       ? "bg-gray-300 border-gray-300"
       : color === ComponentColor.Current
-      ? `bg-${facultyAbb} border-${facultyAbb}`
+      ? `bg-${DEFAULT_COLOR} border-${DEFAULT_COLOR}`
       : "";
 
   return children ? (

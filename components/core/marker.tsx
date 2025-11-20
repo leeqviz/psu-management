@@ -1,10 +1,10 @@
-"use client";
 import { ComponentContentType, ComponentPlacement } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
+
 import {
   ComponentContentTypeValuesAlias,
   ComponentPlacementValuesAlias,
 } from "#types/component";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { CSSProperties } from "react";
 
 interface MarkerProps {
@@ -22,8 +22,6 @@ export function Marker({
   className = "",
   style,
 }: MarkerProps) {
-  const facultyAbb = useFacultyAbbreviation();
-
   return (
     <div
       style={style}
@@ -50,7 +48,7 @@ export function Marker({
                 : type === ComponentContentType.ERROR
                 ? "group-hover:bg-red-500"
                 : type === ComponentContentType.INFO
-                ? `group-hover:bg-${facultyAbb}`
+                ? `group-hover:bg-${DEFAULT_COLOR}`
                 : type === ComponentContentType.DEFAULT
                 ? "group-hover:bg-gray-500"
                 : ""

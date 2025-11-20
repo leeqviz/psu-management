@@ -16,7 +16,12 @@ import { cookies } from "next/headers";
 export async function setCookie(
   name: CookieName,
   value: string,
-  options: { httpOnly?: boolean; secure?: boolean; maxAge?: number } = {}
+  options: {
+    httpOnly?: boolean;
+    secure?: boolean;
+    maxAge?: number;
+    expires?: Date;
+  } = {}
 ) {
   const { httpOnly = true, secure = true, maxAge = 60 * 60 * 24 } = options;
 
@@ -25,6 +30,7 @@ export async function setCookie(
     secure,
     maxAge, // 1 day by default
     path: "/", // Make it available site-wide
+    expires: options.expires,
   });
 }
 
@@ -35,6 +41,7 @@ export async function setCookie(
 export async function deleteCookie(name: CookieName) {
   // Deleting a cookie is done by setting its value to empty
   // and its maxAge to 0.
+  //(await cookies()).delete(name);
   (await cookies()).set(name, "", {
     maxAge: 0,
     path: "/",

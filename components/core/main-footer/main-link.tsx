@@ -1,28 +1,13 @@
-"use client";
 import { cn } from "#lib/utils";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { ConditionalLink } from "../conditional-link";
 
 export function MainLink() {
-  const pathname = usePathname();
-
   return (
-    <Link
-      href={pathname !== "/" ? "/" : ""}
-      onClick={() => {
-        if (pathname !== "/") {
-        }
-      }}
-      onNavigate={(e) => {
-        if (pathname === "/") {
-          // prevent navigation if we're already on the home page
-          e.preventDefault();
-        }
-      }}
+    <ConditionalLink
+      href={"/"}
       className={cn(
         "flex flex-col text-center md:text-left break-words-anywhere",
         {
-          "cursor-default": pathname === "/",
           "text-red-500": process.env.NEXT_PUBLIC_APP_ENV === "test",
           "text-gray-700": process.env.NEXT_PUBLIC_APP_ENV !== "test",
         }
@@ -40,6 +25,6 @@ export function MainLink() {
           ? "Test system"
           : ""}
       </span>
-    </Link>
+    </ConditionalLink>
   );
 }

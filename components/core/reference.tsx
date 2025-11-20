@@ -1,10 +1,10 @@
 "use client";
 import link from "#assets/svg/link.svg";
 import { ComponentSize } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import { ComponentSizeValuesAlias } from "#types/component";
 import { isNotNullable } from "#utils/validator";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
 import {
   CSSProperties,
@@ -39,7 +39,6 @@ function Reference({
   className = "",
   style,
 }: ReferenceProps) {
-  const facultyAbb = useFacultyAbbreviation();
   const [flag] = useLocalStorage<boolean>(SOUNDS_ARE_ON_KEY, false);
   const tap2Audio = useAudio(flag ? "/sounds/tap2.mp3" : undefined);
 
@@ -68,7 +67,7 @@ function Reference({
           <span
             className={`text-gray-700 ${
               !isDisabled
-                ? `hover:text-${facultyAbb} group-hover:text-${facultyAbb} underline decoration-${facultyAbb} underline-offset-4 growing-inline-background`
+                ? `hover:text-${DEFAULT_COLOR} group-hover:text-${DEFAULT_COLOR} underline decoration-${DEFAULT_COLOR} underline-offset-4 growing-inline-background`
                 : ""
             }`}
           >

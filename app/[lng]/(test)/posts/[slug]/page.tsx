@@ -1,6 +1,7 @@
 import { PostBody } from "@/components/core/posts/post-body";
 import { PostHeader } from "@/components/core/posts/post-header";
 import { client } from "@/lib/contentful";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const response = await client.getEntries({ content_type: "post" });
@@ -24,7 +25,7 @@ export default async function PostPage({
   });
 
   if (response.items.length === 0) {
-    return <div>404</div>;
+    return notFound();
   }
 
   const post = response.items[0];

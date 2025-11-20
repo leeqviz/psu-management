@@ -1,8 +1,7 @@
 import { getTranslation } from "@/lib/i18n/instance/server";
 import Link from "next/link";
 
-// FIXME: костыль, потому что дефолтный not found не находит параметры запроса
-// This component automatically receives 'params'
+// костыль, потому что дефолтный not found не находит параметры запроса
 export default async function _404_Page({
   params,
 }: {
@@ -18,8 +17,9 @@ export default async function _404_Page({
     >
       <h1>{t("not_found_title")}</h1>
       <p>{t("not_found_message")}</p>
-      <span>TODO 404 page content</span>
-      <Link href="/">Home</Link>
+      <Link href="/" className="hover:underline">
+        Home
+      </Link>
     </div>
   );
 }

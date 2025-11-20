@@ -5,7 +5,7 @@ import {
   NotificationIconButton,
   SoundIconButton,
 } from "#components/core/icon-button";
-import { useLocalStorage, useMount } from "#hooks/window";
+import { useLocalStorage } from "#hooks/window";
 import { userDataMock } from "#mocks/user";
 import {
   NOTIFICATIONS_ARE_ON_KEY,
@@ -13,11 +13,10 @@ import {
 } from "@/constants/local-storage";
 import { useAuthStore } from "@/hooks/state-management";
 import { User } from "@/types/access-control";
-import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 export function ControlButtons() {
-  const router = useRouter();
-
+  const [isPending, startTransition] = useTransition();
   const { user, logIn, logOut } = useAuthStore((state) => state);
 
   //local storage observing
@@ -30,18 +29,16 @@ export function ControlButtons() {
     false
   );
 
-  const isMounted = useMount();
-
-  const handleLogout = async () => {
-    await logOut();
-    // Refresh the server components to show the "logged out" state
-    router.refresh();
+  const handleLogout = () => {
+    startTransition(async () => {
+      await logOut();
+    });
   };
 
-  const handleLogin = async (user: User) => {
-    await logIn(user);
-    // Refresh the server components to show the "logged out" state
-    router.refresh();
+  const handleLogin = (user: User) => {
+    startTransition(async () => {
+      await logIn(user);
+    });
   };
 
   return (
@@ -50,7 +47,7 @@ export function ControlButtons() {
         className={`flex items-center justify-start gap-0.5 sm:gap-1 lg:gap-1.5`}
       >
         <SoundIconButton
-          soundsAreOn={isMounted && !!soundValue}
+          soundsAreOn={!!soundValue}
           onClick={() => setSoundValue(!soundValue)}
         />
         <HelpIconButton
@@ -62,7 +59,7 @@ export function ControlButtons() {
         className={`flex items-center justify-start gap-0.5 sm:gap-1 lg:gap-1.5`}
       >
         <NotificationIconButton
-          notificationsAreOn={isMounted && !!notificationValue}
+          notificationsAreOn={!!notificationValue}
           onClick={() => {
             setNotificationValue(!notificationValue);
           }}
@@ -70,6 +67,7 @@ export function ControlButtons() {
         <AuthIconButton
           tooltip={!!user ? "Выйти" : "Войти"}
           isAuthorized={!!user}
+          isDisabled={isPending}
           onClick={() => {
             if (user) {
               handleLogout();

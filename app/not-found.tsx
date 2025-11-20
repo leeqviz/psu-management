@@ -1,4 +1,6 @@
+import { COOKIE_NAME } from "@/constants/cookies";
 import { i18nConfig } from "@/lib/i18n/utils";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 /**
@@ -6,8 +8,20 @@ import { redirect } from "next/navigation";
  * It just redirects the user to the "not found" page
  * for their default language.
  */
-export default function RootNotFound() {
-  // Redirect to the language-specific 404 page
-  // This ensures the user always sees a styled, translated 404 page.
-  redirect(`/${i18nConfig.defaultLocale}/404`);
+export default async function RootNotFound() {
+  // 1. Try to get the language from the cookie
+  const cookieStore = cookies();
+  const localeCookie = (await cookieStore).get(COOKIE_NAME.Language);
+
+  // 2. Validate the cookie value (ensure it's a supported language)
+  const cookieLang = localeCookie?.value;
+  const isValidLang = cookieLang && i18nConfig.locales.includes(cookieLang);
+
+  // 3. Decide which language to use
+  const langToUse = isValidLang ? cookieLang : i18nConfig.defaultLocale;
+
+  // 4. Redirect to the localized 404 page
+  // We redirect to `/${langToUse}/404`. Since this page likely
+  // doesn't exist, it will trigger the app/[lng]/not-found.tsx
+  redirect(`/${langToUse}/404`);
 }

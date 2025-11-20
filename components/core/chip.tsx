@@ -1,11 +1,10 @@
-"se client";
 import { ComponentColor, ComponentSize } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
 import {
   ComponentColorValuesAlias,
   ComponentSizeValuesAlias,
 } from "#types/component";
 import { isNotNullable } from "#utils/validator";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { CSSProperties, ReactNode } from "react";
 import { Picture } from "./picture";
 
@@ -34,8 +33,6 @@ export function Chip({
   src,
   style,
 }: ChipProps) {
-  const facultyAbb = useFacultyAbbreviation();
-
   return (
     <span
       className={`${
@@ -56,7 +53,7 @@ export function Chip({
                 : color === ComponentColor.Default
                 ? "text-gray-500"
                 : color === ComponentColor.Current
-                ? `text-${facultyAbb}`
+                ? `text-${DEFAULT_COLOR}`
                 : ""
             }`
           : "text-gray-300"

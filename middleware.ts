@@ -2,6 +2,7 @@ import { i18nConfig } from "@/lib/i18n/utils";
 import { i18nRouter } from "next-i18n-router";
 import { NextRequest } from "next/server";
 
+//response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 export const config = {
   matcher: [
     //"/((?!api|static|.*\\..*|_next).*)",

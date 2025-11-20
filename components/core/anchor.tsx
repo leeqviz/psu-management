@@ -1,10 +1,10 @@
 "use client";
 import { FixedTooltip } from "#components/core/tooltip";
 import { ComponentSize } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import { ComponentSizeValuesAlias } from "#types/component";
 import { isNotNullable } from "#utils/validator";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
 import {
   CSSProperties,
@@ -43,8 +43,6 @@ function Anchor({
   style,
   display = "inline",
 }: AnchorProps) {
-  const facultyAbb = useFacultyAbbreviation();
-
   const [flag] = useLocalStorage<boolean>(SOUNDS_ARE_ON_KEY, false);
   const tap2Audio = useAudio(flag ? "/sounds/tap2.mp3" : undefined);
 
@@ -97,9 +95,9 @@ function Anchor({
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
           className={`${display} relative text-gray-700 ${sizeClassNames} ${
             !isDisabled
-              ? `cursor-pointer hover:text-${facultyAbb} ${
+              ? `cursor-pointer hover:text-${DEFAULT_COLOR} ${
                   display === "inline"
-                    ? `underline decoration-${facultyAbb} underline-offset-4 growing-inline-background`
+                    ? `underline decoration-${DEFAULT_COLOR} underline-offset-4 growing-inline-background`
                     : "growing-block-underline"
                 }`
               : "cursor-default"
@@ -123,7 +121,7 @@ function Anchor({
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
           className={`inline relative text-gray-700 ${sizeClassNames} ${
             !isDisabled
-              ? `cursor-pointer hover:text-${facultyAbb} underline decoration-${facultyAbb} underline-offset-4 growing-inline-background`
+              ? `cursor-pointer hover:text-${DEFAULT_COLOR} underline decoration-${DEFAULT_COLOR} underline-offset-4 growing-inline-background`
               : "cursor-default"
           } ${className}`}
         >
@@ -145,7 +143,7 @@ function Anchor({
           onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
           className={`inline-block relative text-gray-700 ${sizeClassNames} ${
             !isDisabled
-              ? `cursor-pointer hover:text-${facultyAbb} growing-block-underline`
+              ? `cursor-pointer hover:text-${DEFAULT_COLOR} growing-block-underline`
               : "cursor-default"
           } ${className}`}
         >

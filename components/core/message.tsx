@@ -1,11 +1,11 @@
-"use client";
 import { ComponentContentType, ComponentSize } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
+
 import {
   ComponentContentTypeValuesAlias,
   ComponentSizeValuesAlias,
 } from "#types/component";
 import { isNotNullable } from "#utils/validator";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { CSSProperties, ReactNode } from "react";
 
 interface MessageProps {
@@ -25,7 +25,6 @@ function Message({
   className = "",
   style,
 }: MessageProps) {
-  const facultyAbb = useFacultyAbbreviation();
   return (
     <div
       style={style}
@@ -37,7 +36,7 @@ function Message({
           : type === ComponentContentType.ERROR
           ? "text-red-500"
           : type === ComponentContentType.INFO
-          ? `text-${facultyAbb}`
+          ? `text-${DEFAULT_COLOR}`
           : type === ComponentContentType.DEFAULT
           ? "text-gray-700"
           : ""

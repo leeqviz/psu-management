@@ -5,6 +5,7 @@ import { useCallback, useMemo } from "react";
  * @param src
  * @returns audio controls object
  */
+//TODO: rewrite it in function
 export const useAudio = (src?: string) => {
   const sound = useMemo(() => {
     return src ? new Audio(src) : null;
@@ -13,7 +14,6 @@ export const useAudio = (src?: string) => {
   const reset = useCallback(() => {
     if (sound && !sound.paused) {
       sound.pause();
-      // TODO: fix
       sound.currentTime = 0;
     }
   }, [sound]);
