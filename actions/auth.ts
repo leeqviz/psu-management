@@ -43,7 +43,7 @@ export async function logoutAction() {
   // redirect('/login');
 }
 
-export async function getMeAction() {
+export async function meAction() {
   const token = (await cookies()).get(COOKIE_NAME.AuthToken)?.value;
 
   if (!token) {

@@ -48,5 +48,5 @@ export async function switchLocaleAction(
   }
 
   // 3. Redirect
-  redirect(newPath);
+  redirect(newPath); //refresh
 }

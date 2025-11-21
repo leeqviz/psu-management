@@ -3,6 +3,7 @@ import { getTranslation } from "@/lib/i18n/instance/server";
 import { getDirection, i18nConfig } from "@/lib/i18n/utils";
 import { Metadata } from "next";
 import { Geist } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import "../globals.css";
 
 const geist = Geist({
@@ -48,6 +49,10 @@ export default async function RootLayout({
   return (
     <html lang={lng} dir={getDirection(lng)} className={geist.className}>
       <body>
+        <NextTopLoader
+          color={"#0369a1"}
+          shadow={"0 0 10px #0369a1, 0 0 5px #0369a1"}
+        />
         <Providers lng={lng}>{children}</Providers>
       </body>
     </html>

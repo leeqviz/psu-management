@@ -24,11 +24,10 @@ export function LanguageSwitcher() {
   return (
     <Select
       isClearable={false}
-      value={{ value: currentLocale, label: currentLocale }}
+      isDisabled={isPending}
       onChange={handleChange}
-      isOptionDisabled={(option) =>
-        isPending || currentLocale === option?.value
-      }
+      value={{ value: currentLocale, label: currentLocale }}
+      isOptionDisabled={(option) => currentLocale === option?.value}
       options={i18nConfig.locales.map((lng) => ({ value: lng, label: lng }))}
     />
   );

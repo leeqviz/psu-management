@@ -1,6 +1,4 @@
-import { i18nConfig } from "@/lib/i18n/utils";
-import { i18nRouter } from "next-i18n-router";
-import { NextRequest } from "next/server";
+import { stackMiddlewares, withAuth, withI18n } from "./middlewares";
 
 //response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 export const config = {
@@ -15,10 +13,4 @@ export const config = {
   ],
 };
 
-export function middleware(request: NextRequest) {
-  // The i18nRouter will handle all the logic:
-  // - Language detection
-  // - Redirects
-  // - Ignoring paths
-  return i18nRouter(request, i18nConfig);
-}
+export default stackMiddlewares([withAuth, withI18n]);

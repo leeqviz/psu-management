@@ -1,9 +1,10 @@
-import { getMeAction, loginAction, logoutAction } from "@/actions/auth";
+import { loginAction, logoutAction, meAction } from "@/actions/auth";
 import { User } from "@/types/access-control";
 import { createStore } from "zustand";
 
 type AuthState = {
   user: User | null;
+  error: string | null;
   isLoading: boolean;
   isHydrated: boolean;
 };
@@ -11,7 +12,7 @@ type AuthState = {
 type AuthActions = {
   hydrate: (user: User | null) => void;
   // Our login/logout actions will call API routes
-  logIn: (user: User) => Promise<string | void>;
+  logIn: (user: User) => Promise<void>;
   logOut: () => Promise<void>;
   // Sync and hydrate user data
   me: () => Promise<void>;
@@ -21,6 +22,7 @@ export type AuthStore = AuthState & AuthActions;
 
 const defaultState: AuthState = {
   user: null,
+  error: null,
   isLoading: false,
   isHydrated: false,
 };
@@ -29,34 +31,43 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
   return createStore<AuthStore>()((set) => ({
     ...initState,
 
-    hydrate: (user: User | null) =>
-      set({ user, isHydrated: true, isLoading: false }),
+    hydrate: (user: User | null) => set({ user, isHydrated: true }),
 
     logIn: async (user: User) => {
-      set({ isHydrated: false, isLoading: true });
+      set({ isLoading: true });
       const result = await loginAction(user);
       if (!result.success) {
-        set({ isHydrated: true, isLoading: false });
-        return result.error;
+        set({ error: result.error, isLoading: false });
       }
-      set({ user: result.user, isHydrated: true, isLoading: false });
+      set({
+        user: result.user,
+        error: null,
+        isLoading: false,
+      });
     },
 
     logOut: async () => {
-      set({ isHydrated: false, isLoading: true });
+      set({ isLoading: true });
       await logoutAction();
-      set({ user: null, isHydrated: true, isLoading: false });
+      set({ user: null, error: null, isLoading: false });
     },
 
     me: async () => {
-      set({ isHydrated: false, isLoading: true });
+      set({ isLoading: true });
       // Call our API route to update the cookie
-      const result = await getMeAction();
+      const result = await meAction();
       if (!result.success) {
-        set({ user: null, isHydrated: true, isLoading: false });
-        return;
+        set({
+          user: null,
+          error: result.error,
+          isLoading: false,
+        });
       }
-      set({ user: result.user, isHydrated: true, isLoading: false });
+      set({
+        user: result.user,
+        error: null,
+        isLoading: false,
+      });
     },
   }));
 };

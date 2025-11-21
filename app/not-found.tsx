@@ -10,15 +10,15 @@ import { redirect } from "next/navigation";
  */
 export default async function RootNotFound() {
   // 1. Try to get the language from the cookie
-  const cookieStore = cookies();
-  const localeCookie = (await cookieStore).get(COOKIE_NAME.Language);
+  const localeCookie = (await cookies()).get(COOKIE_NAME.Language);
 
   // 2. Validate the cookie value (ensure it's a supported language)
   const cookieLang = localeCookie?.value;
-  const isValidLang = cookieLang && i18nConfig.locales.includes(cookieLang);
-
   // 3. Decide which language to use
-  const langToUse = isValidLang ? cookieLang : i18nConfig.defaultLocale;
+  const langToUse =
+    cookieLang && i18nConfig.locales.includes(cookieLang)
+      ? cookieLang
+      : i18nConfig.defaultLocale;
 
   // 4. Redirect to the localized 404 page
   // We redirect to `/${langToUse}/404`. Since this page likely
