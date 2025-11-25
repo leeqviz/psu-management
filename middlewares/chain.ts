@@ -1,17 +1,33 @@
 import { NextMiddleware, NextResponse } from "next/server";
 
-export function stackMiddlewares(
+/**
+ * Helper to compose multiple MiddlewareFactory instances together.
+ *
+ * We restrict the type of middleware to ChainableMiddleware, which is a strict
+ * subset of the full NextMiddleware type.  Specifically, we require middleware
+ * layers to return Promise<NextResponse>, as opposed to a few other return
+ * types that NextMiddleware allows in general.  This restriction allows
+ * middleware layers that want to set response cookies to do so using the
+ * NextResponse cookies api: each layer reliably receives a NextResponse from
+ * the next layer in the chain, and can add cookies to it before passing it on
+ * down.
+ *
+ * Important: layers must construct NextResponses (specifically the .next() and
+ * .rewrite() variants) by passing in the (possibly mutated) request object.
+ * Then any headers/cookies that have been set on the request object (including
+ * by earlier layers) will be properly passed on to the Next.js request
+ * handlers: page components, server actions and route handlers.
+ */
+export function chainMiddlewares(
   functions: ((middleware: NextMiddleware) => NextMiddleware)[] = [],
   index = 0
 ): NextMiddleware {
   const current = functions[index];
 
   if (current) {
-    const next = stackMiddlewares(functions, index + 1);
+    const next = chainMiddlewares(functions, index + 1);
     return current(next);
   }
-
-  console.log("All middlewares executed.");
   // Default fallback if no middleware handles the request
   return () => NextResponse.next();
 }

@@ -1,7 +1,11 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
-import { i18nConfig } from "@/lib/i18n/utils";
+import {
+  getLocaleFromPath,
+  i18nConfig,
+  removeLocaleFromPath,
+} from "@/lib/i18n/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -26,25 +30,16 @@ export async function switchLocaleAction(
   let newPath = currentPath;
 
   // A. Find if the current path already has a locale prefix
-  const currentLocalePrefix = i18nConfig.locales.find(
-    (locale) =>
-      currentPath.startsWith(`/${locale}/`) || currentPath === `/${locale}`
-  );
+  const currentLocale = getLocaleFromPath(currentPath);
 
   // B. Remove existing prefix if present
-  if (currentLocalePrefix) {
-    newPath = newPath.replace(`/${currentLocalePrefix}`, "");
-    // If path became empty string (it was just /en), make it /
-    if (newPath === "") newPath = "/";
+  if (currentLocale) {
+    newPath = removeLocaleFromPath(currentPath, currentLocale);
   }
 
   // C. If we are NOT switching to the default locale, add the new prefix
   if (newLocale !== i18nConfig.defaultLocale) {
-    if (newPath === "/") {
-      newPath = `/${newLocale}`;
-    } else {
-      newPath = `/${newLocale}${newPath}`;
-    }
+    newPath = newPath === "/" ? `/${newLocale}` : `/${newLocale}${newPath}`;
   }
 
   // 3. Redirect

@@ -1,9 +1,21 @@
 import { createInstance, i18n } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
-import { Config } from "next-i18n-router/dist/types";
 import { initReactI18next } from "react-i18next/initReactI18next";
 
-export const i18nConfig: Config = {
+// config from next-i18next-router
+/* export interface Config {
+  locales: readonly string[];
+  defaultLocale: string;
+  localeCookie?: string;
+  localeDetector?: ((request: NextRequest, config: Config) => string) | false;
+  prefixDefault?: boolean;
+  noPrefix?: boolean;
+  basePath?: string;
+  serverSetCookie?: 'if-empty' | 'always' | 'never';
+  cookieOptions?: Partial<ResponseCookie>;
+} */
+
+export const i18nConfig = {
   locales: ["en", "ru", "ar"],
   defaultLocale: "en",
   localeCookie: "lang",
@@ -40,3 +52,14 @@ export const initI18nInstance = async (
 
 export const getDirection = (locale: string) =>
   ["ar", "he", "fa", "ur"].includes(locale) ? "rtl" : "ltr";
+
+export function getLocaleFromPath(pathname: string): string | undefined {
+  return i18nConfig.locales.find(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
+}
+
+export function removeLocaleFromPath(pathname: string, locale: string): string {
+  const newPath = pathname.replace(`/${locale}`, "");
+  return newPath === "" ? "/" : newPath;
+}

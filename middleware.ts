@@ -1,6 +1,12 @@
-import { stackMiddlewares, withAuth, withI18n } from "./middlewares";
+import {
+  chainMiddlewares,
+  withAuth,
+  withI18n,
+  withLogging,
+  withNoCache,
+  withRateLimit,
+} from "./middlewares";
 
-//response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 export const config = {
   matcher: [
     //"/((?!api|static|.*\\..*|_next).*)",
@@ -9,8 +15,15 @@ export const config = {
     // 2. /_next/static/ (static files)
     // 3. /_next/image/ (image optimization files)
     // 4. Any path that contains a dot (e.g., .png, .ico, .json, .svg)
-    "/((?!api|_next/static|_next/image|.*\\.[^/?]+$).*)",
+    //"/((?!api|_next/static|_next/image|.*\\.[^/?]+$).*)",
+    "/((?!api|static|.*\\..*|_next).*)",
   ],
 };
 
-export default stackMiddlewares([withAuth, withI18n]);
+export default chainMiddlewares([
+  withLogging,
+  withRateLimit,
+  withNoCache,
+  withAuth,
+  withI18n,
+]);

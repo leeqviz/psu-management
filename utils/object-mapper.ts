@@ -35,3 +35,29 @@ export const deleteUndefinedProperties = <
     Object.entries(obj).filter(([_, v]) => v !== undefined)
   );
 };
+
+export function formDataToTypedObject<
+  TEntity extends DynamicEntity = DynamicEntity
+>(formData: FormData): TEntity {
+  const object: DynamicEntity = {};
+
+  formData.forEach((value, key) => {
+    // numeric conversion check
+    const isNumber = !isNaN(Number(value)) && value !== "";
+    const parsedValue = isNumber ? Number(value) : value;
+
+    // Boolean conversion check (checkboxes usually send "on" or custom values, handle with care)
+    // const parsedValue = value === 'true' ? true : value === 'false' ? false : value;
+
+    if (object[key] !== undefined) {
+      if (!Array.isArray(object[key])) {
+        object[key] = [object[key]];
+      }
+      object[key].push(parsedValue);
+    } else {
+      object[key] = parsedValue;
+    }
+  });
+
+  return object as TEntity;
+}

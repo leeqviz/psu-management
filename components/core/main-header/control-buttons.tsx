@@ -6,18 +6,19 @@ import {
   SoundIconButton,
 } from "#components/core/icon-button";
 import { useLocalStorage } from "#hooks/window";
-import { userDataMock } from "#mocks/user";
 import {
   NOTIFICATIONS_ARE_ON_KEY,
   SOUNDS_ARE_ON_KEY,
 } from "@/constants/local-storage";
+import { RoutePathPart } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
-import { User } from "@/types/access-control";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 export function ControlButtons() {
   const [isPending, startTransition] = useTransition();
-  const { user, logIn, logOut } = useAuthStore((state) => state);
+  const router = useRouter();
+  const { user, logOut } = useAuthStore((state) => state);
 
   //local storage observing
   const [notificationValue, setNotificationValue] = useLocalStorage<boolean>(
@@ -35,10 +36,8 @@ export function ControlButtons() {
     });
   };
 
-  const handleLogin = (user: User) => {
-    startTransition(async () => {
-      await logIn(user);
-    });
+  const handleLogin = () => {
+    router.push(`/${RoutePathPart.Login}`);
   };
 
   return (
@@ -72,7 +71,7 @@ export function ControlButtons() {
             if (user) {
               handleLogout();
             } else {
-              handleLogin(userDataMock);
+              handleLogin();
             }
           }}
         />
