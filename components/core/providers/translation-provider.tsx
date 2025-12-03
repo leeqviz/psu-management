@@ -1,7 +1,7 @@
 "use client";
 
-import { i18nInstance } from "@/lib/i18n/instance/client";
-import { i18nConfig, initI18nInstance } from "@/lib/i18n/utils";
+import { i18nConfig, initI18nInstance } from "@/lib/i18n";
+import { i18nInstance } from "@/lib/i18n/client";
 import { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 

@@ -1,10 +1,14 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
+import { RoutePathPart } from "@/constants/routing";
+import { isProtectedPath } from "@/lib/auth";
+import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
 import { userDataMock, userTokenMock } from "@/mocks/user";
 import { User } from "@/types/access-control";
 import { revalidatePath } from "next/cache"; // or redirect
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function loginAction(user: User) {
   // Or just plain objects
@@ -32,15 +36,24 @@ export async function loginAction(user: User) {
   return { success: true, user: userDataMock };
 }
 
-export async function logoutAction() {
-  // 1. Destroy Cookie
+export async function logoutAction(currentPath?: string) {
+  // Destroy Cookie
   (await cookies()).delete(COOKIE_NAME.AuthToken);
 
-  // 2. Revalidate to clear cached user data from Server Components
-  revalidatePath("/");
+  if (!currentPath) return;
 
-  // 3. Redirect (optional, or handle in client)
-  // redirect('/login');
+  if (isProtectedPath(currentPath)) {
+    const locale = getLocaleFromPath(currentPath);
+    const forbiddenPath = addLocaleToPath(
+      `/${RoutePathPart.Forbidden}?callbackUrl=${encodeURIComponent(
+        currentPath
+      )}`,
+      locale
+    );
+    redirect(forbiddenPath);
+  } else {
+    revalidatePath(currentPath);
+  }
 }
 
 export async function meAction() {

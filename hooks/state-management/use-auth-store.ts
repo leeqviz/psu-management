@@ -10,5 +10,7 @@ export const useAuthStore = <T>(selector: (store: AuthStore) => T): T => {
     throw new Error("useAuthStore must be used within a UserStoreProvider");
   }
 
+  // Connect the store from context to React's rendering system
+  // zustand alternative for useSyncExternalStore
   return useStore(authStoreContext, selector);
 };

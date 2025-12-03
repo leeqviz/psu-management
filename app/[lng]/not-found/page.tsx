@@ -1,14 +1,15 @@
-import { getTranslation } from "@/lib/i18n/instance/server";
+import { getTranslation } from "@/lib/i18n/server";
 import Link from "next/link";
 
 // костыль, потому что дефолтный not found не находит параметры запроса
-export default async function _404_Page({
+export default async function NotFound({
   params,
 }: {
   params: Promise<{ lng: string }>;
 }) {
   // Get translations
-  const { t } = await getTranslation((await params).lng, "common");
+  const { lng } = await params;
+  const { t } = await getTranslation(lng, "common");
 
   return (
     <div

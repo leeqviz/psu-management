@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  /* logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  }, */
   /* webpack: (config) => {
     // This tells Webpack to treat this module as an empty object
     // when it tries to bundle it.

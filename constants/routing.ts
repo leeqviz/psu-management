@@ -28,12 +28,18 @@ export const RoutePathPart = {
   Register: "register",
   ResetPassword: "reset-password",
   ForgotPassword: "forgot-password",
+  NotFound: "not-found",
+  Unauthorized: "unauthorized",
+  Forbidden: "forbidden",
 } as const;
 
 export const PUBLIC_ROUTE_PATHS = [
   RoutePathPart.Home,
   RoutePathPart.Login,
   RoutePathPart.Register,
+  RoutePathPart.NotFound,
+  RoutePathPart.Forbidden,
+  RoutePathPart.Unauthorized,
   RoutePathPart.ResetPassword,
   RoutePathPart.ForgotPassword,
 ];

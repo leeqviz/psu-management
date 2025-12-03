@@ -1,17 +1,14 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
-import {
-  getLocaleFromPath,
-  i18nConfig,
-  removeLocaleFromPath,
-} from "@/lib/i18n/utils";
+import { addLocaleToPath, removeLocaleFromPath } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function switchLocaleAction(
   newLocale: string,
-  currentPath: string
+  currentPath: string,
+  currentSearchParams: string
 ) {
   const days = 30;
   const date = new Date();
@@ -27,20 +24,15 @@ export async function switchLocaleAction(
   });
 
   // 2. Calculate the new path
-  let newPath = currentPath;
 
   // A. Find if the current path already has a locale prefix
-  const currentLocale = getLocaleFromPath(currentPath);
-
   // B. Remove existing prefix if present
-  if (currentLocale) {
-    newPath = removeLocaleFromPath(currentPath, currentLocale);
-  }
+  const cleanPath = removeLocaleFromPath(currentPath);
 
   // C. If we are NOT switching to the default locale, add the new prefix
-  if (newLocale !== i18nConfig.defaultLocale) {
-    newPath = newPath === "/" ? `/${newLocale}` : `/${newLocale}${newPath}`;
-  }
+  let newPath = addLocaleToPath(cleanPath, newLocale);
+
+  if (currentSearchParams) newPath += `?${currentSearchParams}`;
 
   // 3. Redirect
   redirect(newPath); //refresh

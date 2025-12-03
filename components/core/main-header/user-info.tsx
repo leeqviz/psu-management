@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/auth/server";
 
 // This IS a Server Component
 export async function UserInfo() {

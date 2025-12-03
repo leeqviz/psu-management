@@ -1,6 +1,6 @@
 import { Providers } from "@/components/core/providers";
-import { getTranslation } from "@/lib/i18n/instance/server";
-import { getDirection, i18nConfig } from "@/lib/i18n/utils";
+import { getDirection, i18nConfig } from "@/lib/i18n";
+import { getTranslation } from "@/lib/i18n/server";
 import { Metadata } from "next";
 import { Geist } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
@@ -11,18 +11,20 @@ const geist = Geist({
 });
 
 // This tells Next.js to only generate pages for your supported languages
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ lng: string }[]> {
   return i18nConfig.locales.map((lng) => ({ lng }));
 }
 
+interface MetadataParams {
+  params: Promise<{ lng: string }>;
+}
 // This function runs on the server
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ lng: string }>;
-}): Promise<Metadata> {
+}: MetadataParams): Promise<Metadata> {
+  const { lng } = await params;
   // 1. Get translations
-  const { t } = await getTranslation((await params).lng, "common", {
+  const { t } = await getTranslation(lng, "common", {
     keyPrefix: "metadata",
   });
 
