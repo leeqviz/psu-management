@@ -1,3 +1,4 @@
+import { parsePath } from "@/utils/string-mapper";
 import { createInstance, i18n } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
@@ -62,7 +63,9 @@ export const getDirection = (locale: string) =>
  * @returns the locale (e.g. "en", "ru", undefined)
  */
 export function getLocaleFromPath(path: string): string | undefined {
-  const segments = path.split("/");
+  const { pathname } = parsePath(path);
+
+  const segments = pathname.split("/");
   const locale = segments[1];
 
   if (locale && i18nConfig.locales.includes(locale)) {
@@ -81,14 +84,17 @@ export function getLocaleFromPath(path: string): string | undefined {
  * @returns the path without the locale (e.g. "/about", "/", "/about")
  */
 export function removeLocaleFromPath(path: string): string {
-  const segments = path.split("/");
+  const { pathname, search } = parsePath(path);
+
+  const segments = pathname.split("/");
   const locale = segments[1];
 
   if (locale && i18nConfig.locales.includes(locale)) {
     // Remove locale
     segments.splice(1, 1);
     const newPath = segments.join("/");
-    return newPath === "" ? "/" : newPath; // Handle root path
+    const cleanPath = newPath === "" ? "/" : newPath; // Handle root path
+    return `${cleanPath}${search}`;
   }
 
   return path; // Locale not found in path
@@ -108,17 +114,21 @@ export function addLocaleToPath(
   path: string,
   locale: string = i18nConfig.defaultLocale
 ): string {
+  const { pathname, search } = parsePath(path);
+
   if (locale === i18nConfig.defaultLocale) {
     return path; // No prefix for default locale
   }
 
-  if (path === "/" || path === "") {
-    return `/${locale}`; // Add prefix for root path
+  if (pathname === "/" || pathname === "") {
+    return `/${locale}${search}`; // Add prefix for root path
   }
 
   // Add prefix for other paths
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `/${locale}${normalizedPath}`;
+  const normalizedPathname = pathname.startsWith("/")
+    ? pathname
+    : `/${pathname}`;
+  return `/${locale}${normalizedPathname}${search}`;
 }
 
 /**

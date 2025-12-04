@@ -1,16 +1,17 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
-import { RoutePathPart } from "@/constants/routing";
-import { isProtectedPath } from "@/lib/auth";
+import { routingManifest } from "@/constants/routing";
+import { isPrivatePath } from "@/lib/auth";
 import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
 import { userDataMock, userTokenMock } from "@/mocks/user";
 import { User } from "@/types/access-control";
+import { appendQueryParams } from "@/utils/string-mapper";
 import { revalidatePath } from "next/cache"; // or redirect
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function loginAction(user: User) {
+export async function loginAction(user: User, currentPath?: string) {
   // Or just plain objects
   // 1. Validate and Check DB
   // const user = await db.user.find(...)
@@ -23,14 +24,12 @@ export async function loginAction(user: User) {
     value: userTokenMock, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: "/",
+    path: routingManifest.public.home,
     maxAge: 60 * 60 * 24, // 1 day
   });
 
   // 3. Revalidate
-  // This tells the Client Router: "The data on the page changed, update Server Components now."
-  // This REPLACES your manual router.refresh()
-  revalidatePath("/");
+  if (currentPath) revalidatePath(currentPath);
 
   // 4. Return serializable data for Zustand
   return { success: true, user: userDataMock };
@@ -42,15 +41,17 @@ export async function logoutAction(currentPath?: string) {
 
   if (!currentPath) return;
 
-  if (isProtectedPath(currentPath)) {
+  // Redirect or revalidate if path is provided
+  if (isPrivatePath(currentPath)) {
     const locale = getLocaleFromPath(currentPath);
     const forbiddenPath = addLocaleToPath(
-      `/${RoutePathPart.Forbidden}?callbackUrl=${encodeURIComponent(
-        currentPath
-      )}`,
+      routingManifest.public.forbidden,
       locale
     );
-    redirect(forbiddenPath);
+    const pathToRedirect = appendQueryParams(forbiddenPath, {
+      callbackUrl: currentPath,
+    });
+    redirect(pathToRedirect);
   } else {
     revalidatePath(currentPath);
   }
@@ -71,7 +72,7 @@ export async function meAction() {
     value: userTokenMock, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: "/",
+    path: routingManifest.public.home,
     maxAge: 60 * 60 * 24, // 1 day
   });
 

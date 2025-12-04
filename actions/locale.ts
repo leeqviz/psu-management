@@ -1,14 +1,14 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
+import { routingManifest } from "@/constants/routing";
 import { addLocaleToPath, removeLocaleFromPath } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function switchLocaleAction(
   newLocale: string,
-  currentPath: string,
-  currentSearchParams: string
+  currentPath: string
 ) {
   const days = 30;
   const date = new Date();
@@ -17,23 +17,18 @@ export async function switchLocaleAction(
   // 2. Set the cookie securely on the server
   (await cookies()).set(COOKIE_NAME.Language, newLocale, {
     httpOnly: true,
-    path: "/",
+    path: routingManifest.public.home,
     secure: process.env.NODE_ENV === "production",
     // Set a long expiration (e.g., 30 days)
     expires: date,
   });
 
   // 2. Calculate the new path
-
   // A. Find if the current path already has a locale prefix
   // B. Remove existing prefix if present
   const cleanPath = removeLocaleFromPath(currentPath);
-
   // C. If we are NOT switching to the default locale, add the new prefix
-  let newPath = addLocaleToPath(cleanPath, newLocale);
-
-  if (currentSearchParams) newPath += `?${currentSearchParams}`;
-
+  const pathToRedirect = addLocaleToPath(cleanPath, newLocale);
   // 3. Redirect
-  redirect(newPath); //refresh
+  redirect(pathToRedirect); //refresh
 }

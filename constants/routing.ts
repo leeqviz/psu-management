@@ -33,36 +33,38 @@ export const RoutePathPart = {
   Forbidden: "forbidden",
 } as const;
 
-export const PUBLIC_ROUTE_PATHS = [
-  RoutePathPart.Home,
-  RoutePathPart.Login,
-  RoutePathPart.Register,
-  RoutePathPart.NotFound,
-  RoutePathPart.Forbidden,
-  RoutePathPart.Unauthorized,
-  RoutePathPart.ResetPassword,
-  RoutePathPart.ForgotPassword,
-];
+export const routingManifest = {
+  //public paths
+  public: {
+    home: "/",
+    login: `/${RoutePathPart.Login}`,
+    register: `/${RoutePathPart.Register}`,
+    resetPassword: `/${RoutePathPart.ResetPassword}`,
+    forgotPassword: `/${RoutePathPart.ForgotPassword}`,
+    notFound: `/${RoutePathPart.NotFound}`,
+    unauthorized: `/${RoutePathPart.Unauthorized}`,
+    forbidden: `/${RoutePathPart.Forbidden}`,
+  },
+  private: {
+    //test paths
+    users: `/${RoutePathPart.Users}`,
+    usersSlug: (slug: string) => `/${RoutePathPart.Users}/${slug}`,
+    todos: `/${RoutePathPart.Todos}`,
+    posts: `/${RoutePathPart.Posts}`,
+    postsSlug: (slug: string) => `/${RoutePathPart.Posts}/${slug}`,
+    settings: `/${RoutePathPart.Settings}`,
 
-export const PROTECTED_ROUTE_PATHS = [
-  RoutePathPart.Users,
-  RoutePathPart.Todos,
-  RoutePathPart.Settings,
-  RoutePathPart.Posts,
+    //protected paths
+    students: `/${RoutePathPart.Students}`,
+  },
+} as const;
 
-  RoutePathPart.Specialities,
-  RoutePathPart.Students,
-  RoutePathPart.PostgraduateStudents,
-  RoutePathPart.HalfYearAttestation,
-  RoutePathPart.FinalAttestation,
-  RoutePathPart.AnnualAttestation,
-  RoutePathPart.IndividualPlan,
-  RoutePathPart.Orders,
-  RoutePathPart.Handbooks,
-  RoutePathPart.Groups,
-  RoutePathPart.ForeignStudents,
-  RoutePathPart.Companies,
-  RoutePathPart.Graduation,
-  RoutePathPart.Admin,
-  RoutePathPart.Auditoriums,
-];
+export const PRIVATE_PATHS = Array.from(
+  Object.entries(routingManifest.private),
+  ([_, value]) => value
+).filter((e) => typeof e === "string");
+
+export const PUBLIC_PATHS = Array.from(
+  Object.entries(routingManifest.public),
+  ([_, value]) => value
+).filter((e) => typeof e === "string");

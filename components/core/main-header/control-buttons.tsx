@@ -10,7 +10,7 @@ import {
   NOTIFICATIONS_ARE_ON_KEY,
   SOUNDS_ARE_ON_KEY,
 } from "@/constants/local-storage";
-import { RoutePathPart } from "@/constants/routing";
+import { routingManifest } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
 import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -34,12 +34,11 @@ export function ControlButtons() {
   const handleLogout = () => {
     startTransition(async () => {
       await logOut(pathname);
-      //router.refresh();
     });
   };
 
   const handleLogin = () => {
-    router.push(`/${RoutePathPart.Login}`);
+    router.push(routingManifest.public.login);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { RoutePathPart } from "@/constants/routing";
+import { routingManifest } from "@/constants/routing";
 import { addLocaleToPath } from "@/lib/i18n";
 import { getCurrentLocale } from "@/lib/i18n/server";
 import { redirect } from "next/navigation";
@@ -14,6 +14,9 @@ export default async function RootNotFound() {
   // 3. Decide which language to use
   // 4. Redirect to the localized 404 page
   const langToUse = await getCurrentLocale();
-  const notFoundPath = addLocaleToPath(`/${RoutePathPart.NotFound}`, langToUse);
+  const notFoundPath = addLocaleToPath(
+    routingManifest.public.notFound,
+    langToUse
+  );
   redirect(notFoundPath);
 }

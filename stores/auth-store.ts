@@ -12,7 +12,7 @@ type AuthState = {
 type AuthActions = {
   hydrate: (user: User | null) => void;
   // Our login/logout actions will call API routes
-  logIn: (user: User) => Promise<void>;
+  logIn: (user: User, currentPath?: string) => Promise<void>;
   logOut: (currentPath?: string) => Promise<void>;
   // Sync and hydrate user data
   me: () => Promise<void>;
@@ -33,9 +33,9 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
 
     hydrate: (user: User | null) => set({ user, isHydrated: true }),
 
-    logIn: async (user: User) => {
+    logIn: async (user: User, currentPath?: string) => {
       set({ isLoading: true });
-      const result = await loginAction(user);
+      const result = await loginAction(user, currentPath);
       if (!result.success) {
         set({ error: result.error, isLoading: false });
       }
@@ -46,7 +46,7 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
       });
     },
 
-    logOut: async (currentPath) => {
+    logOut: async (currentPath?: string) => {
       set({ isLoading: true });
       await logoutAction(currentPath);
       set({ user: null, error: null, isLoading: false });

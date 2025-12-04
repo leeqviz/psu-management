@@ -1,10 +1,11 @@
 import { cn } from "#lib/utils";
+import { routingManifest } from "@/constants/routing";
 import { ConditionalLink } from "../conditional-link";
 
 export function MainLink() {
   return (
     <ConditionalLink
-      href={"/"}
+      href={routingManifest.public.home}
       className={cn(
         "flex flex-col text-center md:text-left break-words-anywhere",
         {

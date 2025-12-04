@@ -1,3 +1,4 @@
+import { routingManifest } from "@/constants/routing";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -10,7 +11,7 @@ export async function POST() {
     name: "session",
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: "/",
+    path: routingManifest.public.home,
     maxAge: 60 * 60 * 24, // 1 day
   });
 

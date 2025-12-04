@@ -1,24 +1,22 @@
 "use client";
 
 import { switchLocaleAction } from "@/actions/locale";
-import { useTranslation } from "@/hooks/routing";
+import { useFullPath, useTranslation } from "@/hooks/routing";
 import { i18nConfig } from "@/lib/i18n";
 import { SelectOption } from "@/types/select-option";
-import { usePathname, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 import { Select } from "./select";
 
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const pathname = useFullPath();
   const [isPending, startTransition] = useTransition();
 
   const handleChange = async (option: SelectOption<string> | null) => {
     if (!option) return;
     startTransition(async () => {
-      await switchLocaleAction(option.value, pathname, searchParams.toString());
+      await switchLocaleAction(option.value, pathname);
     });
   };
 

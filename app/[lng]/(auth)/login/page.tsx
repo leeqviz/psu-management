@@ -1,15 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { routingManifest } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
 import { userDataMock } from "@/mocks/user";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { logIn } = useAuthStore((state) => state);
   const router = useRouter();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl =
+    searchParams.get("callbackUrl") || routingManifest.public.home;
 
   const handleSubmit = async (formData: FormData) => {
     // You can append the callbackUrl to the formData if needed,
@@ -17,9 +20,8 @@ export default function LoginForm() {
 
     // Ideally, update your Server Action signature:
     //const userData = formDataToTypedObject<User>(formData);
-    await logIn(userDataMock);
+    await logIn(userDataMock, pathname);
     // Then redirect client-side if needed
-    console.log("Redirecting to:", callbackUrl);
     router.replace(callbackUrl);
   };
 

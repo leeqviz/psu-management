@@ -19,3 +19,33 @@ export const joinNonEmptyValues = (arr: unknown[], separator: string = " ") =>
 
 export const getBearerToken = (accessToken?: string | null) =>
   `Bearer ${accessToken?.replaceAll('"', "")}`;
+
+export function appendQueryParams(
+  path: string,
+  params?: {
+    [key: string]: string | string[] | number | boolean | undefined | null;
+  }
+): string {
+  if (!params) return path;
+
+  const searchParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+
+    if (Array.isArray(value)) {
+      // Handle arrays: ?tags=red&tags=blue
+      value.forEach((item) => searchParams.append(key, String(item)));
+    } else {
+      searchParams.append(key, String(value));
+    }
+  });
+
+  const queryString = searchParams.toString();
+  return queryString ? `${path}?${queryString}` : path;
+}
+
+export function parsePath(fullPath: string) {
+  const [pathname, search] = fullPath.split("?");
+  return { pathname, search: search ? `?${search}` : "" };
+}

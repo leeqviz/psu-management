@@ -1,3 +1,4 @@
+import { routingManifest } from "@/constants/routing";
 import { getTranslation } from "@/lib/i18n/server";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ export default async function NotFound({
     >
       <h1>{t("not_found_title")}</h1>
       <p>{t("not_found_message")}</p>
-      <Link href="/" className="hover:underline">
+      <Link href={routingManifest.public.home} className="hover:underline">
         Home
       </Link>
     </div>

@@ -1,6 +1,7 @@
-import { RoutePathPart } from "@/constants/routing";
+import { routingManifest } from "@/constants/routing";
 import { addLocaleToPath, getCanonicalPath } from "@/lib/i18n";
 import { getTranslation } from "@/lib/i18n/server";
+import { appendQueryParams } from "@/utils/string-mapper";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -12,7 +13,7 @@ export async function generateMetadata({
   params,
 }: MetadataParams): Promise<Metadata> {
   const { lng } = await params;
-  const path = `/${RoutePathPart.Forbidden}`;
+  const path = routingManifest.public.forbidden;
   const canonicalUrl = getCanonicalPath(path, lng);
   const enUrl = getCanonicalPath(path, "en");
   const ruUrl = getCanonicalPath(path, "ru");
@@ -44,14 +45,8 @@ export default async function Forbidden({
     keyPrefix: "forbidden_page",
   });
   const { callbackUrl } = await searchParams;
-  const loginHref = addLocaleToPath(
-    `/${RoutePathPart.Login}${
-      callbackUrl && typeof callbackUrl === "string"
-        ? `?callbackUrl=${encodeURIComponent(callbackUrl)}`
-        : ""
-    }`,
-    lng
-  );
+  const loginHref = addLocaleToPath(routingManifest.public.login, lng);
+  const finalHref = appendQueryParams(loginHref, { callbackUrl });
 
   return (
     <div
@@ -60,7 +55,7 @@ export default async function Forbidden({
     >
       <h1>{t("title")}</h1>
       <p>{t("message")}</p>
-      <Link href={loginHref} className="hover:underline">
+      <Link href={finalHref} className="hover:underline">
         {t("login_button")}
       </Link>
     </div>
