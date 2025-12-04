@@ -59,12 +59,12 @@ export const routingManifest = {
   },
 } as const;
 
-export const PRIVATE_PATHS = Array.from(
+export const PRIVATE_PATHS: string[] = Array.from(
   Object.entries(routingManifest.private),
   ([_, value]) => value
 ).filter((e) => typeof e === "string");
 
-export const PUBLIC_PATHS = Array.from(
+export const PUBLIC_PATHS: string[] = Array.from(
   Object.entries(routingManifest.public),
   ([_, value]) => value
 ).filter((e) => typeof e === "string");
