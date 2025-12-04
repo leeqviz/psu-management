@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { routingManifest } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
 import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
@@ -9,17 +8,17 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { logIn } = useAuthStore((state) => state);
+  const { register } = useAuthStore((state) => state);
   const router = useRouter();
   const callbackUrl =
     searchParams.get("callbackUrl") || routingManifest.public.home;
 
   const locale = getLocaleFromPath(pathname);
-  const registerPath = addLocaleToPath(routingManifest.public.register, locale);
-  const finalHref = appendQueryParams(registerPath, { callbackUrl });
+  const loginPath = addLocaleToPath(routingManifest.public.login, locale);
+  const finalHref = appendQueryParams(loginPath, { callbackUrl });
 
   const handleSubmit = async (prevState: unknown, formData: FormData) => {
     // You can append the callbackUrl to the formData if needed,
@@ -28,7 +27,7 @@ export default function LoginPage() {
     // Ideally, update your Server Action signature:
     //const userData = formDataToTypedObject<User>(formData);
     const data = Object.fromEntries(formData);
-    const result = await logIn(data, pathname);
+    const result = await register(data, pathname);
     if (!result.success) return result;
 
     console.log("Redirecting to:", callbackUrl);
@@ -39,13 +38,19 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
-      {/* ... inputs ... */}
-      <h1 className="text-2xl font-bold mb-4">Log In</h1>
+      <h1 className="text-2xl font-bold mb-4">Register</h1>
 
       {/* Global Error Message */}
       {state?.error && <p className="text-red-500 mb-4">{state.error}</p>}
 
       <form action={action} className="flex flex-col gap-4">
+        {/* FIO */}
+        <div>
+          <label className="block text-sm font-medium">FIO</label>
+          <input name="fio" className="w-full border p-2 rounded" required />
+          {/* state?.error?.name && <p className="text-red-500 text-sm">{state.error.name[0]}</p> */}
+        </div>
+
         {/* Email */}
         <div>
           <label className="block text-sm font-medium">Email</label>
@@ -55,9 +60,7 @@ export default function LoginPage() {
             className="w-full border p-2 rounded"
             required
           />
-          {/* state?.error?.email && (
-            <p className="text-red-500 text-sm">{state.error.email[0]}</p>
-          ) */}
+          {/* state?.error?.email && <p className="text-red-500 text-sm">{state.error.email[0]}</p> */}
         </div>
 
         {/* Password */}
@@ -69,19 +72,16 @@ export default function LoginPage() {
             className="w-full border p-2 rounded"
             required
           />
-          {/* state?.error?.password && (
-            <p className="text-red-500 text-sm">{state.error.password[0]}</p>
-          ) */}
+          {/* state?.error?.password && <p className="text-red-500 text-sm">{state.error.password[0]}</p> */}
         </div>
 
-        {/* Submit */}
-        <Button
+        <button
           type="submit"
           disabled={isPending}
-          className="bg-blue-600 text-white py-2 rounded disabled:opacity-50"
+          className="bg-green-600 text-white py-2 rounded disabled:opacity-50"
         >
-          {isPending ? "Logging in..." : "Log In"}
-        </Button>
+          {isPending ? "Creating Account..." : "Sign Up"}
+        </button>
       </form>
 
       <div className="mt-4 text-center">
@@ -89,7 +89,7 @@ export default function LoginPage() {
           href={finalHref}
           className="text-blue-500 text-sm hover:underline"
         >
-          {`Don't have an account? Register`}
+          Already have an account? Log In
         </Link>
       </div>
     </div>

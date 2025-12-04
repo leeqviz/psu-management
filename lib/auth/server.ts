@@ -1,5 +1,5 @@
 import { COOKIE_NAME } from "@/constants/cookies";
-import { userDataMock } from "@/mocks/user";
+import { mockDb } from "@/mocks/in-memory-db";
 import { User } from "@/types/access-control";
 import { cookies } from "next/headers";
 import "server-only";
@@ -11,5 +11,8 @@ export async function getCurrentUser(): Promise<User | undefined> {
   // In a real app, you'd verify the token and fetch the user
   // const user = await verifyTokenAndGetUser(sessionCookie.value);
   // For this demo, we'll return a mock user if the cookie exists
-  return userDataMock;
+  const user = await mockDb.getUserById(token);
+  if (!user) return;
+
+  return user;
 }
