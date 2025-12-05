@@ -1,6 +1,6 @@
 "use client";
 
-import { routingManifest } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
 import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
 import { appendQueryParams } from "@/utils/string-mapper";
@@ -13,11 +13,10 @@ export default function RegisterPage() {
   const pathname = usePathname();
   const { register } = useAuthStore((state) => state);
   const router = useRouter();
-  const callbackUrl =
-    searchParams.get("callbackUrl") || routingManifest.public.home;
+  const callbackUrl = searchParams.get("callbackUrl") || APP_ROUTING.home.path;
 
   const locale = getLocaleFromPath(pathname);
-  const loginPath = addLocaleToPath(routingManifest.public.login, locale);
+  const loginPath = addLocaleToPath(APP_ROUTING.login.path, locale);
   const finalHref = appendQueryParams(loginPath, { callbackUrl });
 
   const handleSubmit = async (prevState: unknown, formData: FormData) => {

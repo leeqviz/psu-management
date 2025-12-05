@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { routingManifest } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
 import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
+import { mockDb } from "@/mocks/in-memory-db";
 import { appendQueryParams } from "@/utils/string-mapper";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -14,11 +15,10 @@ export default function LoginPage() {
   const pathname = usePathname();
   const { logIn } = useAuthStore((state) => state);
   const router = useRouter();
-  const callbackUrl =
-    searchParams.get("callbackUrl") || routingManifest.public.home;
+  const callbackUrl = searchParams.get("callbackUrl") || APP_ROUTING.home.path;
 
   const locale = getLocaleFromPath(pathname);
-  const registerPath = addLocaleToPath(routingManifest.public.register, locale);
+  const registerPath = addLocaleToPath(APP_ROUTING.register.path, locale);
   const finalHref = appendQueryParams(registerPath, { callbackUrl });
 
   const handleSubmit = async (prevState: unknown, formData: FormData) => {
@@ -34,6 +34,7 @@ export default function LoginPage() {
     console.log("Redirecting to:", callbackUrl);
     router.replace(callbackUrl);
   };
+  console.log(mockDb);
 
   const [state, action, isPending] = useActionState(handleSubmit, null);
 

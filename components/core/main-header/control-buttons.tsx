@@ -10,7 +10,7 @@ import {
   NOTIFICATIONS_ARE_ON_KEY,
   SOUNDS_ARE_ON_KEY,
 } from "@/constants/local-storage";
-import { routingManifest } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
 import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -38,7 +38,7 @@ export function ControlButtons() {
   };
 
   const handleLogin = () => {
-    router.push(routingManifest.public.login);
+    router.push(APP_ROUTING.login.path);
   };
 
   return (

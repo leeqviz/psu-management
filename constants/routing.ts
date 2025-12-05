@@ -1,70 +1,105 @@
-export const RoutePathPart = {
+import { RouteConfig } from "@/types/routing";
+
+const pathPart = {
   //protected routes
-  Specialities: "specialities",
-  Students: "students",
-  PostgraduateStudents: "postgraduate-students",
-  HalfYearAttestation: "half-year-attestation",
-  FinalAttestation: "final-attestation",
-  AnnualAttestation: "annual-attestation",
-  IndividualPlan: "individual-plan",
-  Orders: "orders",
-  Handbooks: "handbooks",
-  Groups: "groups",
-  ForeignStudents: "foreign-students",
-  Companies: "companies",
-  Graduation: "graduation",
-  Admin: "admin",
-  Auditoriums: "auditoriums",
+  specialities: "specialities",
+  students: "students",
+  postgraduateStudents: "postgraduate-students",
+  halfYearAttestation: "half-year-attestation",
+  finalAttestation: "final-attestation",
+  annualAttestation: "annual-attestation",
+  individualPlan: "individual-plan",
+  orders: "orders",
+  handbooks: "handbooks",
+  groups: "groups",
+  foreignStudents: "foreign-students",
+  companies: "companies",
+  graduation: "graduation",
+  admin: "admin",
+  auditoriums: "auditoriums",
 
   //test routes
-  Users: "users",
-  Todos: "todos",
-  Posts: "posts",
-  Settings: "settings",
+  users: "users",
+  todos: "todos",
+  posts: "posts",
 
   //public routes
-  Home: "",
-  Login: "login",
-  Register: "register",
-  ResetPassword: "reset-password",
-  ForgotPassword: "forgot-password",
-  NotFound: "not-found",
-  Unauthorized: "unauthorized",
-  Forbidden: "forbidden",
+  home: "",
+  login: "login",
+  register: "register",
+  notFound: "not-found",
+  unauthorized: "unauthorized",
+  forbidden: "forbidden",
 } as const;
 
-export const routingManifest = {
-  //public paths
-  public: {
-    home: "/",
-    login: `/${RoutePathPart.Login}`,
-    register: `/${RoutePathPart.Register}`,
-    resetPassword: `/${RoutePathPart.ResetPassword}`,
-    forgotPassword: `/${RoutePathPart.ForgotPassword}`,
-    notFound: `/${RoutePathPart.NotFound}`,
-    unauthorized: `/${RoutePathPart.Unauthorized}`,
-    forbidden: `/${RoutePathPart.Forbidden}`,
+/**
+ * App routes without locale
+ */
+export const APP_ROUTING = {
+  home: {
+    path: `/${pathPart.home}`,
   },
-  private: {
-    //test paths
-    users: `/${RoutePathPart.Users}`,
-    usersSlug: (slug: string) => `/${RoutePathPart.Users}/${slug}`,
-    todos: `/${RoutePathPart.Todos}`,
-    posts: `/${RoutePathPart.Posts}`,
-    postsSlug: (slug: string) => `/${RoutePathPart.Posts}/${slug}`,
-    settings: `/${RoutePathPart.Settings}`,
-
-    //protected paths
-    students: `/${RoutePathPart.Students}`,
+  login: {
+    path: `/${pathPart.login}`,
   },
-} as const;
+  register: {
+    path: `/${pathPart.register}`,
+  },
+  notFound: {
+    path: `/${pathPart.notFound}`,
+  },
+  unauthorized: {
+    path: `/${pathPart.unauthorized}`,
+  },
+  forbidden: {
+    path: `/${pathPart.forbidden}`,
+  },
 
-export const PRIVATE_PATHS: string[] = Array.from(
-  Object.entries(routingManifest.private),
-  ([_, value]) => value
-).filter((e) => typeof e === "string");
+  // protected routes
+  students: {
+    path: `/${pathPart.students}`,
+    private: true,
+  },
+  students_slug: {
+    path: `/${pathPart.students}/[id]`,
+    build: (id) => `/${pathPart.students}/${id}`,
+    private: true,
+  },
 
-export const PUBLIC_PATHS: string[] = Array.from(
-  Object.entries(routingManifest.public),
-  ([_, value]) => value
-).filter((e) => typeof e === "string");
+  // test
+  users: {
+    path: `/${pathPart.users}`,
+    private: true,
+  },
+  users_slug: {
+    path: `/${pathPart.users}/[id]`,
+    build: (id) => `/${pathPart.users}/${id}`,
+    private: true,
+  },
+  todos: {
+    path: `/${pathPart.todos}`,
+    private: true,
+  },
+  todos_slug: {
+    path: `/${pathPart.todos}/[id]`,
+    build: (id) => `/${pathPart.todos}/${id}`,
+    private: true,
+  },
+  posts: {
+    path: `/${pathPart.posts}`,
+    private: true,
+  },
+  posts_slug: {
+    path: `/${pathPart.posts}/[id]`,
+    build: (id) => `/${pathPart.posts}/${id}`,
+    private: true,
+  },
+} as const satisfies Record<string, RouteConfig>;
+
+export const ALL_ROUTES: RouteConfig[] = Object.values(APP_ROUTING);
+export const PRIVATE_ROUTES = ALL_ROUTES.filter((e) => e.private);
+export const PUBLIC_ROUTES = ALL_ROUTES.filter((e) => !e.private);
+export const HIDDEN_ROUTES = ALL_ROUTES.filter((e) => e.hidden);
+export const AVAILABLE_ROUTES = ALL_ROUTES.filter((e) => !e.hidden);
+export const DYNAMIC_ROUTES = ALL_ROUTES.filter((e) => e.build);
+export const STATIC_ROUTES = ALL_ROUTES.filter((e) => !e.build);

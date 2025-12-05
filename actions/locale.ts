@@ -1,7 +1,7 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
-import { routingManifest } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { addLocaleToPath, removeLocaleFromPath } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -17,7 +17,7 @@ export async function switchLocaleAction(
   // 2. Set the cookie securely on the server
   (await cookies()).set(COOKIE_NAME.Language, newLocale, {
     httpOnly: true,
-    path: routingManifest.public.home,
+    path: APP_ROUTING.home.path,
     secure: process.env.NODE_ENV === "production",
     // Set a long expiration (e.g., 30 days)
     expires: date,

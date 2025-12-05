@@ -1,6 +1,6 @@
 "use server";
 import { CookieName } from "#types/cookies";
-import { routingManifest } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { cookies } from "next/headers";
 
 /**
@@ -25,7 +25,7 @@ export async function setCookie(
     httpOnly,
     secure,
     maxAge, // 1 day by default
-    path: routingManifest.public.home, // Make it available site-wide
+    path: APP_ROUTING.home.path, // Make it available site-wide
     expires: options.expires,
   });
 }
@@ -40,6 +40,6 @@ export async function deleteCookie(name: CookieName) {
   //(await cookies()).delete(name);
   (await cookies()).set(name, "", {
     maxAge: 0,
-    path: routingManifest.public.home,
+    path: APP_ROUTING.home.path,
   });
 }

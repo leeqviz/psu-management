@@ -1,15 +1,14 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
-import { routingManifest } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { isPrivatePath } from "@/lib/auth";
 import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
 import { loginSchema, registerSchema } from "@/lib/zod";
 import { mockDb } from "@/mocks/in-memory-db";
-import { userTokenMock } from "@/mocks/user";
 import { User } from "@/types/access-control";
 import { appendQueryParams } from "@/utils/string-mapper";
-import { revalidatePath } from "next/cache"; // or redirect
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -27,16 +26,16 @@ export async function registerAction(data: User, currentPath?: string) {
   }
 
   const user = await mockDb.createUser({ login, password, fio });
-  if (!user) {
+  if (!user || !user.id) {
     return { success: false, error: "Failed to create user" };
   }
 
   (await cookies()).set({
     name: COOKIE_NAME.AuthToken,
-    value: user.id ?? userTokenMock, // Store the token, not the full user object
+    value: user.id, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: routingManifest.public.home,
+    path: APP_ROUTING.home.path,
     maxAge: 60 * 60 * 24, // 1 day
   });
   if (currentPath) revalidatePath(currentPath);
@@ -52,17 +51,17 @@ export async function loginAction(data: User, currentPath?: string) {
 
   const { login, password } = parsed.data;
   const user = await mockDb.getUserByCredentials({ login, password });
-  if (!user) {
+  if (!user || !user.id) {
     return { success: false, error: "User not found" };
   }
 
   // 2. Set Cookie (Easy!)
   (await cookies()).set({
     name: COOKIE_NAME.AuthToken,
-    value: user.id ?? userTokenMock, // Store the token, not the full user object
+    value: user.id, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: routingManifest.public.home,
+    path: APP_ROUTING.home.path,
     maxAge: 60 * 60 * 24, // 1 day
   });
 
@@ -84,10 +83,7 @@ export async function logoutAction(currentPath?: string) {
   // Redirect or revalidate if path is provided
   if (isPrivatePath(currentPath)) {
     const locale = getLocaleFromPath(currentPath);
-    const forbiddenPath = addLocaleToPath(
-      routingManifest.public.forbidden,
-      locale
-    );
+    const forbiddenPath = addLocaleToPath(APP_ROUTING.forbidden.path, locale);
     const pathToRedirect = appendQueryParams(forbiddenPath, {
       callbackUrl: currentPath,
     });
@@ -107,16 +103,16 @@ export async function meAction() {
   // Verify token and fetch user from DB...
   // const user = await verify(token);
   const user = await mockDb.getUserById(token);
-  if (!user) {
+  if (!user || !user.id) {
     return { success: false, error: "User not found" };
   }
 
   (await cookies()).set({
     name: COOKIE_NAME.AuthToken,
-    value: user.id ?? userTokenMock, // Store the token, not the full user object
+    value: user.id, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: routingManifest.public.home,
+    path: APP_ROUTING.home.path,
     maxAge: 60 * 60 * 24, // 1 day
   });
 

@@ -14,5 +14,7 @@ export async function getCurrentUser(): Promise<User | undefined> {
   const user = await mockDb.getUserById(token);
   if (!user) return;
 
+  // TODO set cookies
+
   return user;
 }

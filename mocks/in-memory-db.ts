@@ -1,12 +1,13 @@
 // Define the shape of your User
 
 import { User } from "@/types/access-control";
+import { userDataMock } from "./user";
 
 // Global container to persist data during development hot-reloads
-const globalForMock = global as unknown as { mockUsers: User[] };
+//const globalForMock = global as unknown as { mockUsers: User[] };
 
 export const mockDb = {
-  users: globalForMock.mockUsers || [],
+  users: [userDataMock],
 
   getUserById: async (id: string): Promise<User | undefined> => {
     // Simulate DB delay
@@ -37,5 +38,5 @@ export const mockDb = {
 };
 
 // Save to global scope
-if (process.env.NODE_ENV !== "production")
-  globalForMock.mockUsers = mockDb.users;
+//if (process.env.NODE_ENV !== "production")
+//globalForMock.mockUsers = mockDb.users;

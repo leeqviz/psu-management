@@ -1,5 +1,5 @@
 import { COOKIE_NAME } from "@/constants/cookies";
-import { routingManifest } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { isPrivatePath } from "@/lib/auth";
 import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
 import { appendQueryParams } from "@/utils/string-mapper";
@@ -20,7 +20,7 @@ export function withAuth(next: NextMiddleware): NextMiddleware {
       // 2. Check Token
       if (!token) {
         const forbiddenPath = addLocaleToPath(
-          routingManifest.public.forbidden,
+          APP_ROUTING.forbidden.path,
           locale
         );
         const pathToRedirect = appendQueryParams(forbiddenPath, {
@@ -31,10 +31,10 @@ export function withAuth(next: NextMiddleware): NextMiddleware {
       }
     } else {
       if (token) {
-        const loginPath = addLocaleToPath(routingManifest.public.login, locale);
+        const loginPath = addLocaleToPath(APP_ROUTING.login.path, locale);
         if (pathname.startsWith(loginPath)) {
           // If logged in user tries to access login page, redirect to home
-          const url = new URL(routingManifest.public.home, request.url);
+          const url = new URL(APP_ROUTING.home.path, request.url);
           return NextResponse.redirect(url);
         }
       }
