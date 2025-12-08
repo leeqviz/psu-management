@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routes.flatMap((route) => {
     return locales.map((locale) => {
       // Ensure we generate "/about" for en, and "/fr/about" for fr
-      const path = getCanonicalPath(route.path, locale);
+      const path = getCanonicalPath(route.build(), locale);
 
       return {
         url: `${baseUrl}${path}`,

@@ -7,7 +7,7 @@ import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
 import { loginSchema, registerSchema } from "@/lib/zod";
 import { mockDb } from "@/mocks/in-memory-db";
 import { User } from "@/types/access-control";
-import { appendQueryParams } from "@/utils/string-mapper";
+import { addSearchParams } from "@/utils/string-mapper";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -35,7 +35,7 @@ export async function registerAction(data: User, currentPath?: string) {
     value: user.id, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: APP_ROUTING.home.path,
+    path: APP_ROUTING.home.build(),
     maxAge: 60 * 60 * 24, // 1 day
   });
   if (currentPath) revalidatePath(currentPath);
@@ -61,7 +61,7 @@ export async function loginAction(data: User, currentPath?: string) {
     value: user.id, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: APP_ROUTING.home.path,
+    path: APP_ROUTING.home.build(),
     maxAge: 60 * 60 * 24, // 1 day
   });
 
@@ -83,8 +83,11 @@ export async function logoutAction(currentPath?: string) {
   // Redirect or revalidate if path is provided
   if (isPrivatePath(currentPath)) {
     const locale = getLocaleFromPath(currentPath);
-    const forbiddenPath = addLocaleToPath(APP_ROUTING.forbidden.path, locale);
-    const pathToRedirect = appendQueryParams(forbiddenPath, {
+    const forbiddenPath = addLocaleToPath(
+      APP_ROUTING.forbidden.build(),
+      locale
+    );
+    const pathToRedirect = addSearchParams(forbiddenPath, {
       callbackUrl: currentPath,
     });
     redirect(pathToRedirect);
@@ -112,7 +115,7 @@ export async function meAction() {
     value: user.id, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: APP_ROUTING.home.path,
+    path: APP_ROUTING.home.build(),
     maxAge: 60 * 60 * 24, // 1 day
   });
 

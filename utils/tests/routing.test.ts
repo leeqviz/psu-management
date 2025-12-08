@@ -7,7 +7,7 @@ import { matchRoute, matchRouteWithParams } from "../routing";
 // 2. Mock the configuration module
 // This intercepts the import inside routeMatcher.ts
 jest.mock("@/constants/routing", () => ({
-  ALL_ROUTES: Object.values(appRoutingMock),
+  APP_ROUTING: appRoutingMock,
 }));
 
 describe("Route Matcher Utility", () => {

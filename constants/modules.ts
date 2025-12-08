@@ -64,7 +64,7 @@ export const STUDENT_PAGE: ApplicationPage = {
 export const SECRETARY_MODULE: ApplicationModule = {
   name: ApplicationModuleName.Students,
   svgIcon: studentsIcon,
-  link: APP_ROUTING.students.path,
+  link: APP_ROUTING.students.build(),
   tags: [
     "Контингент студентов",
     "Заказ платных услуг",

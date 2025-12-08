@@ -5,7 +5,7 @@ import { ConditionalLink } from "../conditional-link";
 export function MainLink() {
   return (
     <ConditionalLink
-      href={APP_ROUTING.home.path}
+      href={APP_ROUTING.home.build()}
       className={cn(
         "flex flex-col text-center md:text-left break-words-anywhere",
         {

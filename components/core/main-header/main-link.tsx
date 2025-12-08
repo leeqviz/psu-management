@@ -12,7 +12,7 @@ export function MainLink() {
 
   return (
     <ConditionalLink
-      href={APP_ROUTING.home.path}
+      href={APP_ROUTING.home.build()}
       onClick={() => {
         tap2Audio.reset();
         tap2Audio.play();

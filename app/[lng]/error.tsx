@@ -36,7 +36,7 @@ export default function Error({
       >
         {t("error.retry", "Try again")}
       </Button>
-      <Link href={APP_ROUTING.home.path}>Or go home</Link>
+      <Link href={APP_ROUTING.home.build()}>Or go home</Link>
     </div>
   );
 }

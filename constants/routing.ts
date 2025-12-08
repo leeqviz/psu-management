@@ -1,4 +1,6 @@
 import { RouteConfig } from "@/types/routing";
+import { createRoute } from "@/utils/routing";
+import z from "zod";
 
 const pathPart = {
   //protected routes
@@ -36,70 +38,83 @@ const pathPart = {
  * App routes without locale
  */
 export const APP_ROUTING = {
-  home: {
+  home: createRoute({
     path: `/${pathPart.home}`,
-  },
-  login: {
+  }),
+  login: createRoute({
     path: `/${pathPart.login}`,
-  },
-  register: {
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  register: createRoute({
     path: `/${pathPart.register}`,
-  },
-  notFound: {
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  notFound: createRoute({
     path: `/${pathPart.notFound}`,
-  },
-  unauthorized: {
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  unauthorized: createRoute({
     path: `/${pathPart.unauthorized}`,
-  },
-  forbidden: {
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  forbidden: createRoute({
     path: `/${pathPart.forbidden}`,
-  },
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
 
   // protected routes
-  students: {
+  students: createRoute({
     path: `/${pathPart.students}`,
-    private: true,
-  },
-  students_slug: {
+    isPrivate: true,
+  }),
+  students_slug: createRoute({
     path: `/${pathPart.students}/[id]`,
-    build: (id) => `/${pathPart.students}/${id}`,
-    private: true,
-  },
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
 
   // test
-  users: {
+  users: createRoute({
     path: `/${pathPart.users}`,
-    private: true,
-  },
-  users_slug: {
+    isPrivate: true,
+  }),
+  users_slug: createRoute({
     path: `/${pathPart.users}/[id]`,
-    build: (id) => `/${pathPart.users}/${id}`,
-    private: true,
-  },
-  todos: {
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
+  todos: createRoute({
     path: `/${pathPart.todos}`,
-    private: true,
-  },
-  todos_slug: {
+    isPrivate: true,
+  }),
+  todos_slug: createRoute({
     path: `/${pathPart.todos}/[id]`,
-    build: (id) => `/${pathPart.todos}/${id}`,
-    private: true,
-  },
-  posts: {
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
+  posts: createRoute({
     path: `/${pathPart.posts}`,
-    private: true,
-  },
-  posts_slug: {
+    isPrivate: true,
+  }),
+  posts_slug: createRoute({
     path: `/${pathPart.posts}/[id]`,
-    build: (id) => `/${pathPart.posts}/${id}`,
-    private: true,
-  },
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
 } as const satisfies Record<string, RouteConfig>;
 
 export const ALL_ROUTES: RouteConfig[] = Object.values(APP_ROUTING);
-export const PRIVATE_ROUTES = ALL_ROUTES.filter((e) => e.private);
-export const PUBLIC_ROUTES = ALL_ROUTES.filter((e) => !e.private);
-export const HIDDEN_ROUTES = ALL_ROUTES.filter((e) => e.hidden);
-export const AVAILABLE_ROUTES = ALL_ROUTES.filter((e) => !e.hidden);
-export const DYNAMIC_ROUTES = ALL_ROUTES.filter((e) => e.build);
-export const STATIC_ROUTES = ALL_ROUTES.filter((e) => !e.build);
+export const PRIVATE_ROUTES = ALL_ROUTES.filter((e) => e.isPrivate);
+export const PUBLIC_ROUTES = ALL_ROUTES.filter((e) => !e.isPrivate);
+export const HIDDEN_ROUTES = ALL_ROUTES.filter((e) => e.isHidden);
+export const AVAILABLE_ROUTES = ALL_ROUTES.filter((e) => !e.isHidden);

@@ -1,7 +1,10 @@
 import { APPLICATION_ROLES } from "@/constants/access-control";
-import { User } from "@/types/access-control";
+import { RoleName, User } from "@/types/access-control";
 
-export const userHasRoles = (user?: User | null, roleNames?: string[] | null) =>
+export const userHasRoles = (
+  user?: User | null,
+  roleNames?: RoleName[] | null
+) =>
   !!roleNames?.some((roleName) => roleName && user?.roles?.includes(roleName));
 
 export const roleIsReserved = (roleName?: string | null) =>

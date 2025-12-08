@@ -13,7 +13,7 @@ export const encrypt = <TData = unknown>(
       iv: iv,
     }).toString();
     return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encrypted));
-  } catch (_) {
+  } catch {
     return;
   }
 };
@@ -35,7 +35,7 @@ export const decrypt = <TResult = unknown>(
         CryptoJS.enc.Utf8
       )
     );
-  } catch (_) {
+  } catch {
     return;
   }
 };

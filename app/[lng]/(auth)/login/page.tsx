@@ -5,7 +5,7 @@ import { APP_ROUTING } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
 import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
 import { mockDb } from "@/mocks/in-memory-db";
-import { appendQueryParams } from "@/utils/string-mapper";
+import { addSearchParams } from "@/utils/string-mapper";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useActionState } from "react";
@@ -15,11 +15,12 @@ export default function LoginPage() {
   const pathname = usePathname();
   const { logIn } = useAuthStore((state) => state);
   const router = useRouter();
-  const callbackUrl = searchParams.get("callbackUrl") || APP_ROUTING.home.path;
+  const callbackUrl =
+    searchParams.get("callbackUrl") || APP_ROUTING.home.build();
 
   const locale = getLocaleFromPath(pathname);
-  const registerPath = addLocaleToPath(APP_ROUTING.register.path, locale);
-  const finalHref = appendQueryParams(registerPath, { callbackUrl });
+  const registerPath = addLocaleToPath(APP_ROUTING.register.build(), locale);
+  const finalHref = addSearchParams(registerPath, { callbackUrl });
 
   const handleSubmit = async (prevState: unknown, formData: FormData) => {
     // You can append the callbackUrl to the formData if needed,

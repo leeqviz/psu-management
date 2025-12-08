@@ -14,6 +14,6 @@ export default async function RootNotFound() {
   // 3. Decide which language to use
   // 4. Redirect to the localized 404 page
   const langToUse = await getCurrentLocale();
-  const notFoundPath = addLocaleToPath(APP_ROUTING.notFound.path, langToUse);
+  const notFoundPath = addLocaleToPath(APP_ROUTING.notFound.build(), langToUse);
   redirect(notFoundPath);
 }

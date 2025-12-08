@@ -38,7 +38,7 @@ export function ControlButtons() {
   };
 
   const handleLogin = () => {
-    router.push(APP_ROUTING.login.path);
+    router.push(APP_ROUTING.login.build());
   };
 
   return (

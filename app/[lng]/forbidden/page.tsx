@@ -1,7 +1,7 @@
 import { APP_ROUTING } from "@/constants/routing";
 import { addLocaleToPath, getCanonicalPath } from "@/lib/i18n";
 import { getTranslation } from "@/lib/i18n/server";
-import { appendQueryParams } from "@/utils/string-mapper";
+import { addSearchParams } from "@/utils/string-mapper";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -13,7 +13,7 @@ export async function generateMetadata({
   params,
 }: MetadataParams): Promise<Metadata> {
   const { lng } = await params;
-  const path = APP_ROUTING.forbidden.path;
+  const path = APP_ROUTING.forbidden.build();
   const canonicalUrl = getCanonicalPath(path, lng);
   const enUrl = getCanonicalPath(path, "en");
   const ruUrl = getCanonicalPath(path, "ru");
@@ -45,8 +45,8 @@ export default async function Forbidden({
     keyPrefix: "forbidden_page",
   });
   const { callbackUrl } = await searchParams;
-  const loginHref = addLocaleToPath(APP_ROUTING.login.path, lng);
-  const finalHref = appendQueryParams(loginHref, { callbackUrl });
+  const loginHref = addLocaleToPath(APP_ROUTING.login.build(), lng);
+  const finalHref = addSearchParams(loginHref, { callbackUrl });
 
   return (
     <div

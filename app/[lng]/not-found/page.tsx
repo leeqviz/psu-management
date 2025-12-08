@@ -19,7 +19,7 @@ export default async function NotFound({
     >
       <h1>{t("not_found_title")}</h1>
       <p>{t("not_found_message")}</p>
-      <Link href={APP_ROUTING.home.path} className="hover:underline">
+      <Link href={APP_ROUTING.home.build()} className="hover:underline">
         Home
       </Link>
     </div>

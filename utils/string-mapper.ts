@@ -1,5 +1,6 @@
 import { Faculty, FacultyAbbreviationRU } from "#constants/faculty";
 import { FacultyValuesAlias } from "#types/faculty";
+import { UrlSearchParams } from "@/types/routing";
 
 export const getFacultyAbbreviation = (faculty: string) =>
   FacultyAbbreviationRU[faculty as FacultyValuesAlias] ??
@@ -20,30 +21,28 @@ export const joinNonEmptyValues = (arr: unknown[], separator: string = " ") =>
 export const getBearerToken = (accessToken?: string | null) =>
   `Bearer ${accessToken?.replaceAll('"', "")}`;
 
-export function appendQueryParams(
+export function addSearchParams(
   path: string,
-  params?: {
-    [key: string]: string | string[] | number | boolean | undefined | null;
-  }
+  searchParams?: UrlSearchParams
 ): string {
-  if (!params) return path;
+  if (!searchParams) return path;
 
-  const searchParams = new URLSearchParams();
+  const urlSearchParams = new URLSearchParams();
 
-  Object.entries(params).forEach(([key, value]) => {
+  Object.entries(searchParams).forEach(([key, value]) => {
     if (value === undefined || value === null || value === "") return;
 
     if (Array.isArray(value)) {
       // Handle arrays: ?tags=red&tags=blue
-      value.forEach((item) => searchParams.append(key, String(item)));
+      value.forEach((item) => urlSearchParams.append(key, String(item)));
     } else if (typeof value === "object") {
-      searchParams.append(key, JSON.stringify(value));
+      urlSearchParams.set(key, JSON.stringify(value));
     } else {
-      searchParams.append(key, String(value));
+      urlSearchParams.set(key, String(value));
     }
   });
 
-  const queryString = searchParams.toString();
+  const queryString = urlSearchParams.toString();
   return queryString ? `${path}?${queryString}` : path;
 }
 

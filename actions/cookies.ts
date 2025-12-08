@@ -25,7 +25,7 @@ export async function setCookie(
     httpOnly,
     secure,
     maxAge, // 1 day by default
-    path: APP_ROUTING.home.path, // Make it available site-wide
+    path: APP_ROUTING.home.build(), // Make it available site-wide
     expires: options.expires,
   });
 }
@@ -40,6 +40,6 @@ export async function deleteCookie(name: CookieName) {
   //(await cookies()).delete(name);
   (await cookies()).set(name, "", {
     maxAge: 0,
-    path: APP_ROUTING.home.path,
+    path: APP_ROUTING.home.build(),
   });
 }

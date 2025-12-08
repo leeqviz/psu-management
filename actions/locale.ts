@@ -17,7 +17,7 @@ export async function switchLocaleAction(
   // 2. Set the cookie securely on the server
   (await cookies()).set(COOKIE_NAME.Language, newLocale, {
     httpOnly: true,
-    path: APP_ROUTING.home.path,
+    path: APP_ROUTING.home.build(),
     secure: process.env.NODE_ENV === "production",
     // Set a long expiration (e.g., 30 days)
     expires: date,
