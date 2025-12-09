@@ -4,7 +4,7 @@
  */
 export const COOKIE_NAME = {
   AuthToken: "session",
-  Language: "lang",
+  Language: "lang", //NEXT_LOCALE
   Theme: "theme",
   Sounds: "sounds",
   Notifications: "notifications",

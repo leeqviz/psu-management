@@ -1,21 +1,26 @@
-import NextTopLoader from "nextjs-toploader";
-import { Suspense } from "react";
+import { getCurrentUser } from "@/lib/auth/server";
+import { ApolloClientProvider } from "./apollo-client-provider";
 import { AuthStoreProvider } from "./auth-store-provider";
-import { PathnameListener } from "./pathname-listener";
+import { AuthStoreSynchronizer } from "./auth-store-synchronizer";
+import { TranslationProvider } from "./translation-provider";
 
-export const Providers = ({ children }: { children: React.ReactNode }) => {
+interface ProvidersProps {
+  children: React.ReactNode;
+  lng: string;
+}
+
+export async function Providers({ children, lng }: ProvidersProps) {
+  const user = await getCurrentUser();
   return (
-    <>
-      <NextTopLoader
-        color={"#0369a1"}
-        shadow={"0 0 10px #0369a1, 0 0 5px #0369a1"}
-      />
-      <AuthStoreProvider>
-        <Suspense>
-          <PathnameListener />
-        </Suspense>
-        {children}
-      </AuthStoreProvider>
-    </>
+    <ApolloClientProvider>
+      {/** for data retrieving */}
+      <TranslationProvider lng={lng}>
+        {/** for internationalization */}
+        <AuthStoreProvider initialUser={user}>
+          <AuthStoreSynchronizer />
+          {children}
+        </AuthStoreProvider>
+      </TranslationProvider>
+    </ApolloClientProvider>
   );
-};
+}

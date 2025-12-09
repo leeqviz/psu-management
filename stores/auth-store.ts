@@ -1,16 +1,31 @@
+import {
+  loginAction,
+  logoutAction,
+  meAction,
+  registerAction,
+} from "@/actions/auth";
 import { User } from "@/types/access-control";
 import { createStore } from "zustand";
 
 type AuthState = {
   user: User | null;
+  error: string | null;
+  isLoading: boolean;
   isHydrated: boolean;
 };
 
 type AuthActions = {
   hydrate: (user: User | null) => void;
+  register: (
+    user: User,
+    currentPath?: string
+  ) => Promise<{ success: boolean; user?: User; error?: string }>;
   // Our login/logout actions will call API routes
-  logIn: (user: User) => Promise<void>;
-  logOut: () => Promise<void>;
+  logIn: (
+    user: User,
+    currentPath?: string
+  ) => Promise<{ success: boolean; user?: User; error?: string }>;
+  logOut: (currentPath?: string) => Promise<void>;
   // Sync and hydrate user data
   me: () => Promise<void>;
 };
@@ -19,6 +34,8 @@ export type AuthStore = AuthState & AuthActions;
 
 const defaultState: AuthState = {
   user: null,
+  error: null,
+  isLoading: false,
   isHydrated: false,
 };
 
@@ -28,47 +45,56 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
 
     hydrate: (user: User | null) => set({ user, isHydrated: true }),
 
-    logIn: async (user: User) => {
-      try {
-        set({ isHydrated: false });
-        // Call our API route to set the secure cookie
-        const response = await fetch("/api/auth/login", {
-          method: "POST",
-          body: JSON.stringify(user),
-        });
-        const data = await response.json();
-        set({ user: data.user, isHydrated: true });
-      } catch (error) {
-        console.error("Login failed:", error);
+    register: async (user: User, currentPath?: string) => {
+      set({ isLoading: true });
+      const result = await registerAction(user, currentPath);
+      if (!result.success) {
+        set({ error: result.error, isLoading: false });
       }
+      set({
+        user: result.user,
+        error: null,
+        isLoading: false,
+      });
+      return result;
     },
 
-    logOut: async () => {
-      try {
-        set({ isHydrated: false });
-        // Call our API route to clear the cookie
-        await fetch("/api/auth/logout", { method: "POST" });
-        set({ user: null, isHydrated: true });
-      } catch (error) {
-        console.error("Logout failed:", error);
+    logIn: async (user: User, currentPath?: string) => {
+      set({ isLoading: true });
+      const result = await loginAction(user, currentPath);
+      if (!result.success) {
+        set({ error: result.error, isLoading: false });
       }
+      set({
+        user: result.user,
+        error: null,
+        isLoading: false,
+      });
+      return result;
+    },
+
+    logOut: async (currentPath?: string) => {
+      set({ isLoading: true });
+      await logoutAction(currentPath);
+      set({ user: null, error: null, isLoading: false });
     },
 
     me: async () => {
-      try {
-        set({ isHydrated: false });
-        // Call our API route to update the cookie
-        const response = await fetch("/api/auth/me", { method: "POST" });
-        const data = await response.json();
-        if (data && data.user) {
-          set({ user: data.user, isHydrated: true });
-        } else {
-          set({ user: null, isHydrated: true });
-        }
-      } catch (error) {
-        set({ user: null, isHydrated: true });
-        console.error("Me failed:", error);
+      set({ isLoading: true });
+      // Call our API route to update the cookie
+      const result = await meAction();
+      if (!result.success) {
+        set({
+          user: null,
+          error: result.error,
+          isLoading: false,
+        });
       }
+      set({
+        user: result.user,
+        error: null,
+        isLoading: false,
+      });
     },
   }));
 };

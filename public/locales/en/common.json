@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "title": {
+      "template": "Home | My Awesome Site",
+      "default": "My Awesome Site"
+    },
+    "description": "Welcome to my Next.js site, localized with i18next."
+  },
+  "welcome": "Welcome to our application!",
+  "change_language": "Change language",
+  "not_found_title": "Page Not Found",
+  "not_found_message": "Sorry, we couldn't find the page you were looking for.",
+  "forbidden_page": {
+    "title": "Access Denied",
+    "message": "You do not have permission to access this page.",
+    "login_button": "Log In"
+  }
+}

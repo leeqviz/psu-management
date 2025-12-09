@@ -1,8 +1,5 @@
-"use client";
-
 import hexIcon from "#assets/svg/filled-hex.svg";
-import { FacultyIconSrc } from "#constants/faculty";
-import { useFacultyAbbreviation } from "#hooks/routing";
+import { DEFAULT_COLOR, FacultyIconSrc } from "#constants/faculty";
 import { isNotNullable } from "#utils/validator";
 import Image from "next/image";
 import { CSSProperties, PropsWithChildren, ReactNode } from "react";
@@ -28,8 +25,6 @@ function Section({
   className = "",
   style,
 }: SectionProps) {
-  const facultyAbb = useFacultyAbbreviation();
-
   return (
     <section
       className={`relative w-full block bg-gray-50 shadow-lg rounded-xl overflow-hidden ring-1 ring-inset ring-gray-200 ${className}`}
@@ -46,7 +41,7 @@ function Section({
       )}
       {(!!title || !!subTitle) && (
         <div
-          className={`flex items-center gap-1.5 sm:gap-2 bg-gray-700 ring-2 shadow ring-${facultyAbb} ${
+          className={`flex items-center gap-1.5 sm:gap-2 bg-gray-700 ring-2 shadow ring-${DEFAULT_COLOR} ${
             hasLogo
               ? "py-1 px-4 xs:pl-2 xs:py-0 sm:pr-5 lg:pr-6"
               : "py-1 px-4 sm:py-3 sm:px-5 lg:py-5 lg:px-6"
@@ -64,7 +59,7 @@ function Section({
                   "absolute bg-center bg-contain bg-no-repeat top-1 left-1 md:top-2 md:left-2 w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
                 }
                 style={{
-                  backgroundImage: `url('${FacultyIconSrc[facultyAbb]}')`,
+                  backgroundImage: `url('${FacultyIconSrc[DEFAULT_COLOR]}')`,
                 }}
               ></div>
             </div>

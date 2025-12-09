@@ -1,21 +1,23 @@
 import { userDataMock, userTokenMock } from "#mocks/user";
+import { COOKIE_NAME } from "@/constants/cookies";
+import { APP_ROUTING } from "@/constants/routing";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST() {
   // In a real app, you'd verify username/password here
   // const { email, password } = await request.json();
   // const user = await loginUser(email, password);
   // Set the secure cookie
-  const user = (await cookies()).get("session");
+  const user = (await cookies()).get(COOKIE_NAME.AuthToken);
   if (!user?.value) return NextResponse.json({ user: null });
 
   (await cookies()).set({
-    name: "session",
+    name: COOKIE_NAME.AuthToken,
     value: userTokenMock, // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
-    path: "/",
+    path: APP_ROUTING.home.build(),
     maxAge: 60 * 60 * 24, // 1 day
   });
 

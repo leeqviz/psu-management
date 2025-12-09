@@ -1,9 +1,9 @@
-import { getAuthUser } from "#utils/cookies";
+import { getCurrentUser } from "@/lib/auth/server";
 
 // This IS a Server Component
 export async function UserInfo() {
-  // 1. We read the cookie on the server before any render.
-  const user = await getAuthUser();
+  // 1. We read the cookie on the server before render.
+  const user = await getCurrentUser();
 
   return user ? (
     <div

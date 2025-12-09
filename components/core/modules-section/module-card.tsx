@@ -3,7 +3,7 @@ import { Card } from "#components/core/card";
 import { Chip } from "#components/core/chip";
 import { Picture } from "#components/core/picture";
 import { ComponentColor } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { useAccessControl } from "@/hooks/access-control";
 import { ApplicationModule } from "@/types/access-control";
 
@@ -13,7 +13,6 @@ interface ModuleCardProps {
 
 export const ModuleCard = ({ appModule }: ModuleCardProps) => {
   const hasRoles = useAccessControl();
-  const facultyAbb = useFacultyAbbreviation();
 
   return hasRoles(appModule.roles) ? (
     <Card
@@ -38,8 +37,8 @@ export const ModuleCard = ({ appModule }: ModuleCardProps) => {
         <div
           className={"flex flex-col rounded-lg grow py-1"}
           style={{
-            boxShadow: `inset 0 0 0 1px color-mix(in srgb, var(--${facultyAbb}) 10%, transparent)`,
-            background: `color-mix(in srgb, var(--${facultyAbb}) 5%, transparent)`,
+            boxShadow: `inset 0 0 0 1px color-mix(in srgb, var(--${DEFAULT_COLOR}) 10%, transparent)`,
+            background: `color-mix(in srgb, var(--${DEFAULT_COLOR}) 5%, transparent)`,
           }}
         >
           {appModule.tags.map((tag, index) => (

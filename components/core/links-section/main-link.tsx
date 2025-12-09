@@ -2,18 +2,18 @@
 
 import logo from "#assets/svg/filled-logo.svg";
 import { Picture } from "#components/core/picture";
-import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
+import Link from "next/link";
 
 export function MainLink() {
-  const facultyAbb = useFacultyAbbreviation();
   const [flag] = useLocalStorage<boolean>(SOUNDS_ARE_ON_KEY, false);
   const tap2Audio = useAudio(flag ? "/sounds/tap2.mp3" : undefined);
 
   return (
-    <a
-      className={`hover:bg-${facultyAbb} ring-2 shadow ring-${facultyAbb} duration-200 bg-gray-700 flex items-center justify-center w-8 sm:w-10 lg:w-12`}
+    <Link
+      className={`hover:bg-${DEFAULT_COLOR} ring-2 shadow ring-${DEFAULT_COLOR} duration-200 bg-gray-700 flex items-center justify-center w-8 sm:w-10 lg:w-12`}
       href="https://www.psu.by/ru/"
       target="_blank"
       rel="noreferrer"
@@ -28,6 +28,6 @@ export function MainLink() {
           {"psu.by"}
         </span>
       </div>
-    </a>
+    </Link>
   );
 }

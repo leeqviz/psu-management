@@ -1,9 +1,9 @@
 "use client";
 
 import { AbsoluteTooltip } from "#components/core/tooltip";
-import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import { isNotNullable } from "#utils/validator";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
 import { CSSProperties, MouseEvent, ReactNode, useState } from "react";
 
@@ -30,8 +30,6 @@ function IconButton({
   style,
   renderSvg,
 }: IconButtonProps) {
-  const facultyAbb = useFacultyAbbreviation();
-
   const [showText, setShowText] = useState(false);
 
   const [flag] = useLocalStorage<boolean>(SOUNDS_ARE_ON_KEY, false);
@@ -45,7 +43,7 @@ function IconButton({
       <button
         type="button"
         disabled={isDisabled ?? undefined}
-        className={`p-0.5 group growing-inline-underline-group flex items-center rounded-lg gap-0.5 sm:gap-1 lg:gap-1.5 duration-200 text-${facultyAbb} ${
+        className={`p-0.5 group growing-inline-underline-group flex items-center rounded-lg gap-0.5 sm:gap-1 lg:gap-1.5 duration-200 text-${DEFAULT_COLOR} ${
           isReversed ? "flex-row-reverse" : "flex-row"
         } ${!isDisabled ? "cursor-pointer bg-current-opacity" : ""}`}
         onClick={(e) => {
@@ -60,7 +58,7 @@ function IconButton({
         onMouseLeave={() => isNotNullable(tooltip) && setShowText(false)}
       >
         {renderSvg({
-          className: `w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 shrink-0 group-disabled:stroke-gray-300 group-disabled:group-hover:stroke-gray-300 duration-200 stroke-${facultyAbb} ${
+          className: `w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 shrink-0 group-disabled:stroke-gray-300 group-disabled:group-hover:stroke-gray-300 duration-200 stroke-${DEFAULT_COLOR} ${
             !isDisabled
               ? `group-hover:stroke-[1.5px] ${
                   isScalable
@@ -75,7 +73,7 @@ function IconButton({
         {isNotNullable(text) && (
           <span className={"text-left"}>
             <span
-              className={`text-${facultyAbb} group-disabled:text-gray-300 duration-200 text-sm sm:text-base lg:text-lg growing-inline-underline`}
+              className={`text-${DEFAULT_COLOR} group-disabled:text-gray-300 duration-200 text-sm sm:text-base lg:text-lg growing-inline-underline`}
             >
               {text}
             </span>

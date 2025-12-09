@@ -1,10 +1,19 @@
-import Link from "next/link";
+import { APP_ROUTING } from "@/constants/routing";
+import { addLocaleToPath } from "@/lib/i18n";
+import { getCurrentLocale } from "@/lib/i18n/server";
+import { redirect } from "next/navigation";
 
-export default function NotFound() {
-  return (
-    <div className="flex flex-col gap-2">
-      <span>TODO 404 page content</span>
-      <Link href="/">Home</Link>
-    </div>
-  );
+/**
+ * This root not-found component is a simple fallback.
+ * It just redirects the user to the "not found" page
+ * for their default language.
+ */
+export default async function RootNotFound() {
+  // 1. Try to get the language from the cookie
+  // 2. Validate the cookie value (ensure it's a supported language)
+  // 3. Decide which language to use
+  // 4. Redirect to the localized 404 page
+  const langToUse = await getCurrentLocale();
+  const notFoundPath = addLocaleToPath(APP_ROUTING.notFound.build(), langToUse);
+  redirect(notFoundPath);
 }

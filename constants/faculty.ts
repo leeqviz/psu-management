@@ -67,3 +67,5 @@ export const FacultyBackgroundOpacityClass = {
   ASP: "bg-ASP-opacity",
   UND: "bg-UND-opacity", // default value
 } as const;
+
+export const DEFAULT_COLOR = "UND";

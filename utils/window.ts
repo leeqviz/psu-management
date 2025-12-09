@@ -1,7 +1,6 @@
 import { WINDOW_TEMP_CONTENT } from "#constants/window";
 import { getRandomNumberInRange } from "#utils/randomizer";
-
-export const isServer = () => typeof window === "undefined";
+import "client-only";
 
 export const downloadBlob = (blob: Blob, filename?: string | null) => {
   const a = document.createElement("a");

@@ -3,7 +3,7 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-function LogoSvg({ className, style }: Props) {
+export function LogoSvg({ className, style }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,5 +16,3 @@ function LogoSvg({ className, style }: Props) {
     </svg>
   );
 }
-
-export { LogoSvg };

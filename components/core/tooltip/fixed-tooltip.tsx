@@ -1,6 +1,6 @@
 "use client";
 import { ComponentPlacement } from "#constants/component";
-import { useMount, useWindowSize } from "#hooks/window";
+import { useWindowSize } from "#hooks/window";
 import { ComponentPlacementValuesAlias } from "#types/component";
 import { Property } from "csstype";
 import { CSSProperties, PropsWithChildren } from "react";
@@ -29,87 +29,84 @@ function FixedTooltip({
   approximation = 16,
 }: FixedTooltipProps) {
   const windowSize = useWindowSize();
-  const isMounted = useMount();
 
-  return isMounted
-    ? createPortal(
-        <Tooltip
-          isVisible={isVisible}
-          width={width}
-          position={"fixed"}
-          className={className}
-          style={
-            placement === ComponentPlacement.LeftTop
-              ? {
-                  top: (position?.y ?? 0) - (approximation ?? 0) * 3,
-                  right:
-                    windowSize.width -
-                    (position?.x ?? 0) +
-                    (approximation ?? 0) * 2,
-                  ...style,
-                }
-              : placement === ComponentPlacement.Top
-              ? {
-                  top: (position?.y ?? 0) - (approximation ?? 0) * 3,
-                  left: position?.x ?? 0,
-                  ...style,
-                }
-              : placement === ComponentPlacement.RightTop
-              ? {
-                  top: (position?.y ?? 0) - (approximation ?? 0) * 3,
-                  left: (position?.x ?? 0) + (approximation ?? 0) * 3,
-                  ...style,
-                }
-              : placement === ComponentPlacement.Left
-              ? {
-                  top: (position?.y ?? 0) - 4,
-                  right:
-                    windowSize.width -
-                    (position?.x ?? 0) +
-                    (approximation ?? 0) * 2,
-                  ...style,
-                }
-              : placement === ComponentPlacement.Center
-              ? {
-                  top: position?.y ?? 0,
-                  left: position?.x ?? 0,
-                  ...style,
-                }
-              : placement === ComponentPlacement.Right
-              ? {
-                  top: (position?.y ?? 0) - 4,
-                  left: (position?.x ?? 0) + (approximation ?? 0) * 3,
-                  ...style,
-                }
-              : placement === ComponentPlacement.LeftBottom
-              ? {
-                  top: (position?.y ?? 0) + (approximation ?? 0) * 3,
-                  right:
-                    windowSize.width -
-                    (position?.x ?? 0) +
-                    (approximation ?? 0) * 2,
-                  ...style,
-                }
-              : placement === ComponentPlacement.Bottom
-              ? {
-                  top: (position?.y ?? 0) + (approximation ?? 0) * 3,
-                  left: position?.x ?? 0,
-                  ...style,
-                }
-              : placement === ComponentPlacement.RightBottom
-              ? {
-                  top: (position?.y ?? 0) + (approximation ?? 0) * 3,
-                  left: (position?.x ?? 0) + (approximation ?? 0) * 3,
-                  ...style,
-                }
-              : style
-          }
-        >
-          {children}
-        </Tooltip>,
-        document.body
-      )
-    : null;
+  return createPortal(
+    <Tooltip
+      isVisible={isVisible}
+      width={width}
+      position={"fixed"}
+      className={className}
+      style={
+        placement === ComponentPlacement.LeftTop
+          ? {
+              top: (position?.y ?? 0) - (approximation ?? 0) * 3,
+              right:
+                windowSize.width -
+                (position?.x ?? 0) +
+                (approximation ?? 0) * 2,
+              ...style,
+            }
+          : placement === ComponentPlacement.Top
+          ? {
+              top: (position?.y ?? 0) - (approximation ?? 0) * 3,
+              left: position?.x ?? 0,
+              ...style,
+            }
+          : placement === ComponentPlacement.RightTop
+          ? {
+              top: (position?.y ?? 0) - (approximation ?? 0) * 3,
+              left: (position?.x ?? 0) + (approximation ?? 0) * 3,
+              ...style,
+            }
+          : placement === ComponentPlacement.Left
+          ? {
+              top: (position?.y ?? 0) - 4,
+              right:
+                windowSize.width -
+                (position?.x ?? 0) +
+                (approximation ?? 0) * 2,
+              ...style,
+            }
+          : placement === ComponentPlacement.Center
+          ? {
+              top: position?.y ?? 0,
+              left: position?.x ?? 0,
+              ...style,
+            }
+          : placement === ComponentPlacement.Right
+          ? {
+              top: (position?.y ?? 0) - 4,
+              left: (position?.x ?? 0) + (approximation ?? 0) * 3,
+              ...style,
+            }
+          : placement === ComponentPlacement.LeftBottom
+          ? {
+              top: (position?.y ?? 0) + (approximation ?? 0) * 3,
+              right:
+                windowSize.width -
+                (position?.x ?? 0) +
+                (approximation ?? 0) * 2,
+              ...style,
+            }
+          : placement === ComponentPlacement.Bottom
+          ? {
+              top: (position?.y ?? 0) + (approximation ?? 0) * 3,
+              left: position?.x ?? 0,
+              ...style,
+            }
+          : placement === ComponentPlacement.RightBottom
+          ? {
+              top: (position?.y ?? 0) + (approximation ?? 0) * 3,
+              left: (position?.x ?? 0) + (approximation ?? 0) * 3,
+              ...style,
+            }
+          : style
+      }
+    >
+      {children}
+    </Tooltip>,
+    document.body
+  );
 }
 
 export { FixedTooltip };

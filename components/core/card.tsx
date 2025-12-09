@@ -1,21 +1,21 @@
 "use client";
 import { ComponentPlacement, ComponentSize } from "#constants/component";
-import { useFacultyAbbreviation } from "#hooks/routing";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import {
   ComponentPlacementValuesAlias,
   ComponentSizeValuesAlias,
 } from "#types/component";
+import { DEFAULT_COLOR } from "@/constants/faculty";
 import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
 import { getBackgroundFacultyColorOpacity } from "@/utils/color-mapper";
 import { Property } from "csstype";
-import Link from "next/link";
 import {
   CSSProperties,
   HTMLAttributeAnchorTarget,
   MouseEvent,
   PropsWithChildren,
 } from "react";
+import { ConditionalLink } from "./conditional-link";
 import { Marker } from "./marker";
 
 interface CardProps extends PropsWithChildren {
@@ -44,24 +44,18 @@ export function Card({
   onClick,
   style,
 }: CardProps) {
-  const facultyAbb = useFacultyAbbreviation();
   const [flag] = useLocalStorage<boolean>(SOUNDS_ARE_ON_KEY, false);
   const tapAudio = useAudio(flag ? "/sounds/tap.mp3" : undefined);
 
   return (
-    <Link
-      href={!isDisabled ? (to ? to : "") : ""}
-      onNavigate={(e) => {
-        if (isDisabled) {
-          // prevent navigation if we're already on the home page
-          e.preventDefault();
-        }
-      }}
+    <ConditionalLink
+      href={to ? to : ""}
+      isDisabled={isDisabled}
       target={target}
       className={`relative overflow-hidden bg-white rounded-xl flex flex-col ring-1 ring-inset ring-gray-200 duration-200 ${
         !isDisabled
-          ? `shadow-md hover:shadow-lg group cursor-pointer hover:scale-[1.025] active:scale-[0.975] hover:ring-${facultyAbb} ${getBackgroundFacultyColorOpacity(
-              facultyAbb
+          ? `shadow-md hover:shadow-lg group cursor-pointer hover:scale-[1.025] active:scale-[0.975] hover:ring-${DEFAULT_COLOR} ${getBackgroundFacultyColorOpacity(
+              DEFAULT_COLOR
             )}`
           : "cursor-default "
       } ${
@@ -82,11 +76,9 @@ export function Card({
           : ""
       } ${className}`}
       onClick={(e) => {
-        if (!isDisabled) {
-          tapAudio.reset();
-          tapAudio.play();
-          onClick?.(e);
-        }
+        tapAudio.reset();
+        tapAudio.play();
+        onClick?.(e);
       }}
       style={{
         height,
@@ -96,6 +88,6 @@ export function Card({
     >
       {marker && <Marker isDisabled={isDisabled} placement={marker} />}
       {children}
-    </Link>
+    </ConditionalLink>
   );
 }

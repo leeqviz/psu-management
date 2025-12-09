@@ -1,5 +1,5 @@
 import studentsIcon from "#assets/svg/students.svg";
-import { RoutePathPart } from "#constants/routing";
+import { APP_ROUTING } from "#constants/routing";
 import {
   ACCOUNTING_MEMBER_ROLE,
   ADMIN_ROLE,
@@ -64,7 +64,7 @@ export const STUDENT_PAGE: ApplicationPage = {
 export const SECRETARY_MODULE: ApplicationModule = {
   name: ApplicationModuleName.Students,
   svgIcon: studentsIcon,
-  link: RoutePathPart.Students,
+  link: APP_ROUTING.students.build(),
   tags: [
     "Контингент студентов",
     "Заказ платных услуг",

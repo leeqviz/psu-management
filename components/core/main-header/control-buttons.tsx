@@ -5,20 +5,21 @@ import {
   NotificationIconButton,
   SoundIconButton,
 } from "#components/core/icon-button";
-import { useLocalStorage, useMount } from "#hooks/window";
-import { userDataMock } from "#mocks/user";
+import { useLocalStorage } from "#hooks/window";
 import {
   NOTIFICATIONS_ARE_ON_KEY,
   SOUNDS_ARE_ON_KEY,
 } from "@/constants/local-storage";
+import { APP_ROUTING } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
-import { User } from "@/types/access-control";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 export function ControlButtons() {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
-  const { user, logIn, logOut } = useAuthStore((state) => state);
+  const pathname = usePathname();
+  const { user, logOut } = useAuthStore((state) => state);
 
   //local storage observing
   const [notificationValue, setNotificationValue] = useLocalStorage<boolean>(
@@ -30,18 +31,14 @@ export function ControlButtons() {
     false
   );
 
-  const isMounted = useMount();
-
-  const handleLogout = async () => {
-    await logOut();
-    // Refresh the server components to show the "logged out" state
-    router.refresh();
+  const handleLogout = () => {
+    startTransition(async () => {
+      await logOut(pathname);
+    });
   };
 
-  const handleLogin = async (user: User) => {
-    await logIn(user);
-    // Refresh the server components to show the "logged out" state
-    router.refresh();
+  const handleLogin = () => {
+    router.push(APP_ROUTING.login.build());
   };
 
   return (
@@ -50,7 +47,7 @@ export function ControlButtons() {
         className={`flex items-center justify-start gap-0.5 sm:gap-1 lg:gap-1.5`}
       >
         <SoundIconButton
-          soundsAreOn={isMounted && !!soundValue}
+          soundsAreOn={!!soundValue}
           onClick={() => setSoundValue(!soundValue)}
         />
         <HelpIconButton
@@ -62,7 +59,7 @@ export function ControlButtons() {
         className={`flex items-center justify-start gap-0.5 sm:gap-1 lg:gap-1.5`}
       >
         <NotificationIconButton
-          notificationsAreOn={isMounted && !!notificationValue}
+          notificationsAreOn={!!notificationValue}
           onClick={() => {
             setNotificationValue(!notificationValue);
           }}
@@ -70,11 +67,12 @@ export function ControlButtons() {
         <AuthIconButton
           tooltip={!!user ? "Выйти" : "Войти"}
           isAuthorized={!!user}
+          isDisabled={isPending}
           onClick={() => {
             if (user) {
               handleLogout();
             } else {
-              handleLogin(userDataMock);
+              handleLogin();
             }
           }}
         />

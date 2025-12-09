@@ -5,7 +5,7 @@ import {
   setLocalStorageItem,
 } from "#utils/local-storage";
 import { tryParseJson, tryStringifyJson } from "#utils/safeJson";
-import { isServer } from "#utils/window";
+import { isServer } from "#utils/validator";
 import { Nullable } from "@/types/utility-types";
 import { useCallback, useEffect, useState } from "react";
 

@@ -1,4 +1,4 @@
-import { isServer } from "#utils/window";
+import { isServer } from "#utils/validator";
 import { useCallback, useEffect, useState } from "react";
 
 interface WindowSize {
