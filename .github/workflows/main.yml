@@ -11,6 +11,18 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    # --- SECRETS ---
+    env:
+      NEXT_PUBLIC_APP_ENV: ${{ secrets.NEXT_PUBLIC_APP_ENV }}
+      NEXT_PUBLIC_APP_VERSION: ${{ secrets.NEXT_PUBLIC_APP_VERSION }}
+      NEXT_PUBLIC_APP_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_APP_SECRET_KEY }}
+      NEXT_PUBLIC_APP_SECRET_IV: ${{ secrets.NEXT_PUBLIC_APP_SECRET_IV }}
+      BASE_URL: ${{ secrets.BASE_URL }}
+      CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+      CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
+      CONTENTFUL_PREVIEW_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_PREVIEW_ACCESS_TOKEN }}
+    # ------------------------
+
     strategy:
       matrix:
         node-version: [22.x] # Define the Node.js version(s) you use
