@@ -23,10 +23,10 @@ export function useParsedParams<T extends z.ZodType>(
 
   // 4. Handle Failure (Fail Fast)
   if (!result.success) {
-    console.error(
+    /* console.error(
       `Route Param Validation Failed for ${route.path}:`,
       result.error
-    );
+    ); */
     // If the URL params don't match the schema, the page doesn't exist.
     notFound();
   }

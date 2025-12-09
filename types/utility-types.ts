@@ -4,6 +4,7 @@ import z from "zod";
  * use this interface for all entities that hasn't their own types or interfaces
  * analog: Record<PropertyKey, TProp>
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface DynamicEntity<TProp = any> {
   [key: PropertyKey]: TProp;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RouteConfig } from "@/types/routing";
 import { renderHook } from "@testing-library/react";
 import { useSearchParams } from "next/navigation";

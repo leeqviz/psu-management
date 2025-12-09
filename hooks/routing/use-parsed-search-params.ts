@@ -1,4 +1,4 @@
-// src/hooks/useQueryParams.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RouteConfig } from "@/types/routing";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
