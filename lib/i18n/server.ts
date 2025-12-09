@@ -1,5 +1,7 @@
+import { COOKIE_NAME } from "@/constants/cookies";
+import { cookies } from "next/headers";
 import "server-only";
-import { createI18nInstance, i18nConfig, initI18nInstance } from "../utils";
+import { createI18nInstance, i18nConfig, initI18nInstance } from ".";
 
 // This function is similar to useTranslation hook but runs on the server
 export async function getTranslation(
@@ -19,4 +21,9 @@ export async function getTranslation(
     ),
     i18n: instance,
   };
+}
+
+export async function getCurrentLocale(): Promise<string | undefined> {
+  const locale = (await cookies()).get(COOKIE_NAME.Language)?.value;
+  return locale && i18nConfig.locales.includes(locale) ? locale : undefined;
 }

@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export const isNumber = <TValue = unknown>(value: TValue) =>
   typeof value === "number"
     ? !isNaN(value) && isFinite(value)
@@ -21,3 +23,16 @@ export const canBeRendered = <TValue = unknown>(value: TValue) =>
   typeof value === "boolean";
 
 export const isServer = () => typeof window === "undefined";
+
+export const jsonParam = <T extends z.ZodType>(schema: T) =>
+  z
+    .string()
+    .transform((str, ctx) => {
+      try {
+        return JSON.parse(str);
+      } catch {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Invalid JSON" });
+        return z.NEVER;
+      }
+    })
+    .pipe(schema);

@@ -5,6 +5,8 @@ import {
 import { ComponentContentTypeValuesAlias } from "./component";
 import { ValuesAliasFrom } from "./utility-types";
 
+export type RoleName = "Admin" | "User" | "Guest" | string;
+
 export interface User {
   id?: string | null;
   fio?: string | null;
@@ -13,7 +15,7 @@ export interface User {
   position?: string | null;
   department?: string | null;
   isEmployee?: boolean | null;
-  roles?: string[] | null;
+  roles?: RoleName[] | null;
   assignedId?: number | null;
   assignedAt?: string | null;
 
@@ -32,7 +34,7 @@ export interface ApplicationModule {
   name: ApplicationModuleNameValuesAlias;
   link?: string;
   isExternal?: boolean;
-  roles?: string[];
+  roles?: RoleName[];
   tags?: string[];
   svgIcon?: string;
   modal?: ApplicationModuleModal;

@@ -1,11 +1,8 @@
 "use server";
 
 import { COOKIE_NAME } from "@/constants/cookies";
-import {
-  getLocaleFromPath,
-  i18nConfig,
-  removeLocaleFromPath,
-} from "@/lib/i18n/utils";
+import { APP_ROUTING } from "@/constants/routing";
+import { addLocaleToPath, removeLocaleFromPath } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -20,28 +17,18 @@ export async function switchLocaleAction(
   // 2. Set the cookie securely on the server
   (await cookies()).set(COOKIE_NAME.Language, newLocale, {
     httpOnly: true,
-    path: "/",
+    path: APP_ROUTING.home.build(),
     secure: process.env.NODE_ENV === "production",
     // Set a long expiration (e.g., 30 days)
     expires: date,
   });
 
   // 2. Calculate the new path
-  let newPath = currentPath;
-
   // A. Find if the current path already has a locale prefix
-  const currentLocale = getLocaleFromPath(currentPath);
-
   // B. Remove existing prefix if present
-  if (currentLocale) {
-    newPath = removeLocaleFromPath(currentPath, currentLocale);
-  }
-
+  const cleanPath = removeLocaleFromPath(currentPath);
   // C. If we are NOT switching to the default locale, add the new prefix
-  if (newLocale !== i18nConfig.defaultLocale) {
-    newPath = newPath === "/" ? `/${newLocale}` : `/${newLocale}${newPath}`;
-  }
-
+  const pathToRedirect = addLocaleToPath(cleanPath, newLocale);
   // 3. Redirect
-  redirect(newPath); //refresh
+  redirect(pathToRedirect); //refresh
 }

@@ -2,9 +2,8 @@ import {
   chainMiddlewares,
   withAuth,
   withI18n,
-  withLogging,
+  withLogger,
   withNoCache,
-  withRateLimit,
 } from "./middlewares";
 
 export const config = {
@@ -21,8 +20,8 @@ export const config = {
 };
 
 export default chainMiddlewares([
-  withLogging,
-  withRateLimit,
+  withLogger,
+  //withRateLimit,
   withNoCache,
   withAuth,
   withI18n,

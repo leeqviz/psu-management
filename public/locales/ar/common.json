@@ -1,13 +1,18 @@
 {
   "metadata": {
     "title": {
-      "template": "Home | My Awesome Site",
-      "default": "My Awesome Site"
+      "template": "بيت | موقعي الرائ",
+      "default": "موقعي الرائع"
     },
     "description": "هذا وصف باللغة العربية."
   },
   "welcome": "مرحبا",
-  "change_language": "Change language",
-  "not_found_title": "Page Not Found",
-  "not_found_message": "Sorry, we couldn't find the page you were looking for."
+  "change_language": "تغيير اللغة",
+  "not_found_title": "لم يتم العثور على الصفحة",
+  "not_found_message": "عذرا، لم نتمكن من العثور على الصفحة التي تبحث عنها.",
+  "forbidden_page": {
+    "title": "تم الرفض",
+    "message": "ليس لديك صلاحية الدخول لهذه الصفحة.",
+    "login_button": "تسجيل الدخول"
+  }
 }

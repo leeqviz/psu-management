@@ -2,7 +2,7 @@ import { LinksSection } from "#components/core/links-section";
 import { ModulesSection } from "#components/core/modules-section/modules-section";
 import { NewsSection } from "#components/core/news-section/news-section";
 import { LanguageSwitcher } from "@/components/core/language-switcher";
-import { getTranslation } from "@/lib/i18n/instance/server";
+import { getTranslation } from "@/lib/i18n/server";
 
 export default async function HomePage({
   params,

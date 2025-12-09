@@ -3,6 +3,7 @@ import { LogoSvg } from "#components/core/svgs";
 import { useAudio, useLocalStorage } from "#hooks/window";
 import { DEFAULT_COLOR } from "@/constants/faculty";
 import { SOUNDS_ARE_ON_KEY } from "@/constants/local-storage";
+import { APP_ROUTING } from "@/constants/routing";
 import { ConditionalLink } from "../conditional-link";
 
 export function MainLink() {
@@ -11,7 +12,7 @@ export function MainLink() {
 
   return (
     <ConditionalLink
-      href={"/"}
+      href={APP_ROUTING.home.build()}
       onClick={() => {
         tap2Audio.reset();
         tap2Audio.play();

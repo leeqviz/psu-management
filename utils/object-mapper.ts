@@ -32,7 +32,7 @@ export const deleteUndefinedProperties = <
   obj: TEntity
 ) => {
   return Object.fromEntries(
-    Object.entries(obj).filter(([_, v]) => v !== undefined)
+    Object.entries(obj).filter(([, v]) => v !== undefined)
   );
 };
 

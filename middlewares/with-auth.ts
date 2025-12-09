@@ -1,30 +1,46 @@
 import { COOKIE_NAME } from "@/constants/cookies";
-import { RoutePathPart } from "@/constants/routing";
-import { isProtectedRoute } from "@/lib/auth";
+import { APP_ROUTING } from "@/constants/routing";
+import { isPrivatePath } from "@/lib/auth";
+import { addLocaleToPath, getLocaleFromPath } from "@/lib/i18n";
+import { addSearchParams } from "@/utils/string-mapper";
 import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export function withAuth(next: NextMiddleware): NextMiddleware {
-  return async (request: NextRequest, _next: NextFetchEvent) => {
+  return async (request: NextRequest, event: NextFetchEvent) => {
     const pathname = request.nextUrl.pathname;
+    console.log("We accessed the path: " + pathname);
+    const token = request.cookies.get(COOKIE_NAME.AuthToken)?.value;
+
+    const locale = getLocaleFromPath(pathname);
 
     // 1. Define protected routes
     // (Adjust this regex to match your actual protected paths)
-    if (isProtectedRoute(pathname)) {
-      console.log("Protected route accessed: " + pathname);
-      const token = request.cookies.get(COOKIE_NAME.AuthToken)?.value;
-
+    if (isPrivatePath(pathname)) {
       // 2. Check Token
       if (!token) {
-        const url = new URL(`/${RoutePathPart.Login}`, request.url);
-        // Optional: Save the URL they were trying to visit to redirect back later
-        url.searchParams.set("callbackUrl", encodeURI(pathname));
-
+        const forbiddenPath = addLocaleToPath(
+          APP_ROUTING.forbidden.build(),
+          locale
+        );
+        const pathToRedirect = addSearchParams(forbiddenPath, {
+          callbackUrl: pathname,
+        });
+        const url = new URL(pathToRedirect, request.url);
         return NextResponse.redirect(url);
+      }
+    } else {
+      if (token) {
+        const loginPath = addLocaleToPath(APP_ROUTING.login.build(), locale);
+        if (pathname.startsWith(loginPath)) {
+          // If logged in user tries to access login page, redirect to home
+          const url = new URL(APP_ROUTING.home.build(), request.url);
+          return NextResponse.redirect(url);
+        }
       }
     }
 
     // 3. If not protected or token exists, continue the chain
-    return next(request, _next);
+    return next(request, event);
   };
 }

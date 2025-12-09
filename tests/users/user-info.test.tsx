@@ -40,7 +40,10 @@ describe("UserInfo Component with Internal Function Mocking", () => {
     // 4. Assert 3: Ensure OTHER internal functions still work (Integrity check)
     // The formatName function was NOT mocked, so it runs its original logic.
     expect(
-      screen.getByRole("heading", { name: "1@1.1, Полотский Е.В.", level: 2 })
+      screen.getByRole("heading", {
+        name: "leeqviz@gmail.com, Полотский Е.В.",
+        level: 2,
+      })
     ).toBeInTheDocument();
   });
 });

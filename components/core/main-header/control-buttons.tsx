@@ -10,14 +10,15 @@ import {
   NOTIFICATIONS_ARE_ON_KEY,
   SOUNDS_ARE_ON_KEY,
 } from "@/constants/local-storage";
-import { RoutePathPart } from "@/constants/routing";
+import { APP_ROUTING } from "@/constants/routing";
 import { useAuthStore } from "@/hooks/state-management";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 export function ControlButtons() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const pathname = usePathname();
   const { user, logOut } = useAuthStore((state) => state);
 
   //local storage observing
@@ -32,12 +33,12 @@ export function ControlButtons() {
 
   const handleLogout = () => {
     startTransition(async () => {
-      await logOut();
+      await logOut(pathname);
     });
   };
 
   const handleLogin = () => {
-    router.push(`/${RoutePathPart.Login}`);
+    router.push(APP_ROUTING.login.build());
   };
 
   return (

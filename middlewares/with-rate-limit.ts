@@ -29,8 +29,9 @@ const rateLimitMap = new Map();
 const WINDOW_SIZE_IN_SECONDS = 60;
 const MAX_REQUESTS = 100; // Allow 100 requests per minute
 
+//TODO: Fix Rate Limit Middleware
 export function withRateLimit(next: NextMiddleware): NextMiddleware {
-  return async (request: NextRequest, _next: NextFetchEvent) => {
+  return async (request: NextRequest, event: NextFetchEvent) => {
     const ip = getIp(request);
 
     const windowStart = Date.now() - WINDOW_SIZE_IN_SECONDS * 1000;
@@ -69,6 +70,6 @@ export function withRateLimit(next: NextMiddleware): NextMiddleware {
     );
     console.log(`RateLimit: IP ${ip} has made ${requestStats.count} requests.`);
 
-    return next(request, _next);
+    return next(request, event);
   };
 }

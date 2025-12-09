@@ -1,17 +1,16 @@
 "use client";
 
 import { switchLocaleAction } from "@/actions/locale";
-import { useTranslation } from "@/hooks/routing";
-import { i18nConfig } from "@/lib/i18n/utils";
+import { useFullPath, useTranslation } from "@/hooks/routing";
+import { i18nConfig } from "@/lib/i18n";
 import { SelectOption } from "@/types/select-option";
-import { usePathname } from "next/navigation";
 import { useTransition } from "react";
 import { Select } from "./select";
 
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
-  const pathname = usePathname();
+  const pathname = useFullPath();
   const [isPending, startTransition] = useTransition();
 
   const handleChange = async (option: SelectOption<string> | null) => {

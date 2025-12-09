@@ -1,62 +1,120 @@
-export const RoutePathPart = {
+import { RouteConfig } from "@/types/routing";
+import { createRoute } from "@/utils/routing";
+import z from "zod";
+
+const pathPart = {
   //protected routes
-  Specialities: "specialities",
-  Students: "students",
-  PostgraduateStudents: "postgraduate-students",
-  HalfYearAttestation: "half-year-attestation",
-  FinalAttestation: "final-attestation",
-  AnnualAttestation: "annual-attestation",
-  IndividualPlan: "individual-plan",
-  Orders: "orders",
-  Handbooks: "handbooks",
-  Groups: "groups",
-  ForeignStudents: "foreign-students",
-  Companies: "companies",
-  Graduation: "graduation",
-  Admin: "admin",
-  Auditoriums: "auditoriums",
+  specialities: "specialities",
+  students: "students",
+  postgraduateStudents: "postgraduate-students",
+  halfYearAttestation: "half-year-attestation",
+  finalAttestation: "final-attestation",
+  annualAttestation: "annual-attestation",
+  individualPlan: "individual-plan",
+  orders: "orders",
+  handbooks: "handbooks",
+  groups: "groups",
+  foreignStudents: "foreign-students",
+  companies: "companies",
+  graduation: "graduation",
+  admin: "admin",
+  auditoriums: "auditoriums",
 
   //test routes
-  Users: "users",
-  Todos: "todos",
-  Posts: "posts",
-  Settings: "settings",
+  users: "users",
+  todos: "todos",
+  posts: "posts",
 
   //public routes
-  Home: "",
-  Login: "login",
-  Register: "register",
-  ResetPassword: "reset-password",
-  ForgotPassword: "forgot-password",
+  home: "",
+  login: "login",
+  register: "register",
+  notFound: "not-found",
+  unauthorized: "unauthorized",
+  forbidden: "forbidden",
 } as const;
 
-export const PUBLIC_ROUTE_PATHS = [
-  RoutePathPart.Home,
-  RoutePathPart.Login,
-  RoutePathPart.Register,
-  RoutePathPart.ResetPassword,
-  RoutePathPart.ForgotPassword,
-];
+/**
+ * App routes without locale
+ */
+export const APP_ROUTING = {
+  home: createRoute({
+    path: `/${pathPart.home}`,
+  }),
+  login: createRoute({
+    path: `/${pathPart.login}`,
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  register: createRoute({
+    path: `/${pathPart.register}`,
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  notFound: createRoute({
+    path: `/${pathPart.notFound}`,
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  unauthorized: createRoute({
+    path: `/${pathPart.unauthorized}`,
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
+  forbidden: createRoute({
+    path: `/${pathPart.forbidden}`,
+    searchParamsSchema: z.object({
+      callbackUrl: z.string().optional(),
+    }),
+  }),
 
-export const PROTECTED_ROUTE_PATHS = [
-  RoutePathPart.Users,
-  RoutePathPart.Todos,
-  RoutePathPart.Settings,
-  RoutePathPart.Posts,
+  // protected routes
+  students: createRoute({
+    path: `/${pathPart.students}`,
+    isPrivate: true,
+  }),
+  students_slug: createRoute({
+    path: `/${pathPart.students}/[id]`,
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
 
-  RoutePathPart.Specialities,
-  RoutePathPart.Students,
-  RoutePathPart.PostgraduateStudents,
-  RoutePathPart.HalfYearAttestation,
-  RoutePathPart.FinalAttestation,
-  RoutePathPart.AnnualAttestation,
-  RoutePathPart.IndividualPlan,
-  RoutePathPart.Orders,
-  RoutePathPart.Handbooks,
-  RoutePathPart.Groups,
-  RoutePathPart.ForeignStudents,
-  RoutePathPart.Companies,
-  RoutePathPart.Graduation,
-  RoutePathPart.Admin,
-  RoutePathPart.Auditoriums,
-];
+  // test
+  users: createRoute({
+    path: `/${pathPart.users}`,
+    isPrivate: true,
+  }),
+  users_slug: createRoute({
+    path: `/${pathPart.users}/[id]`,
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
+  todos: createRoute({
+    path: `/${pathPart.todos}`,
+    isPrivate: true,
+  }),
+  todos_slug: createRoute({
+    path: `/${pathPart.todos}/[id]`,
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
+  posts: createRoute({
+    path: `/${pathPart.posts}`,
+    isPrivate: true,
+  }),
+  posts_slug: createRoute({
+    path: `/${pathPart.posts}/[id]`,
+    isPrivate: true,
+    paramsSchema: z.object({ id: z.coerce.number() }),
+  }),
+} as const satisfies Record<string, RouteConfig>;
+
+export const ALL_ROUTES: RouteConfig[] = Object.values(APP_ROUTING);
+export const PRIVATE_ROUTES = ALL_ROUTES.filter((e) => e.isPrivate);
+export const PUBLIC_ROUTES = ALL_ROUTES.filter((e) => !e.isPrivate);
+export const HIDDEN_ROUTES = ALL_ROUTES.filter((e) => e.isHidden);
+export const AVAILABLE_ROUTES = ALL_ROUTES.filter((e) => !e.isHidden);

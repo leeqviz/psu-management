@@ -1,4 +1,9 @@
-import { loginAction, logoutAction, meAction } from "@/actions/auth";
+import {
+  loginAction,
+  logoutAction,
+  meAction,
+  registerAction,
+} from "@/actions/auth";
 import { User } from "@/types/access-control";
 import { createStore } from "zustand";
 
@@ -11,9 +16,16 @@ type AuthState = {
 
 type AuthActions = {
   hydrate: (user: User | null) => void;
+  register: (
+    user: User,
+    currentPath?: string
+  ) => Promise<{ success: boolean; user?: User; error?: string }>;
   // Our login/logout actions will call API routes
-  logIn: (user: User) => Promise<void>;
-  logOut: () => Promise<void>;
+  logIn: (
+    user: User,
+    currentPath?: string
+  ) => Promise<{ success: boolean; user?: User; error?: string }>;
+  logOut: (currentPath?: string) => Promise<void>;
   // Sync and hydrate user data
   me: () => Promise<void>;
 };
@@ -33,9 +45,9 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
 
     hydrate: (user: User | null) => set({ user, isHydrated: true }),
 
-    logIn: async (user: User) => {
+    register: async (user: User, currentPath?: string) => {
       set({ isLoading: true });
-      const result = await loginAction(user);
+      const result = await registerAction(user, currentPath);
       if (!result.success) {
         set({ error: result.error, isLoading: false });
       }
@@ -44,11 +56,26 @@ export const createAuthStore = (initState: AuthState = defaultState) => {
         error: null,
         isLoading: false,
       });
+      return result;
     },
 
-    logOut: async () => {
+    logIn: async (user: User, currentPath?: string) => {
       set({ isLoading: true });
-      await logoutAction();
+      const result = await loginAction(user, currentPath);
+      if (!result.success) {
+        set({ error: result.error, isLoading: false });
+      }
+      set({
+        user: result.user,
+        error: null,
+        isLoading: false,
+      });
+      return result;
+    },
+
+    logOut: async (currentPath?: string) => {
+      set({ isLoading: true });
+      await logoutAction(currentPath);
       set({ user: null, error: null, isLoading: false });
     },
 

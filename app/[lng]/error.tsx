@@ -1,6 +1,7 @@
 "use client"; // This is required
 
 import { Button } from "@/components/ui/button";
+import { APP_ROUTING } from "@/constants/routing";
 import { useTranslation } from "@/hooks/routing";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -35,7 +36,7 @@ export default function Error({
       >
         {t("error.retry", "Try again")}
       </Button>
-      <Link href="/">Or go home</Link>
+      <Link href={APP_ROUTING.home.build()}>Or go home</Link>
     </div>
   );
 }

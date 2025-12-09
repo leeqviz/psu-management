@@ -1,7 +1,10 @@
+import z from "zod";
+
 /**
  * use this interface for all entities that hasn't their own types or interfaces
  * analog: Record<PropertyKey, TProp>
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface DynamicEntity<TProp = any> {
   [key: PropertyKey]: TProp;
 }
@@ -34,3 +37,10 @@ export type Nullable<T = unknown> = T | null | undefined;
 export type PartialNullable<TEntity extends DynamicEntity> = {
   [TProp in keyof TEntity]?: Nullable<TEntity[TProp]>;
 };
+
+// Helper to extract Zod types
+export type ZodInfer<T> = T extends z.ZodType ? z.infer<T> : never;
+
+export type IsOptional<T> = Record<string, never> extends T ? true : false;
+
+export type Prettify<T> = { [K in keyof T]: T[K] } & unknown;

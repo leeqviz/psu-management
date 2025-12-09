@@ -4,7 +4,7 @@ export const tryParseJson = <TText = unknown>(
   let res;
   try {
     res = JSON.parse(text);
-  } catch (_) {
+  } catch {
     return;
   }
   return res;
@@ -17,7 +17,7 @@ export const tryStringifyJson = <TValue = unknown>(
   let res;
   try {
     res = JSON.stringify(value, undefined, space);
-  } catch (_) {
+  } catch {
     return;
   }
   return res;
@@ -74,7 +74,7 @@ export const tryPrintJson = <TData = unknown>(
             }
           )
       : undefined;
-  } catch (_) {
+  } catch {
     return;
   }
   return res;

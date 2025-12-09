@@ -1,4 +1,4 @@
-import { server } from "@/lib/apollo/server/instance";
+import { server } from "@/lib/apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { NextRequest } from "next/server";
 
