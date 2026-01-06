@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  fio  String?
+  fioShort String?
+  position String?
+  department String?
+
+  login String
+  password String
+
+  roles UserRole[]
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String
+
+  users UserRole[]
+}
+
+model UserRole {
+  userId Int
+  roleId Int
+  
+  assignedAt DateTime @default(now())
+  assignedBy String
+  
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+}

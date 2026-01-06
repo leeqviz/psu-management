@@ -8,7 +8,7 @@ import { ValuesAliasFrom } from "./utility-types";
 export type RoleName = "Admin" | "User" | "Guest" | string;
 
 export interface User {
-  id?: string | null;
+  id?: number | null;
   fio?: string | null;
   email?: string | null;
   fioShort?: string | null;

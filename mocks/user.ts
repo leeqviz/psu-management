@@ -1,7 +1,7 @@
 import { User } from "@/types/access-control";
 
 export const userDataMock: User = {
-  id: "1",
+  id: 1,
   fio: "Полотский Е.В.",
   fioShort: "Полотский Е.В.",
   email: "leeqviz@gmail.com",

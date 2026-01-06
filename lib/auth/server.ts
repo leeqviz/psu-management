@@ -11,7 +11,7 @@ export async function getCurrentUser(): Promise<User | undefined> {
   // In a real app, you'd verify the token and fetch the user
   // const user = await verifyTokenAndGetUser(sessionCookie.value);
   // For this demo, we'll return a mock user if the cookie exists
-  const user = await mockDb.getUserById(token);
+  const user = await mockDb.getUserById(Number(token));
   if (!user) return;
 
   // TODO set cookies

@@ -32,7 +32,7 @@ export async function registerAction(data: User, currentPath?: string) {
 
   (await cookies()).set({
     name: COOKIE_NAME.AuthToken,
-    value: user.id, // Store the token, not the full user object
+    value: user.id.toString(), // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
     path: APP_ROUTING.home.build(),
@@ -58,7 +58,7 @@ export async function loginAction(data: User, currentPath?: string) {
   // 2. Set Cookie (Easy!)
   (await cookies()).set({
     name: COOKIE_NAME.AuthToken,
-    value: user.id, // Store the token, not the full user object
+    value: user.id.toString(), // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
     path: APP_ROUTING.home.build(),
@@ -105,14 +105,14 @@ export async function meAction() {
 
   // Verify token and fetch user from DB...
   // const user = await verify(token);
-  const user = await mockDb.getUserById(token);
+  const user = await mockDb.getUserById(Number(token));
   if (!user || !user.id) {
     return { success: false, error: "User not found" };
   }
 
   (await cookies()).set({
     name: COOKIE_NAME.AuthToken,
-    value: user.id, // Store the token, not the full user object
+    value: user.id.toString(), // Store the token, not the full user object
     httpOnly: true, // Client-side JS cannot access this cookie
     secure: process.env.NODE_ENV === "production",
     path: APP_ROUTING.home.build(),

@@ -9,7 +9,7 @@ import { userDataMock } from "./user";
 export const mockDb = {
   users: [userDataMock],
 
-  getUserById: async (id: string): Promise<User | undefined> => {
+  getUserById: async (id: number): Promise<User | undefined> => {
     // Simulate DB delay
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockDb.users.find((u) => u.id === id);
@@ -31,7 +31,7 @@ export const mockDb = {
   // Method 2: Create User
   createUser: async (user: Omit<User, "id">): Promise<User> => {
     await new Promise((resolve) => setTimeout(resolve, 500));
-    const newUser = { ...user, id: Date.now().toString() };
+    const newUser = { ...user, id: Date.now() };
     mockDb.users.push(newUser);
     return newUser;
   },
