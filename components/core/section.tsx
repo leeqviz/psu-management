@@ -15,7 +15,7 @@ interface SectionProps extends PropsWithChildren {
   style?: CSSProperties;
 }
 
-function Section({
+export function Section({
   hasLogo = true,
   title,
   subTitle,
@@ -41,10 +41,10 @@ function Section({
       )}
       {(!!title || !!subTitle) && (
         <div
-          className={`flex items-center gap-1.5 sm:gap-2 bg-gray-700 ring-2 shadow ring-${DEFAULT_COLOR} ${
+          className={`flex items-center gap-1.5 sm:gap-2 bg-gray-700 ring-2 shadow ring-${DEFAULT_COLOR} py-1 px-4 ${
             hasLogo
-              ? "py-1 px-4 xs:pl-2 xs:py-0 sm:pr-5 lg:pr-6"
-              : "py-1 px-4 sm:py-3 sm:px-5 lg:py-5 lg:px-6"
+              ? "xs:pl-2 xs:py-0 sm:pr-5 lg:pr-6"
+              : "sm:py-3 sm:px-5 lg:py-5 lg:px-6"
           }`}
         >
           {hasLogo && (
@@ -61,7 +61,7 @@ function Section({
                 style={{
                   backgroundImage: `url('${FacultyIconSrc[DEFAULT_COLOR]}')`,
                 }}
-              ></div>
+              />
             </div>
           )}
           <div className="grow break-words-anywhere text-white text-sm sm:text-md lg:text-lg">
@@ -76,5 +76,3 @@ function Section({
     </section>
   );
 }
-
-export { Section };
